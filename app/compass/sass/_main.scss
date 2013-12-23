@@ -1,0 +1,183 @@
+@import "sprite/*.png";
+
+@import "../../thirdparty/Adonis/sass/standardColors";
+html,
+body {
+    height: 100%;
+}
+
+body {
+    background-image: url(../images/bg_100X100.png);
+
+    &.overflow {
+        left: -5px;
+        overflow: hidden;
+        position: relative;
+    }
+}
+
+ul,
+menu {
+    list-style: none;
+}
+
+.o-ctn {
+    margin: 0 auto;
+    min-height: 500px;
+    padding: 0 10px;
+    width: 760px;
+}
+
+.o-footer {
+    margin: 20px 0 40px;
+}
+
+.o-mask {
+    position: relative;
+
+    &::before {
+        background-image: -webkit-linear-gradient(-90deg, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, .4) 100%);
+        content: '';
+        display: block;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top:0;
+        width: 100%;
+    }
+}
+
+.o-close {
+    @include sprite-sprite(close);
+    cursor: default;
+    height: 16px;
+    position: absolute;
+    right: 10px;
+    top: 25px;
+    width: 16px;
+
+    &:hover {
+        @include sprite-sprite(close-hover);
+    }
+
+    &:active {
+        @include sprite-sprite(close-active);
+    }
+}
+
+.w-ui-loading {
+    background-color: rgba(255, 255, 255, .7);
+    border-radius: 5px;
+    height: 50px;
+    left: 50%;
+    margin: -25px 0 0 -25px;
+    position: absolute;
+    top: 50%;
+    width: 50px;
+
+    &.fixed {
+        position: fixed;
+        top: 300px;
+    }
+
+    &.white {
+        background-color: transparent;
+
+        .anima {
+            .rotor {
+                background-color: #fff;
+                -webkit-animation-name: f_fadeG_black;
+            }
+        }
+    }
+
+    .anima {
+        height: 48px;
+        margin: -24px 0 0 -24px;
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        width: 48px;
+        -webkit-transform: scale(.6);
+
+        .rotor {
+            background-color: $textPrimary;
+            border-radius: 4px;
+            opacity: 0;
+            position: absolute;
+            width: 9px;
+            height: 9px;
+            -webkit-animation: {
+                duration: .88s;
+                iteration-count: infinite;
+                name: f_fadeG;
+            }
+        }
+
+        .rotor1 {
+            left: 0;
+            top: 20px;
+            -webkit-animation-delay: .33s;
+        }
+
+        .rotor2 {
+            left: 6px;
+            top: 6px;
+            -webkit-animation-delay: .44s;
+        }
+
+        .rotor3 {
+            left: 20px;
+            top: 0;
+            -webkit-animation-delay: .55s;
+        }
+
+        .rotor4 {
+            right: 6px;
+            top: 6px;
+            -webkit-animation-delay: .66s;
+        }
+
+        .rotor5 {
+            right: 0;
+            top: 20px;
+            -webkit-animation-delay: .77s;
+        }
+
+        .rotor6 {
+            bottom: 6px;
+            right: 6px;
+            -webkit-animation-delay: .88s;
+        }
+
+        .rotor7 {
+            bottom: 0;
+            left: 20px;
+            -webkit-animation-delay: .99s;
+        }
+
+        .rotor8 {
+            bottom: 6px;
+            left: 6px;
+            -webkit-animation-delay: 1.1s;
+        }
+    }
+}
+
+@-webkit-keyframes f_fadeG {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes f_fadeG_black {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

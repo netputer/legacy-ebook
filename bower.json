@@ -1,6 +1,12 @@
 {
     "name" : "package",
     "version" : "0.0.0",
-    "dependencies" : {}
+    "dependencies" : {
+        "jquery": "~2.0.2",
+        "requirejs": "~2.1.6",
+        "underscore": "~1.5.1",
+        "backbone": "~1.0.0",
+        "react": "~0.8.0"
+    }
 }
 
