@@ -14,36 +14,32 @@ module.exports = function (grunt) {
     var pathConfig = {
         app : 'app',
         dist : 'dist',
-        tmp : '.tmp',
-        test : 'test'
+        tmp : '.tmp'
     };
 
     grunt.initConfig({
         paths : pathConfig,
         watch : {
             compass : {
-                files : ['<%= paths.app %>/compass/{,*/}*/{,*/}*.{scss,sass,png,ttf}'],
+                files : ['<%= paths.app %>/{,*/}*/{,*/}*.{scss,png}'],
                 tasks : ['compass:server']
             },
-            test : {
-                files : ['<%= paths.app %>/javascripts/**/*.js'],
-                tasks : ['jshint:test', 'karma:server:run'],
-                options : {
-                    spawn : false
-                }
-            },
-            livereload : {
-                files : [
+            livereload: {
+                files: [
                     '<%= paths.app %>/*.html',
+                    '<%= paths.tmp %>/stylesheets/*.css',
                     '<%= paths.app %>/javascripts/**/*.js',
-                    '<%= paths.app %>/images/**/*.*',
-                    '<%= paths.tmp %>/stylesheets/**/*.css',
-                    '<%= paths.tmp %>/images/**/*.*'
+                    '<%= paths.tmp %>/javascripts/**/*.js',
+                    '<%= paths.tmp %>/images/**/*'
                 ],
                 options : {
                     livereload : true,
                     spawn : false
                 }
+            },
+            react : {
+                files : ['<%= paths.app %>/{,*/}*/{,*/}*.jsx'],
+                tasks : ['react:server']
             }
         },
         connect : {
@@ -51,24 +47,19 @@ module.exports = function (grunt) {
                 port : 9999,
                 hostname : '0.0.0.0'
             },
-            rules : [{
-                from : '^/index',
-                to : '/index.html'
-            }],
-            server : {
+            dev : {
                 options : {
                     middleware : function (connect) {
                         return [
                             lrSnippet,
-                            rewriteRulesSnippet,
-                            mountFolder(connect, pathConfig.tmp),
+                            mountFolder(connect, '.tmp'),
                             mountFolder(connect, pathConfig.app)
                         ];
                     }
                 }
             }
         },
-        open : {
+        open: {
             server : {
                 path : 'http://127.0.0.1:<%= connect.options.port %>',
                 app : 'Google Chrome Canary'
@@ -79,28 +70,71 @@ module.exports = function (grunt) {
             server : '<%= paths.tmp %>'
         },
         useminPrepare : {
-            html : ['<%= paths.app %>/**/*.html'],
+            html : ['<%= paths.tmp %>/*.html'],
             options : {
                 dest : '<%= paths.dist %>'
             }
         },
-        usemin : {
-            html : ['<%= paths.dist %>/*.html'],
+        usemin: {
+            html : ['<%= paths.tmp %>/*.html'],
             options : {
                 dirs : ['<%= paths.dist %>']
+            }
+        },
+        react : {
+            options : {
+                extension : 'jsx'
+            },
+            server : {
+                files : [
+                    {
+                        expand : true,
+                        cwd : '<%= paths.app %>/javascripts/',
+                        src : ['*.jsx'],
+                        dest : '<%= paths.tmp %>/javascripts/',
+                        ext : '.js'
+                    }
+                ]
+            },
+            dist : {
+                files : [
+                    {
+                        expand : true,
+                        cwd : '<%= paths.app %>/javascripts/',
+                        src : ['*.jsx'],
+                        dest : '<%= paths.dist %>/javascripts/',
+                        ext : '.js'
+                    }
+                ]
             }
         },
         htmlmin : {
             dist : {
                 files : [{
                     expand : true,
-                    cwd : '<%= paths.app %>',
+                    cwd : '<%= paths.tmp %>',
                     src : ['*.html'],
                     dest : '<%= paths.dist %>'
                 }]
             }
         },
         copy : {
+            tmp : {
+                files : [{
+                    expand : true,
+                    dot : true,
+                    cwd : '<%= paths.app %>',
+                    dest : '<%= paths.tmp %>',
+                    src : [
+                        'stylesheets/*.*',
+                        'thirdparty/Adonis/dist/adonis.css',
+                        'thirdparty/Adonis/images/*.*',
+                        'javascripts/**/*.js',
+                        'components/**/*.*',
+                        '*.html'
+                    ]
+                }]
+            },
             dist : {
                 files : [{
                     expand : true,
@@ -108,7 +142,11 @@ module.exports = function (grunt) {
                     cwd : '<%= paths.app %>',
                     dest : '<%= paths.dist %>',
                     src : [
-                        'images/**/*.{webp,gif,png,jpg,jpeg}'
+                        'thirdparty/Adonis/dist/adonis.css',
+                        'thirdparty/Adonis/images/*.*',
+                        'images/{,*/}*.{webp,gif,png,jpg,jpeg}',
+                        'manifest.json',
+                        'icon*.png'
                     ]
                 }]
             }
@@ -116,17 +154,16 @@ module.exports = function (grunt) {
         compass : {
             options : {
                 sassDir : '<%= paths.app %>/compass/sass',
-                cssDir : '<%= paths.tmp %>/stylesheets',
+                cssDir : '<%= paths.app %>/stylesheets',
                 imagesDir : '<%= paths.app %>/compass/images',
-                fontsDir : '<%= paths.app %>/compass/fonts',
-                relativeAssets : true
+                relativeAssets : false,
+                httpGeneratedImagesPath: '../images'
             },
             dist : {
                 options : {
                     cssDir : '<%= paths.dist %>/stylesheets',
                     generatedImagesDir : '<%= paths.dist %>/images',
-                    outputStyle : 'compressed',
-                    relativeAssets : false
+                    outputStyle : 'compressed'
                 }
             },
             server : {
@@ -137,12 +174,12 @@ module.exports = function (grunt) {
                 }
             }
         },
-        rev : {
-            dist : {
-                files : {
-                    src : [
-                        '<%= paths.dist %>/javascripts/**/*.js',
-                        '<%= paths.dist %>/stylesheets/**/*.css'
+        rev: {
+            dist: {
+                files: {
+                    src: [
+                        '<%= paths.dist %>/javascripts/{,*/}*.js',
+                        '<%= paths.dist %>/stylesheets/{,*/}*.css'
                     ]
                 }
             }
@@ -152,7 +189,7 @@ module.exports = function (grunt) {
                 files : [{
                     expand : true,
                     cwd : '<%= paths.dist %>/images',
-                    src : '**/*.{png,jpg,jpeg}',
+                    src : '{,*/}*.{png,jpg,jpeg}',
                     dest : '<%= paths.dist %>/images'
                 }]
             }
@@ -160,7 +197,12 @@ module.exports = function (grunt) {
         requirejs : {
             dist : {
                 options : {
+                    almond : true,
+                    appDir : '<%= paths.tmp %>/javascripts',
+                    dir : '<%= paths.dist %>/javascripts',
                     optimize : 'uglify',
+                    baseUrl : './',
+                    mainConfigFile : '<%= paths.tmp %>/javascripts/config.js',
                     uglify : {
                         toplevel : true,
                         ascii_only : false,
@@ -168,48 +210,44 @@ module.exports = function (grunt) {
                     },
                     preserveLicenseComments : true,
                     useStrict : false,
-                    wrap : true
+                    wrap : true,
+                    modules : [{
+                        name : 'config',
+                        include : ['$', '_', 'Backbone', 'React']
+                    }, {
+                        name : 'index',
+                        include : ['indexMain'],
+                        exclude : ['config']
+                    }, {
+                        name : 'cate',
+                        include : ['cateMain'],
+                        exclude : ['config']
+                    }, {
+                        name : 'topic',
+                        include : ['topicMain'],
+                        exclude : ['config']
+                    }, {
+                        name : 'search',
+                        include : ['searchMain'],
+                        exclude : ['config']
+                    }]
                 }
             }
         },
-        concurrent : {
-            dist : ['copy:dist', 'compass:dist']
-        },
-        jshint : {
-            test : ['<%= paths.app %>/javascripts/**/*.js']
-        },
-        karma : {
-            options : {
-                configFile : '<%= paths.test %>/karma.conf.js',
-                browsers : ['Chrome_without_security']
-            },
-            server : {
-                reporters : ['progress'],
-                background : true
-            },
-            test : {
-                reporters : ['progress', 'junit', 'coverage'],
-                preprocessors : {
-                    '<%= paths.app %>/javascripts/**/*.js' : 'coverage'
+        compress: {
+            main: {
+                options: {
+                    archive: 'ebook.zip'
                 },
-                junitReporter : {
-                    outputFile : '<%= paths.test %>/output/test-results.xml'
-                },
-                coverageReporter : {
-                    type : 'html',
-                    dir : '<%= paths.test %>/output/coverage/'
-                },
-                singleRun : true
-            },
-            travis : {
-                browsers : ['PhantomJS'],
-                reporters : ['progress'],
-                singleRun : true
+                files: [{
+                    src: ['<%= paths.dist %>/**/*.*'],
+                    dest: './'
+                }]
             }
         },
         bump : {
             options : {
-                files : ['package.json', 'bower.json'],
+                files : ['package.json', '<%= paths.app %>/manifest.json', 'bower.json'],
                 updateConfigs : [],
                 commit : true,
                 commitMessage : 'Release v%VERSION%',
@@ -219,39 +257,56 @@ module.exports = function (grunt) {
                 tagMessage : 'Version %VERSION%',
                 push : false
             }
+        },
+        shell: {
+            buildAdonis : {
+                options : {
+                    stdout : true
+                },
+                command : ['cd app/thirdparty/Adonis', 'grunt build'].join('&&')
+            }
         }
     });
 
     grunt.registerTask('server', [
+        'shell:buildAdonis',
         'clean:server',
         'compass:server',
-        'connect:server',
-        'karma:server',
-        'configureRewriteRules',
+        'react:server',
+        'connect:dev',
         'open',
         'watch'
     ]);
 
-    grunt.registerTask('test', [
-        'jshint:test',
-        'karma:test'
-    ]);
-
-    grunt.registerTask('test:travis', [
-        'jshint:test',
-        'karma:travis'
-    ]);
-
     grunt.registerTask('build', [
         'clean:dist',
-        'concurrent:dist',
+        'react:server',
+        'shell:buildAdonis',
+        'copy:tmp',
+        'copy:dist',
+        'requirejs:dist',
+        'compass:dist',
         'useminPrepare',
-        'concat',
-        'uglify',
-        // 'requirejs:dist', // Uncomment this line if using RequireJS in your project
         'imagemin',
         'htmlmin',
-        'rev',
+        'concat',
+        'uglify',
         'usemin'
+    ]);
+
+    grunt.registerTask(['update'], [
+        'bump-only:patch',
+        'changelog',
+        'bump-commit'
+    ]);
+
+    grunt.registerTask(['build:release'], [
+        'bump',
+        'build'
+    ]);
+
+    grunt.registerTask(['build:patch'], [
+        'bump:patch',
+        'build'
     ]);
 };
