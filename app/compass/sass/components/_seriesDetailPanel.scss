@@ -1,0 +1,235 @@
+ @import "../../thirdparty/Adonis/sass/standardColors";
+
+.o-series-panel {
+    background-color: rgba(0, 0, 0, .4);
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    -webkit-transition: all .2s linear;
+
+    .o-series-panel-content {
+        margin-top: -50px;
+        -webkit-transition: all .2s linear;
+
+        .tab-ctn {
+            border-bottom: 2px $borderColor solid;
+            height: 27px;
+            margin-bottom: 10px;
+            position: relative;
+
+            .tab {
+                border-bottom: 2px transparent solid;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px 10px;
+                position: absolute;
+
+                & + .tab {
+                    left: 48px;
+                }
+
+                &.selected {
+                    border-bottom-color: $standardColor;
+                }
+            }
+        }
+    }
+
+    &.show {
+        opacity: 1;
+        pointer-events: all;
+        z-index: 2;
+
+        .o-series-panel-content {
+            margin-top: 0;
+        }
+    }
+}
+
+.o-series-panel-content {
+    background-color: transparent;
+    height: 100%;
+    margin: 0 auto;
+    padding: 15px 0 0;
+    position: relative;
+    width: 760px;
+
+    .body-ctn {
+        background-color: #fff;
+        overflow-y: auto;
+        -webkit-box-flex: 1;
+
+        .body {
+            display: inline-block;
+            padding: 10px 65px 25px 15px;
+            vertical-align: top;
+            width: 520px;
+        }
+
+        .extra-info {
+            display: inline-block;
+            vertical-align: top;
+            padding: 10px 15px 25px 0;
+            width: 230px;
+        }
+    }
+}
+
+.o-series-panel-header {
+    background-color: #f2f2f2;
+    border-bottom: 1px $borderColor solid;
+    padding: 5px 5px 15px;
+
+    .download-app {
+        display: inline-block;
+        float: none;
+        margin: 0 0 0 15px;
+    }
+
+    .o-btn-group {
+        .button-download {
+            border-radius: 3px 0 0 3px;
+        }
+    }
+
+    .stills {
+        background-position: center center;
+        background-size: cover;
+        height: 145px;
+        width: 110px;
+    }
+
+    .info-ctn {
+        margin-left: 15px;
+        -webkit-box-flex: 1;
+
+        .info {
+            -webkit-box-flex: 1;
+            -webkit-box-pack: end;
+            position: relative;
+
+            .button-download,
+            .button-subscribe {
+                &.subscribing {
+                    background: url(../images/check_mark.png) no-repeat 5px center;
+                    padding-left: 24px;
+                }
+
+                &.w-btn-danger {
+                    box-shadow: initial;
+                    padding-left: 17px;
+                    padding-right: 17px;
+                }
+
+                &.loading {
+                    color: #999;
+                }
+            }
+
+            .w-btn-group {
+                .button-download, .button-subscribe {
+                    margin-top: 0;
+                }
+            }
+        }
+    }
+}
+
+.o-serires-description {
+    h5 {
+        clear: both;
+    }
+}
+
+
+.download-info {
+    height: 40px;
+    padding-top: 10px;
+}
+
+.button-download {
+    position: relative;
+
+    .size {
+        margin-top: 13px;
+        opacity: 0;
+        overflow: initial;
+        pointer-events: none;
+        -webkit-transition: opacity .1s linear;
+
+        em {
+            color: #fff;
+            font-style: normal;
+            margin-right: 3px;
+        }
+    }
+
+    &:hover {
+        .size {
+            opacity: 1;
+        }
+    }
+}
+
+.more-provider {
+    .arrow {
+        border-bottom: none;
+        border-left: 4px dashed transparent;
+        border-right: 4px dashed transparent;
+        border-top: 4px solid #fff;
+        display: inline-block;
+        height: 0;
+        position: relative;
+        top: -2px;
+        width: 0;
+    }
+}
+
+.o-btn-group {
+    display: inline-block;
+
+    .w-btn + .w-btn {
+        margin-left: 0;
+    }
+
+    & + .w-btn, & + .o-btn-group {
+        margin-left: 4px;
+    }
+
+    .more-provider {
+        border-left-width: 0;
+        border-radius: 0 3px 3px 0;
+        min-width: 20px;
+    }
+
+    &:hover {
+        .button-download {
+            @include background-image(linear-gradient($btnPrimaryHoverBgColorFrom, $btnPrimaryHoverBgColorTo));
+            @include filter-gradient($btnPrimaryHoverBgColorFrom, $btnPrimaryHoverBgColorTo);
+            @include single-box-shadow(0, 1px, 0, false, #79d367, true);
+
+            color: $btnPrimaryTextColor;
+        }
+    }
+}
+
+.providers {
+    background: #fff;
+    display: inline-block;
+
+}
+
+.load-more {
+    display: block;
+    float: left;
+    width:  calc(100% - 116px);
+}
+.download-app {
+    display: block;
+    float: left;
+    font-size: 12px;
+    width: 116px;
+}

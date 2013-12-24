@@ -1,0 +1,76 @@
+@mixin categories-item-base {
+    border: none;
+    cursor: pointer;
+    float: left;
+    margin: 0 14px 10px 0;
+    height: 185px;
+    overflow: hidden;
+    padding: 2px;
+    position: relative;
+}
+
+.o-category-books {
+    display: block;
+    float: left;
+    width: 516px;
+}
+
+.o-category-rank {
+    display: block;
+    float: right;
+    margin-top: 28px;
+    height: 185px;
+    width: 244px;
+}
+
+.o-category-subcate {
+    margin-right: 10px;
+}
+
+.o-categories-ctn {
+    min-height: 300px;
+
+    .title {
+        cursor: pointer;
+    }
+}
+
+.o-categories-item {
+    @include categories-item-base;
+
+    width: 115px;
+
+    .cover {
+        height: 135px;
+        overflow: hidden;
+        position: relative;
+
+        img {
+            width: 111px;
+        }
+    }
+
+    .info {
+        background: #fff;
+        left: 0;
+        padding: 0 3px 3px;
+        position: absolute;
+        width: 100%;
+        -webkit-transition: -webkit-transform .1s linear;
+
+        .title {
+            padding: 6px 0;
+        }
+
+        .author{
+            line-height: 14px;
+        }
+
+    }
+
+    &:hover {
+        .info {
+            -webkit-transform: translate3d(0, -20px, 0);
+        }
+    }
+}

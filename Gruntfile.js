@@ -82,16 +82,13 @@ module.exports = function (grunt) {
             }
         },
         react : {
-            options : {
-                extension : 'jsx'
-            },
             server : {
                 files : [
                     {
                         expand : true,
-                        cwd : '<%= paths.app %>/javascripts/',
-                        src : ['*.jsx'],
-                        dest : '<%= paths.tmp %>/javascripts/',
+                        cwd : '<%= paths.app %>/javascripts',
+                        src : ['**/*.jsx'],
+                        dest : '<%= paths.tmp %>/javascripts',
                         ext : '.js'
                     }
                 ]
@@ -100,9 +97,9 @@ module.exports = function (grunt) {
                 files : [
                     {
                         expand : true,
-                        cwd : '<%= paths.app %>/javascripts/',
-                        src : ['*.jsx'],
-                        dest : '<%= paths.dist %>/javascripts/',
+                        cwd : '<%= paths.app %>/javascripts',
+                        src : ['**/*.jsx'],
+                        dest : '<%= paths.dist %>/javascripts',
                         ext : '.js'
                     }
                 ]
