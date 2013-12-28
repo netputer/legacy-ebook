@@ -219,14 +219,6 @@ module.exports = function (grunt) {
                         name : 'cate',
                         include : ['cateMain'],
                         exclude : ['config']
-                    }, {
-                        name : 'topic',
-                        include : ['topicMain'],
-                        exclude : ['config']
-                    }, {
-                        name : 'search',
-                        include : ['searchMain'],
-                        exclude : ['config']
                     }]
                 }
             }

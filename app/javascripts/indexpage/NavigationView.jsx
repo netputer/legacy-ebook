@@ -15,7 +15,7 @@
             renderSubCategories : function () {
                 var categories = this.props.category.subCategories;
                 return _.map(categories, function (category, index) {
-                    return <li key={index}><a href="">{category.name}</a></li>;
+                    return <li key={index}><a href={'cate.html?category=' + category.name}>{category.name}</a></li>;
                 }, this);
             },
             render : function () {

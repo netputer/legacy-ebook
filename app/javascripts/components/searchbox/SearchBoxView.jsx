@@ -228,7 +228,7 @@
                             <input
                                 ref="searchBoxInput"
                                 className="o-search-box-input w-input w-form-inline w-input-large"
-                                placeholder="搜索网络小说"
+                                placeholder="搜索书名、作者"
                                 type="text"
                                 name="keyword"
                                 autoComplete="off"

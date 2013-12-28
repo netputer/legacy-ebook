@@ -16,7 +16,8 @@
         var EbookModel = Backbone.Model.extend({
             defaults : {
                 cover : {
-                    l : []
+                    l : [],
+                    s : []
                 },
                 providerNames : []
             },

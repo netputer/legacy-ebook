@@ -6,7 +6,7 @@
         var Actions = {
             actions : {
                 CATEGORIES : 'http://ebooks.wandoujia.com/api/v1/categories',
-                CATEGORY_SEARCH : 'http://ebooks.wandoujia.com/api/v1/category/search/',
+                INDEX_CATEGORY : 'http://ebooks.wandoujia.com/api/v1/category/search/',
 
                 SEARCH : 'http://ebooks.wandoujia.com/api/v1/search/',
                 QUERY_SERIES : 'http://ebooks.wandoujia.com/api/v1/ebooks/'

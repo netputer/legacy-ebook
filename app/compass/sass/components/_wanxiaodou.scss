@@ -1,0 +1,30 @@
+@import "../../thirdparty/Adonis/sass/standardColors";
+@import "wanxiaodou/*.png";
+
+.o-wanxiaodou-container {
+    text-align: center;
+
+    .wanxiaodou {
+        display: block;
+        height : 200px;
+        margin: 30px auto 10px;
+        width : 200px;
+
+        @for $img from 0 to 17 {
+            &.index#{$img} {
+                @include wanxiaodou-sprite(#{$img});
+                height : wanxiaodou-sprite-height(#{$img});
+                width : wanxiaodou-sprite-width(#{$img});
+            }
+        }
+    }
+
+    .wanxiaodou-tip {
+        display: block;
+        font-size: 14px;
+
+        em {
+            color: $textHighlight;
+        }
+    }
+}

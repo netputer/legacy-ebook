@@ -15,15 +15,33 @@
         var getCategoriesAsync = function (start, max) {
             var deferred = $.Deferred();
             IO.requestAsync({
-                url : Actions.actions.CATEGORY_SEARCH + '?start=' + start + '&max=' + max,
+                url : Actions.actions.INDEX_CATEGORY + '?start=' + start + '&max=' + max,
                 success : deferred.resolve,
                 error : deferred.reject
             });
             return deferred.promise();
         };
 
+        var getCategoryRankAsync = function (cate, type) {
+
+            var deferred = $.Deferred();
+            IO.requestAsync({
+                url : Actions.actions.SEARCH + '?categories=' + cate + '&start=0&max=12&rank_type=' + type + '&opt_fields=id,title',
+                success : deferred.resolve,
+                error : deferred.reject
+            });
+            return deferred.promise();
+
+        };
+
 
         var ItemView = React.createClass({
+            getInitialState : function () {
+                return {
+                    rankType : 'week_hot',
+                    rankData : []
+                };
+            },
             onClick : function (id) {
                 this.props.onVideoSelect.call(this, id);
             },
@@ -32,7 +50,7 @@
                 return _.map(subCategories, function (subCategory, index) {
                     if (index < 6) {
                         return (
-                            <a href="" className="o-category-subcate w-text-info">{subCategory}</a>
+                            <a href={'cate.html?category=' + subCategory} className="o-category-subcate w-text-info">{subCategory}</a>
                         );   
                     }
                 });
@@ -54,7 +72,43 @@
                 }, this);
             },
             renderRanks : function (cate) {
-                return '';
+                var type = this.state.rankType || 'week_hot';
+                if (this.state.rankData.length === 0 && cate !== undefined) {
+                    getCategoryRankAsync(cate, type).done(function (resp) {
+                        this.setState({
+                            rankData : resp.result
+                        });
+                    }.bind(this));
+                }
+
+                if (cate !== undefined) {                   
+                    return (
+                        <div>
+                            <a className="cate-title w-text-secondary">{cate}排行</a>
+                            <div className="rank-type">
+                                <a href="javascript:void(0);" className="current">周榜</a>
+                                <span>&middot;</span>
+                                <a href="javascript:void(0);">月榜</a>
+                                <span>&middot;</span>
+                                <a href="javascript:void(0);">总榜</a>
+                            </div>
+
+                            <ol>
+                                {this.renderRankList(cate)}
+                            </ol>
+
+                        </div>
+                    );
+                }
+            },
+            renderRankList : function (cate) {
+                if (this.state.rankData !== undefined) {
+                    return _.map(this.state.rankData, function (book, index) {
+                        if (index < 10) {
+                            return <li><a className="w-text-secondary" href="javascript:void(0)" onClick={this.onClick.bind(this, book.id)} title={book.title}><span className="order-num w-text-primary">{index+1}</span> {book.title}</a></li>;
+                        }
+                    }, this);
+                }
             },
             render : function () {
                 if (this.props.category !== undefined) {
@@ -66,7 +120,7 @@
                         <div className="o-category-books">
                             <a href="" className="cate-title w-text-secondary">{name}</a>
                             {this.renderSubcategories()}
-                            <a href="" className="more w-text-info">更多 &raquo;</a>
+                            <a href={'cate.html?category=' + name} className="more w-text-info">更多 &raquo;</a>
                             <ul className="w-wc">
                                 {this.renderBooks()}
                             </ul>
