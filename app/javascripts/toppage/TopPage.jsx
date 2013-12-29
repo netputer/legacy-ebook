@@ -37,9 +37,10 @@
 
         var queryCategory = QueryString.get('category') || '';
 
-        var queryRankType = 'week_hot';
-
         var topPageRouter = TopPageRouter.getInstance();
+
+        var queryRankType = topPageRouter.getRankType() || 'week_hot';
+
 
         var queryAsync = function (category, page) {
             var deferred = $.Deferred();
@@ -87,12 +88,15 @@
                     pageTotal : 0,
                     currentPage : 1,
                     total : 0,
+                    filterSelected : {
+                        category : queryCategory,
+                        top_rank : queryRankType
+                    },
                     loaded : false
                 }
             },
             queryAsync : function (queryCategory, page) {
                 var deferred = $.Deferred();
-
                 queryAsync(queryCategory, page).done(function (resp) {
                     resp = this.filterNullValues(resp);
                     resp.total = resp.total > 200 ? 200 : resp.total;
@@ -116,7 +120,7 @@
                     loading : true
                 });
 
-                FormatCategories('subCategories', queryCategory).done(function (resp) {
+                FormatCategories('categories', 'combined').done(function (resp) {
                     this.setState({
                         subCategories : resp
                     });
@@ -124,11 +128,11 @@
 
                 this.queryAsync(queryCategory, this.state.currentPage);
             },
-            onSearchAction : function (keyword) {
-                if (keyword.length) {
-                    topPageRouter.navigate('q/' + keyword, {
-                        trigger : true
-                    });
+            onSearchAction : function (query) {
+                if (query.trim().length) {
+                    $('<a>').attr({
+                        href : 'search.html#q/' + query
+                    })[0].click();
                 }
             },
             onPaginationSelect : function (target) {
@@ -143,34 +147,26 @@
             },
             onFilterSelect : function (prop, item) {
                 switch (prop) {
-                case 'type':
-                    queryType = item.type;
+                case 'category':
+                    queryCategory = item;
                     break;
-                case 'rank':
-                    queryRankType = item.type;
+                case 'top_rank':
+                    queryRankType = item;
                     break;
                 }
 
                 this.setState({
                     filterSelected : {
-                        type : queryType,
-                        years : queryYearText,
-                        rank : queryRankType,
+                        category : queryCategory,
+                        top_rank : queryRankType,
                         currentPage : 1,
                         pageTotal : 0
                     }
                 });
 
-                this.queryAsync(queryCategory);
+                this.queryAsync(queryCategory, this.state.currentPage);
             },
             render : function () {
-                        // <FilterView
-                        //     list={this.state.result}
-                        //     categories={this.state.subCategories}
-                        //     filters={this.state.filters}
-                        //     onFilterSelect={this.onFilterSelect}
-                        //     filterSelected={this.state.filterSelected}
-                        //     source="category" />
 
                 return (
                     <div className="o-ctn">
@@ -181,9 +177,12 @@
                         <div>
                             <h4 className="cate-title">{this.state.subCategories !== undefined ? this.state.subCategories[0] : queryCategory}排行榜</h4>
                         </div>
-                        <div>
-                        filter
-                        </div>
+                        <FilterView
+                            list={this.state.result}
+                            categories={this.state.subCategories}
+                            onFilterSelect={this.onFilterSelect}
+                            filterSelected={this.state.filterSelected}
+                            source="top" />
                         <ResultListView
                             category={queryCategory}
                             list={this.state.result}

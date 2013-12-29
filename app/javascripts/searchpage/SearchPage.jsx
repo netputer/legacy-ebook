@@ -35,12 +35,6 @@
 
         var PAGE_SIZE = 10;
 
-        var queryCategory = QueryString.get('category') || '';
-
-        var queryType;
-        var queryYearText;
-        var queryRankType = 'rel';
-
         var searchPageRouter = SearchPageRouter.getInstance();
 
         var queryAsync = function (keyword, page) {
@@ -71,20 +65,20 @@
             mixins : [FilterNullValues],
             getInitialState : function () {
                 return {
-                    subCategories : [],
                     result : [],
                     loading : false,
                     currentPage : 1,
                     pageTotal : 0,
                     currentPage : 1,
+                    keyword : searchPageRouter.getQuery(),
                     total : 0,
                     loaded : false
                 }
             },
-            queryAsync : function (queryCategory, page) {
+            queryAsync : function (keyword, page) {
                 var deferred = $.Deferred();
 
-                queryAsync(queryCategory, page).done(function (resp) {
+                queryAsync(keyword, page).done(function (resp) {
                     resp = this.filterNullValues(resp);
                     resp.total = resp.total > 200 ? 200 : resp.total;
                     resultListCollection.reset(resp.result);
@@ -113,13 +107,6 @@
 
                     this.queryAsync(query, this.state.currentPage);
                 }, this);
-
-                FormatCategories('subCategories', queryCategory).done(function (resp) {
-                    this.setState({
-                        subCategories : resp
-                    });
-                }.bind(this));
-
             },
             onSearchAction : function (keyword) {
                 if (keyword.length) {
@@ -129,57 +116,20 @@
                 }
             },
             onPaginationSelect : function (target) {
-                this.queryAsync(queryCategory, target).done(function () {
+                this.queryAsync(this.state.keyword, target).done(function () {
                     this.refs['ebook-ctn'].getDOMNode().scrollIntoView();
                 }.bind(this));
             },
             onEbookSelect : function (ebook) {
-                searchPageRouter.navigate('/detail/' + ebook.id, {
+                searchPageRouter.navigate('q/' + this.state.keyword + '/detail/' + ebook.id, {
                     trigger : true
                 });
-            },
-            onFilterSelect : function (prop, item) {
-                switch (prop) {
-                case 'years':
-                    if (!item) {
-                        queryYear = '';
-                        queryYearText = '';
-                    } else if (typeof item === 'string') {
-                            queryYear = '';
-                            queryYearText = '';
-                    } else {
-                        queryYearText = item.name;
-                        if (item.name !== undefined && item.name.indexOf(Wording.TIME) > 0) {
-                            queryYear = item.begin + '-' + item.end;
-                        } else {
-                            queryYear = item.name;
-                        }
-                    }
-                    break;
-                case 'type':
-                    queryType = item.type;
-                    break;
-                case 'rank':
-                    queryRankType = item.type;
-                    break;
-                }
-
-                this.setState({
-                    filterSelected : {
-                        type : queryType,
-                        years : queryYearText,
-                        rank : queryRankType,
-                        currentPage : 1,
-                        pageTotal : 0
-                    }
-                });
-
-                this.queryAsync(queryCategory);
             },
             render : function () {
                 return (
                     <div className="o-ctn">
                         <SearchBoxView
+                            keyword={this.state.keyword} 
                             className="o-search-box-ctn"
                             onAction={this.onSearchAction}
                             source="search" />

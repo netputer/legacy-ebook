@@ -41,10 +41,9 @@
                         <div className="nav-cate">
                             <a href="" className="cate-title w-text-primary">排行榜</a>
                             <ul>
-                                <li><a href="">总榜</a></li>
-                                <li><a href="">分类榜</a></li>
-                                <li><a href="">连载排行</a></li>
-                                <li><a href="">完结排行</a></li>
+                                <li><a href="top.html#weeek_hot">周榜</a></li>
+                                <li><a href="top.html#month_hot">月榜</a></li>
+                                <li><a href="top.html#history_hot">总榜</a></li>
                             </ul>
                         </div>
                     </div>

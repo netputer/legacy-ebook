@@ -39,21 +39,27 @@
 
         var queryCategory = QueryString.get('category') || '';
 
-        var queryType;
-        var queryYearText;
-        var queryRankType = 'rel';
+        var queryWords = '';
+        var queryUpdate = '';
+        var queryRankType = '';
 
         var categoryPageRouter = CatePageRouter.getInstance();
 
         var queryAsync = function (category, page) {
             var deferred = $.Deferred();
-
             page = Math.max((page || 0) - 1, 0);
+
+            var finished = category === 'finished' ? false : '';
+            var cate = category === 'finished' ? '' : category;
 
             IO.requestAsync({
                 url : Actions.actions.SEARCH,
                 data : {
-                    categories : category,
+                    categories : cate,
+                    subscribe : finished,
+                    rank_type : queryRankType,
+                    words : queryWords,
+                    update : queryUpdate,
                     start : page * PAGE_SIZE,
                     max : PAGE_SIZE,
                     pos : 'w/category'
@@ -74,13 +80,20 @@
             mixins : [FilterNullValues],
             getInitialState : function () {
                 return {
+                    categories : [],
                     subCategories : [],
                     result : [],
                     loading : false,
                     currentPage : 1,
                     pageTotal : 0,
-                    currentPage : 1,
+                    correctQuery : '',
                     total : 0,
+                    filterSelected : {
+                        category : queryCategory,
+                        words : queryWords,
+                        update : queryUpdate,
+                        rank : queryRankType
+                    },
                     loaded : false
                 }
             },
@@ -116,7 +129,13 @@
                     loading : true
                 });
 
-                if (queryCategory !== 'novel' && queryCategory !== 'girl') {
+                if (queryCategory === 'finished') {
+                    FormatCategories('categories', 'combined').done(function (resp) {
+                        this.setState({
+                            categories : resp
+                        });
+                    }.bind(this));
+                 } else if (queryCategory !== 'novel' && queryCategory !== 'girl') {
                     FormatCategories('subCategories', queryCategory).done(function (resp) {
                         this.setState({
                             subCategories : resp
@@ -126,11 +145,11 @@
 
                 this.queryAsync(queryCategory, this.state.currentPage);
             },
-            onSearchAction : function (keyword) {
-                if (keyword.length) {
-                    categoryPageRouter.navigate('q/' + keyword, {
-                        trigger : true
-                    });
+            onSearchAction : function (query) {
+                if (query.trim().length) {
+                    $('<a>').attr({
+                        href : 'search.html#q/' + query
+                    })[0].click();
                 }
             },
             onPaginationSelect : function (target) {
@@ -145,41 +164,31 @@
             },
             onFilterSelect : function (prop, item) {
                 switch (prop) {
-                case 'years':
-                    if (!item) {
-                        queryYear = '';
-                        queryYearText = '';
-                    } else if (typeof item === 'string') {
-                            queryYear = '';
-                            queryYearText = '';
-                    } else {
-                        queryYearText = item.name;
-                        if (item.name !== undefined && item.name.indexOf(Wording.TIME) > 0) {
-                            queryYear = item.begin + '-' + item.end;
-                        } else {
-                            queryYear = item.name;
-                        }
-                    }
+                case 'category':
+                    queryCategory = item;
                     break;
-                case 'type':
-                    queryType = item.type;
+                case 'words':
+                    queryWords = item;
+                    break;
+                case 'update':
+                    queryUpdate = item;
                     break;
                 case 'rank':
-                    queryRankType = item.type;
+                    queryRankType = item;
                     break;
                 }
 
                 this.setState({
                     filterSelected : {
-                        type : queryType,
-                        years : queryYearText,
+                        category : queryCategory,
+                        words : queryWords,
+                        update : queryUpdate,
                         rank : queryRankType,
                         currentPage : 1,
                         pageTotal : 0
                     }
                 });
-
-                this.queryAsync(queryCategory);
+                this.queryAsync(queryCategory, this.state.currentPage);
             },
             render : function () {
                 if (queryCategory === 'novel' || queryCategory === 'girl') {
@@ -220,6 +229,7 @@
                             <div>
                                 <h4 className="cate-title">{Wording.CATE_FINISHED}</h4>
                             </div>
+
                             <ResultListView
                                 category={queryCategory}
                                 list={this.state.result}
@@ -249,8 +259,7 @@
                             </div>
                             <FilterView
                                 list={this.state.result}
-                                categories={this.state.subCategories}
-                                filters={this.state.filters}
+                                categories={this.state.categories}
                                 onFilterSelect={this.onFilterSelect}
                                 filterSelected={this.state.filterSelected}
                                 source="category" />

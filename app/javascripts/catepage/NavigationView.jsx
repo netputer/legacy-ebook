@@ -19,21 +19,20 @@
 
         var ItemView = React.createClass({
             renderSubCategories : function (categories) {
-                console.log(categories)
                 return _.map(categories, function (category, index) {
                     if (index === 0) {
-                        return <dt key={index}><a href={'cate.html?category=' + category}>{category}</a></dt>;
+                        return <th key={index}><a href={'cate.html?category=' + category}>{category}</a></th>;
                     } else {
-                        return <dd key={index}><a href={'cate.html?category=' + category}>{category}</a></dd>;
+                        return <td key={index}><a href={'cate.html?category=' + category}>{category}</a></td>;
                     }
                 });
             },
             render : function () {
                 var categories = this.props.categories;
                 return (
-                    <dl>
+                    <tr>
                         {this.renderSubCategories(categories)}
-                    </dl>
+                    </tr>
                 );
             }
         });
@@ -52,22 +51,31 @@
                     });
                 }.bind(this));
             },
-            renderItem : function () {
-                if (this.state.categories !== undefined) {
-                    return _.map (this.state.categories, function (subCategories) {
-                        return (
-                            <li>
+            renderItem : function (from) {
+                var categories = this.state.categories;
+                if (categories !== undefined) {
+                    return _.map (categories, function (subCategories, index) {
+                        if (index >= from  &&  index < from + Math.floor(categories.length / 2)) {
+                            return (
                                 <ItemView categories={subCategories} />
-                            </li>
-                        );
+                            );
+                        }
                     }, this);
                 }
             },
             render : function () {
                 return (
-                    <ul className="w-component-card navigation">
-                        {this.renderItem()}
-                    </ul>
+                    <table className="w-component-card navigation">
+                        <tbody>
+                            {this.renderItem(0)}
+                        </tbody>
+                        <tbody>
+                            {this.renderItem(Math.floor(this.state.categories.length / 2))}
+                        </tbody>
+                        <tbody>
+                            {this.renderItem(this.state.categories.length - 1)}
+                        </tbody>
+                    </table>
                 );
             }
         });

@@ -45,8 +45,8 @@
             seriesDetailPanelView.setState({
                 show : false
             });
-        
-            searchPageRouter.navigate(window.location.hash.split('#')[0], {
+
+            searchPageRouter.navigate('#q/' + searchPageRouter.getQuery(), {
                 trigger : false
             });
         };
@@ -70,10 +70,10 @@
                 });
 
                 queryAsync(id).done(function (resp) {
-                    var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, resp));
+                    var ebookModel = new EbookModel(FilterNullValues.filterNullValues.call(FilterNullValues, resp));
 
                     seriesDetailPanelView.setProps({
-                        video : videoModle
+                        ebook : ebookModel
                     });
 
                     if (seriesDetailPanelView.isMounted()) {
@@ -81,13 +81,6 @@
                             loading : false
                         });
                     }
-                });
-
-                GA.log({
-                    'event' : 'video.common.action',
-                    'action' : 'detail_view',
-                    'video_id' : id,
-                    'pos' : 'search'
                 });
             } else {
                 seriesDetailPanelView.setState({

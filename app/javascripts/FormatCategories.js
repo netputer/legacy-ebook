@@ -32,7 +32,6 @@
                     if (cate === 'novel' || cate === 'girl') {
                         var num = cate === 'novel' ? 0 : 1;
                         _.each(resp[num].subCategories, function (categories, idx) {
-                                console.log(categories)
                                 var tmpArr = [];
                                 if (categories.subCategories.length) {
                                     tmpArr.push(categories.name);
@@ -40,11 +39,6 @@
                                         tmpArr.push(category);
                                     });
                                     array.push(tmpArr);
-                                    if (cate === 'novel') {
-                                        console.log(array[4])
-                                        // array.push(array[4]);
-                                    }
-                                    console.log(array)
                                     result = array;
                                     return;
                                 }
@@ -74,6 +68,22 @@
                     });
 
                     break;
+                case 'categories' :
+                    var array = [];
+                    var num = cate === 'girl' ? 1 : 0;
+
+                    _.each(resp[num].subCategories, function (categories, idx) {
+                        array.push(categories.name);
+                        return;
+                    });
+
+                    if (cate === 'combined') {
+                        array[array.length - 1] = resp[1].name;
+                    }
+
+                    result = array;
+                    return result;
+
                 default :
                     result = resp;
                     break;

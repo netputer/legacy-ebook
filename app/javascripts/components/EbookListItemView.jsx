@@ -39,7 +39,7 @@
                             <span className="w-text-info">作者: {data.authors.join('、')}</span>
                         </div>
                         <div className="w-text-info">
-                            {data.description.length > descriptionLength ? data.description.substr(0, descriptionLength) + '...' : data.description}
+                            {data.description !== undefined && data.description.length > descriptionLength ? data.description.substr(0, descriptionLength) + '...' : data.description}
                         </div>
                         <div className="download-ctn w-hbox">
                             <button className="button-download w-btn w-btn-primary" onClick={this.props.onSelect}>{Wording.READ}</button>

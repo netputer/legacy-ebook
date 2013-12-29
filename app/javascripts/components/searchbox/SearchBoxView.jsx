@@ -20,7 +20,7 @@
             var deferred = $.Deferred();
 
             $.ajax({
-                url : 'http://oscar.wandoujia.com/api/v1/search/suggest/' + keyword,
+                url : 'http://ebooks.wandoujia.com/api/v1/search/suggest/' + keyword,
                 success : deferred.resolve,
                 error : deferred.reject
             });
@@ -223,24 +223,29 @@
             },
             render : function () {
                 return (
-                    <form className="o-search-box w-form-inline" action="search.html" method="get" onSubmit={this.submitForm}>
-                        <div className="o-search-box-wrap">
-                            <input
-                                ref="searchBoxInput"
-                                className="o-search-box-input w-input w-form-inline w-input-large"
-                                placeholder="搜索书名、作者"
-                                type="text"
-                                name="keyword"
-                                autoComplete="off"
-                                defaultValue={this.props.keyword}
-                                onChange={this.showSuggestion}
-                                onFocus={this.showSuggestion}
-                                onBlur={this.hideSuggestion}
-                                onKeyDown={this.keypressInput} />
-                            <SuggestionListView resultModels={this.state.resultModels} clickHandler={this.doSearch}/>
+                    <div>
+                        <form className="o-search-box w-form-inline" action="search.html" method="get" onSubmit={this.submitForm}>
+                            <div className="o-search-box-wrap">
+                                <input
+                                    ref="searchBoxInput"
+                                    className="o-search-box-input w-input w-form-inline w-input-large"
+                                    placeholder="搜索书名、作者"
+                                    type="text"
+                                    name="keyword"
+                                    autoComplete="off"
+                                    defaultValue={this.props.keyword}
+                                    onChange={this.showSuggestion}
+                                    onFocus={this.showSuggestion}
+                                    onBlur={this.hideSuggestion}
+                                    onKeyDown={this.keypressInput} />
+                                <SuggestionListView resultModels={this.state.resultModels} clickHandler={this.doSearch}/>
+                            </div>
+                            <button className="w-btn w-btn-large w-btn-primary">搜索</button>
+                        </form>
+                        <div>
+                            HOT QUERY
                         </div>
-                        <button className="w-btn w-btn-large w-btn-primary">搜索</button>
-                    </form>
+                    </div>
                 );
             }
         });
