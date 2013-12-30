@@ -13,8 +13,8 @@
     ) {
 
         var TYPE = {
-            NO_SEARCH_RESULT : '没有找到关于「<em>{0}</em>」的视频呢。',
-            NO_VIDEO : '没有符合条件的视频'
+            NO_SEARCH_RESULT : '没有找到关于「<em>{0}</em>」的电子书呢。',
+            NO_EBOOK : '没有符合条件的电子书'
         };
 
         var WanxiaodouView = React.createClass({
