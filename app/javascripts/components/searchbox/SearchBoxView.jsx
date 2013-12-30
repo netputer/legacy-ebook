@@ -86,13 +86,6 @@
                             });
                         })
                     });
-                    GA.log({
-                        'event' : 'video.misc.action',
-                        'action' : 'search_suggestion',
-                        'keyword' : value,
-                        'type' : 'display',
-                        'pos' : this.props.source
-                    });
                 }.bind(this));
             },
             hideSuggestion : function () {
@@ -135,17 +128,6 @@
                     this.props.onAction(keyword);
 
                     this.refs['searchBoxInput'].getDOMNode().value = keyword;
-
-                    if(event !== undefined && event !== 'submit') {
-                        GA.log({
-                            'event' : 'video.misc.action',
-                            'action' : 'search_suggestion',
-                            'keyword' : keyword,
-                            'type' : 'click',
-                            'event' : event,
-                            'pos' : this.props.source
-                        });
-                    }
                 }
             },
             keypressInput : function (evt) {
@@ -214,12 +196,6 @@
             submitForm : function (evt) {
                 evt.preventDefault();
                 this.doSearch(evt.target.keyword.value, 'submit');
-                GA.log({
-                    'event' : 'video.common.action',
-                    'action' : 'search',
-                    'keyword' : evt.target.keyword.value,
-                    'pos' : location.pathname + location.search + location.hash
-                });
             },
             render : function () {
                 return (
