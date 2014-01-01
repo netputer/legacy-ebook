@@ -1,0 +1,72 @@
+.o-list-item {
+    background: #fff;
+    border: none;
+    height: 157px;
+    margin: 5px;
+    padding: 5px;
+    -webkit-box-align: center;
+
+    + .o-list-item {
+        margin-top: 20px;
+    }
+
+    .item-cover {
+        background-position: center center;
+        cursor: pointer;
+        height: 145px;
+        width: 103px;
+    }
+
+    .info-container {
+        margin-left: 15px;
+        -webkit-box-flex: 1;
+
+        .title {
+            cursor: pointer;
+
+            &:hover {
+                color: $textPrimary;
+            }
+
+            em {
+                color: $textHighlight;
+                font-style: normal;
+            }
+        }
+
+        .rating {
+            font-size : 15px;
+            vertical-align: bottom;
+        }
+
+        .download-ctn {
+            margin-top : 10px;
+            -webkit-box-align: center;
+        }
+
+        .provider {
+            margin-left: 15px;
+            -webkit-box-flex: 1;
+        }
+    }
+
+    .thumb-container {
+        margin-left: 5px;
+        overflow: hidden;
+        width: 335px;
+        -webkit-box-pack: end;
+
+        .thumb-item {
+            background-position: center;
+            background-size: cover;
+            display: block;
+            height: 80px;
+            overflow: hidden;
+            width: 80px;
+
+            + .thumb-item {
+                margin-left: 5px;
+            }
+        }
+    }
+}

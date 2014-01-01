@@ -1,0 +1,80 @@
+@import "page/*.png";
+
+.o-pagination-ctn {
+    font-size: 14px;
+    text-align: center;
+
+    .o-pagecount-item {
+        margin: 0 -5px;
+        padding: 2px 10px;
+
+        &.current {
+            font-size: 18px;
+        }
+    }
+
+    .o-pagination-dot {
+        display : inline-block;
+        margin: 0 5px;
+    }
+
+    .o-pagination-arrow {
+        display: inline-block;
+        height: 40px;
+        line-height: 40px;
+        margin: 20px 0;
+        position: relative;
+        width: 40px;
+        white-space: nowrap;
+
+        &.previous,
+        &.next {
+            &.disable {
+                color: #d5d5d5;
+                cursor: default;
+                text-decoration: none;
+
+                &::before {
+                    @include page-sprite(previous-disable);
+                }
+            }
+
+            &::before {
+                @include page-sprite(previous);
+
+                content: "";
+                display: block;
+                height: 40px;
+                position: absolute;
+                top: 0;
+                width: 40px;
+            }
+        }
+
+        &.previous {
+            &.disable {
+                &::before {
+                    @include page-sprite(previous-disable);
+                }
+            }
+
+            &::before {
+                @include page-sprite(previous);
+                left: -50px;
+            }
+        }
+
+        &.next {
+            &.disable {
+                &::before {
+                    @include page-sprite(next-disable);
+                }
+            }
+
+            &::before {
+                @include page-sprite(next);
+                right: -50px;
+            }
+        }
+    }
+}

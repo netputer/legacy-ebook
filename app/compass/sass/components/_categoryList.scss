@@ -1,0 +1,112 @@
+@mixin categories-item-base {
+    border: none;
+    cursor: pointer;
+    float: left;
+    height: 185px;
+    margin: 0 14px 10px 0;
+    overflow: hidden;
+    padding: 2px;
+    position: relative;
+}
+
+.o-category-books {
+    display: block;
+    float: left;
+    width: 516px;
+}
+
+.o-category-subcate {
+    margin-right: 10px;
+}
+
+.o-categories-ctn {
+    min-height: 300px;
+
+    .title {
+        cursor: pointer;
+    }
+}
+
+.o-categories-item {
+    @include categories-item-base;
+
+    width: 115px;
+
+    .cover {
+        height: 135px;
+        overflow: hidden;
+        position: relative;
+
+        img {
+            width: 111px;
+        }
+    }
+
+    .info {
+        background: #fff;
+        left: 0;
+        padding: 0 3px 3px;
+        position: absolute;
+        width: 100%;
+        -webkit-transition: -webkit-transform .1s linear;
+
+        .title {
+            padding: 6px 0;
+        }
+
+        .author{
+            line-height: 14px;
+        }
+
+    }
+
+    &:hover {
+        .info {
+            -webkit-transform: translate3d(0, -20px, 0);
+        }
+    }
+}
+
+
+.o-category-rank {
+    display: block;
+    float: right;
+    height: 185px;
+    margin-top: 28px;
+    padding: 15px;
+    width: 244px;
+
+    .rank-type {
+        display: inline-block;
+        float: right;
+    }
+
+    ol {
+        border-top: 1px solid #f2f2f2;
+        margin: 0;
+        position: relative;
+        -webkit-padding-start: 0;
+
+        li {
+            list-style: none;
+            max-width: 100px;
+            overflow: hidden;
+            position: relative;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            .order-num {
+                display: inline-block;
+                text-align: center;
+                width: 20px;
+            }
+
+            &:nth-child(n+6) {
+                left: 108px;
+                top: -90px;
+            }
+        }
+    }
+}
+
+

@@ -1,0 +1,27 @@
+@import "main";
+@import "compass/css3";
+@import "../../thirdparty/Adonis/sass/standardColors";
+
+@import "components/searchbox";
+@import "components/wanxiaodou";
+@import "components/ebookListItem";
+@import "components/pagination";
+
+@import "components/seriesDetailPanel";
+@import "components/filter";
+
+
+.cate-title {
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 30px;
+}
+
+
+.o-search-result-ctn {
+    min-height: 300px;
+
+    .summary {
+        margin: 10px 0;
+    }
+}

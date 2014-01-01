@@ -11,9 +11,8 @@
         'indexpage/IndexPageRouter',
         'components/SeriesDetailPanelView',
         'mixins/FilterNullValues',
-        'main/models/VideoModel',
-        'components/DownloadListView',
-        'VideoPlayer'
+        'main/models/EbookModel'
+
     ], function (
         React,
         Backbone,
@@ -24,9 +23,7 @@
         IndexPageRouter,
         SeriesDetailPanelView,
         FilterNullValues,
-        VideoModel,
-        DownloadListView,
-        VideoPlayer
+        EbookModel
     ) {
         var queryAsync = function (id) {
             var deferred = $.Deferred();
@@ -60,15 +57,14 @@
         indexPageRouter.on('route:detail', function (query) {
             seriesDetailPanelView.setState({
                 show : true,
-                loading : true,
-                subscribed : -2
+                loading : true
             });
 
             queryAsync(query).done(function (resp) {
-                var videoModle = new VideoModel(FilterNullValues.filterNullValues.call(FilterNullValues, resp));
+                var ebookModle = new EbookModel(FilterNullValues.filterNullValues.call(FilterNullValues, resp));
 
                 seriesDetailPanelView.setProps({
-                    video : videoModle
+                    ebook : ebookModle
                 });
 
                 if (seriesDetailPanelView.isMounted()) {
@@ -76,13 +72,6 @@
                         loading : false
                     });
                 }
-            });
-
-            GA.log({
-                'event' : 'video.common.action',
-                'action' : 'detail_view',
-                'video_id' : query,
-                'pos' : 'homepage'
             });
         });
 
@@ -98,12 +87,9 @@
 
         $('body').on('keydown', function (evt) {
             if (evt.keyCode === 27) {
-                if (VideoPlayer.isShow) {
-                    VideoPlayer.close();
-                } else {
-                    closeDetailPanel();
-                }
+                closeDetailPanel();
             }
         });
+
     });
 }(this, this.document));
