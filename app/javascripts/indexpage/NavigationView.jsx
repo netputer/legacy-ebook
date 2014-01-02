@@ -3,11 +3,13 @@
     define([
         'React',
         'IO',
-        'Actions'
+        'Actions',
+        'Wording'
     ], function (
         React,
         IO,
-        Actions
+        Actions,
+        Wording
     ) {
 
 
@@ -20,9 +22,11 @@
             },
             render : function () {
                 var category = this.props.category;
+                var cateUrl = 'cate.html?category=' + this.props.alias;
+
                 return (
                     <nav className="nav-cate">
-                        <a href="" className="cate-title w-text-primary">{category !== undefined ? category.name : ''}</a>
+                        <a href={cateUrl} className="cate-title w-text-primary">{category !== undefined ? category.name : ''}</a>
                         <ul>
                             {category !== undefined ? this.renderSubCategories() : ''}
                         </ul>
@@ -36,10 +40,10 @@
             render : function () {
                 return (
                     <div className="w-component-card navigation">
-                         <ItemView category={this.props.categories[0]} />
-                         <ItemView category={this.props.categories[1]} />
+                         <ItemView category={this.props.categories[0]} alias="novel" />
+                         <ItemView category={this.props.categories[1]} alias="girl" />
                         <div className="nav-cate">
-                            <a href="" className="cate-title w-text-primary">排行榜</a>
+                            <a href="top.html" className="cate-title w-text-primary">排行榜</a>
                             <ul>
                                 <li><a href="top.html#weeek_hot">周榜</a></li>
                                 <li><a href="top.html#month_hot">月榜</a></li>

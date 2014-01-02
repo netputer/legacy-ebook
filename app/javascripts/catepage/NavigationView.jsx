@@ -21,16 +21,17 @@
             renderSubCategories : function (categories) {
                 return _.map(categories, function (category, index) {
                     if (index === 0) {
-                        return <th key={index}><a href={'cate.html?category=' + category}>{category}</a></th>;
+                        return <th key={index}><a className="w-text-secondary" href={'cate.html?category=' + category}>{category}</a></th>;
                     } else {
-                        return <td key={index}><a href={'cate.html?category=' + category}>{category}</a></td>;
+                        return <td key={index}><a className="w-text-info" href={'cate.html?category=' + category}>{category}</a></td>;
                     }
                 });
             },
             render : function () {
                 var categories = this.props.categories;
+                var style = (categories.length-1) > 5 ? 'multi-row' : 'single-row';
                 return (
-                    <tr>
+                    <tr className={style}>
                         {this.renderSubCategories(categories)}
                     </tr>
                 );
@@ -46,6 +47,19 @@
             },
             componentWillMount : function () {
                 FormatCategories('subCategories', queryCategory).done(function (resp) {
+                    var source = this.props.source;
+
+                    if (source === 'novel') {
+                        resp[resp.length] = resp[4];
+                        resp.splice(4, 1);
+                        
+                        var arr = resp.slice(9, 12);
+                        arr.sort(function (a, b) { return a.length - b.length; })[0];
+
+                        resp.splice.apply(resp, [9, 3].concat(arr));
+
+                    }
+
                     this.setState({
                         categories : resp
                     });
@@ -64,6 +78,7 @@
                 }
             },
             render : function () {
+                var cate = this.props.source === 'novel' ? 'cate-novel' : 'cate-girl';
                 return (
                     <table className="w-component-card navigation">
                         <tbody>
@@ -72,7 +87,7 @@
                         <tbody>
                             {this.renderItem(Math.floor(this.state.categories.length / 2))}
                         </tbody>
-                        <tbody>
+                        <tbody className="full-column">
                             {this.renderItem(this.state.categories.length - 1)}
                         </tbody>
                     </table>

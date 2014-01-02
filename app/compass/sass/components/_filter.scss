@@ -1,5 +1,7 @@
 .o-filter-ctn {
-    margin-top: 15px;
+    border: none;
+    margin: 5px 5px 20px;
+    padding: 10px;
 
     .o-filter-cate-ctn {
         display: block;
@@ -7,29 +9,33 @@
         .title {
             display: inline-block;
             line-height: 20px;
+            margin-right: 6px;
             vertical-align: top;
         }
 
         .o-filter-cate {
             display: inline-block;
             margin-left: 3px;
-            max-width: 710px;
+            max-width: 690px;
             vertical-align: top;
 
             .item {
                 border: 1px transparent solid;
-                border-radius: 2px;
+                border-radius: 1px;
                 cursor: pointer;
                 display: inline-block;
                 margin: 0 0 5px 2px;
                 padding: 0 5px;
 
                 &.selected {
-                    background-image: -webkit-linear-gradient(#898989, #a3a3a3);
-                    border: 1px #999 solid;
+                    background: #00ad35;
                     color: #fff;
                 }
             }
+        }
+
+        & + .o-filter-cate-ctn {
+            margin-top: 3px;
         }
     }
 }

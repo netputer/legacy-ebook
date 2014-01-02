@@ -49,8 +49,17 @@
             var deferred = $.Deferred();
             page = Math.max((page || 0) - 1, 0);
 
-            var finished = category === 'finished' ? false : '';
+            var finished = category === 'finished' || QueryString.get('category') === 'finished' ? false : '';
             var cate = category === 'finished' ? '' : category;
+
+            if (queryUpdate === 'finished') {
+                finished = false;
+                queryUpdate = '';
+            }
+
+            if (category === Wording.CATE_GIRL) {
+                cate = Wording.DEFAULT_GIRL;
+            }
 
             IO.requestAsync({
                 url : Actions.actions.SEARCH,
@@ -191,7 +200,7 @@
                 this.queryAsync(queryCategory, this.state.currentPage);
             },
             render : function () {
-                if (queryCategory === 'novel' || queryCategory === 'girl') {
+                if (QueryString.get('category') === 'novel' || QueryString.get('category') === 'girl') {
                     return (
                         <div className="o-ctn">
                             <SearchBoxView
@@ -201,7 +210,7 @@
                             <div>
                                 <h4 className="cate-title">{Wording['CATE_' + queryCategory.toUpperCase()]}</h4>
                             </div>
-                            <NavigationView />
+                            <NavigationView source={QueryString.get('category')} />
                             <ResultListView
                                 category={queryCategory}
                                 list={this.state.result}
@@ -218,7 +227,7 @@
                             <FooterView />
                         </div>
                     );
-                } else if (queryCategory === 'finished') {
+                } else if (QueryString.get('category') === 'finished') {
 
                     return (
                         <div className="o-ctn">
@@ -229,7 +238,12 @@
                             <div>
                                 <h4 className="cate-title">{Wording.CATE_FINISHED}</h4>
                             </div>
-
+                            <FilterView
+                                list={this.state.result}
+                                categories={this.state.categories}
+                                onFilterSelect={this.onFilterSelect}
+                                filterSelected={this.state.filterSelected}
+                                source="finished" />
                             <ResultListView
                                 category={queryCategory}
                                 list={this.state.result}
@@ -254,12 +268,12 @@
                                 onAction={this.onSearchAction}
                                 source="search" />
                             <div>
-                                <a href="" className="w-text-info">全部{this.state.result.length ? this.state.result[0].topCategory : ''}分类 &gt;</a>
-                                <h4 className="cate-title">{this.state.subCategories !== undefined ? this.state.subCategories[0] : queryCategory}</h4>
+                                <a href={this.state.result.length && this.state.result[0].topCategory === Wording.CATE_GIRL ? 'cate.html?category=girl' : 'cate.html?category=novel'} className="w-text-secondary">全部{this.state.result.length ? this.state.result[0].topCategory : ''}分类 &gt;</a>
+                                <h4 className="cate-title">{queryCategory}</h4>
                             </div>
                             <FilterView
                                 list={this.state.result}
-                                categories={this.state.categories}
+                                categories={this.state.subCategories}
                                 onFilterSelect={this.onFilterSelect}
                                 filterSelected={this.state.filterSelected}
                                 source="category" />

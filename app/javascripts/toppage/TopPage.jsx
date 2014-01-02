@@ -50,6 +50,9 @@
             if (category.length) {
                 param = 'categories';
                 cate = category;
+                if (category === Wording.CATE_GIRL) {
+                    cate = Wording.DEFAULT_GIRL;
+                }
             } else {
                 param = 'publish_type';
                 cate = 'NETWORK_NOVEL';
@@ -167,7 +170,6 @@
                 this.queryAsync(queryCategory, this.state.currentPage);
             },
             render : function () {
-
                 return (
                     <div className="o-ctn">
                         <SearchBoxView
@@ -175,7 +177,7 @@
                             onAction={this.onSearchAction}
                             source="search" />
                         <div>
-                            <h4 className="cate-title">{this.state.subCategories !== undefined ? this.state.subCategories[0] : queryCategory}排行榜</h4>
+                            <h4 className="cate-title">{queryCategory !== undefined ? queryCategory : ''}排行榜</h4>
                         </div>
                         <FilterView
                             list={this.state.result}

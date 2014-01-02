@@ -50,7 +50,7 @@
                 return _.map(subCategories, function (subCategory, index) {
                     if (index < 6) {
                         return (
-                            <a href={'cate.html?category=' + subCategory} className="o-category-subcate w-text-info">{subCategory}</a>
+                            <a href={'cate.html?category=' + subCategory} className="o-category-subcate w-text-secondary">{subCategory}</a>
                         );   
                     }
                 });
@@ -83,14 +83,14 @@
 
                 if (cate !== undefined) {                   
                     return (
-                        <div>
-                            <a className="cate-title w-text-secondary">{cate}排行</a>
+                        <div className="o-category-rank w-component-card">
+                            <a href={'top.html?category=' + cate} className="cate-title w-text-secondary">{cate}排行</a>
                             <div className="rank-type">
-                                <a href="javascript:void(0);" className="current">周榜</a>
-                                <span>&middot;</span>
-                                <a href="javascript:void(0);">月榜</a>
-                                <span>&middot;</span>
-                                <a href="javascript:void(0);">总榜</a>
+                                <a className="current" href={'top.html?category=' + cate + '#week_hot'}>周榜</a>
+                                <span className="w-text-info">&middot;</span>
+                                <a className="w-text-info" href={'top.html?category=' + cate + '#month_hot'}>月榜</a>
+                                <span className="w-text-info">&middot;</span>
+                                <a className="w-text-info" href={'top.html?category=' + cate + '#historyhot'}>总榜</a>
                             </div>
 
                             <ol>
@@ -120,14 +120,12 @@
                         <div className="o-category-books">
                             <a href="" className="cate-title w-text-secondary">{name}</a>
                             {this.renderSubcategories()}
-                            <a href={'cate.html?category=' + name} className="more w-text-info">更多 &raquo;</a>
+                            <a href={'cate.html?category=' + name} className="category-more w-text-info">更多 &raquo;</a>
                             <ul className="w-wc">
                                 {this.renderBooks()}
                             </ul>
                         </div>
-                        <div className="o-category-rank w-component-card">
-                            {this.renderRanks(name)}
-                        </div>
+                        {this.renderRanks(name)}
                     </section>
                 );
             }
@@ -140,7 +138,7 @@
             },
             clickBanner : function (cate) {
                 $('<a>').attr({
-                    href : 'cate.html?' + cate
+                    href : 'cate.html?category=' + cate
                 })[0].click();
             },
             getInitialState : function () {
@@ -197,10 +195,10 @@
                         <ItemView category={this.state.categories[3]} onVideoSelect={this.onVideoSelect} />
 
                         <div>
-                            <a href="" className="cate-title w-text-secondary w-cf">更多小说分类</a>
-                            <div className="o-category-banner w-component-card banner1" onClick={this.clickBanner.bind(this, '历史')}></div>
-                            <div className="o-category-banner w-component-card banner2" onClick={this.clickBanner.bind(this, '军事')}></div>
-                            <div className="o-category-banner w-component-card banner3" onClick={this.clickBanner.bind(this, '灵异')}></div>
+                            <a href="cate.html?categories=novel" className="cate-title w-text-secondary w-cf">更多小说分类</a>
+                            <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '历史')}><div className="banner1"></div></div>
+                            <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '军事')}><div className="banner2"></div></div>
+                            <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '灵异')}><div className="banner3"></div></div>
                         </div>
 
 
@@ -209,10 +207,10 @@
 
 
                         <div>
-                            <a href="" className="cate-title w-text-secondary w-cf">更多女生频道</a>
-                            <div className="o-category-banner w-component-card banner4" onClick={this.clickBanner.bind(this, '穿越重生')}></div>
-                            <div className="o-category-banner w-component-card banner5" onClick={this.clickBanner.bind(this, '幻想言情')}></div>
-                            <div className="o-category-banner w-component-card banner6" onClick={this.clickBanner.bind(this, '同人')}></div>
+                            <a href="cate.html?categories=girl" className="cate-title w-text-secondary w-cf">更多女生频道</a>
+                            <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '穿越重生')}><div className="banner4"></div></div>
+                            <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '幻想言情')}><div className="banner5"></div></div>
+                            <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '同人')}><div className="banner6"></div></div>
                         </div>
 
                     </div>

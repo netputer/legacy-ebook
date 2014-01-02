@@ -9,10 +9,25 @@
     position: relative;
 }
 
+.category-books {
+    section {
+        margin-bottom: 20px;
+    }
+}
+
 .o-category-books {
     display: block;
     float: left;
     width: 516px;
+    
+    .cate-title {
+        margin-right: 12px;
+    }
+
+    .category-more {
+        float: right;
+        margin: 8px 14px 0 0;
+    }
 }
 
 .o-category-subcate {
@@ -72,23 +87,29 @@
     display: block;
     float: right;
     height: 185px;
-    margin-top: 28px;
-    padding: 15px;
+    margin-top: 31px;
+    padding: 10px 15px;
     width: 244px;
 
     .rank-type {
-        display: inline-block;
         float: right;
+        margin-top: 6px;
+        span {
+            margin: 0 3px;
+        }
     }
 
     ol {
         border-top: 1px solid #f2f2f2;
         margin: 0;
+        max-height: 140px;
+        padding-top: 6px;
         position: relative;
         -webkit-padding-start: 0;
 
         li {
             list-style: none;
+            margin: 6px 0;
             max-width: 100px;
             overflow: hidden;
             position: relative;
@@ -103,7 +124,7 @@
 
             &:nth-child(n+6) {
                 left: 108px;
-                top: -90px;
+                top: -120px;
             }
         }
     }
