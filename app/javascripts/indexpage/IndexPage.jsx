@@ -31,6 +31,9 @@
             var deferred = $.Deferred();
             IO.requestAsync({
                 url : Actions.actions.CATEGORIES,
+                data : {
+                    pos : 'w/index'
+                },
                 success : deferred.resolve,
                 error : deferred.reject
             });

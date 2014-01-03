@@ -30,6 +30,9 @@
 
             IO.requestAsync({
                 url : Actions.actions.QUERY_SERIES + id,
+                data : {
+                    pos : 'w/index'
+                },
                 success : deferred.resolve,
                 error : deferred.reject
             });

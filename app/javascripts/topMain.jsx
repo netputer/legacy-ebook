@@ -32,6 +32,9 @@
 
             IO.requestAsync({
                 url : Actions.actions.QUERY_SERIES + id,
+                data : {
+                    pos : 'w/top'
+                },
                 success : deferred.resolve,
                 error : deferred.reject,
                 cache : true,

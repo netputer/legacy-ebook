@@ -15,7 +15,12 @@
         var getCategoriesAsync = function (start, max) {
             var deferred = $.Deferred();
             IO.requestAsync({
-                url : Actions.actions.INDEX_CATEGORY + '?start=' + start + '&max=' + max,
+                url : Actions.actions.INDEX_CATEGORY,
+                data : {
+                    start : start,
+                    max : max,
+                    pos : 'w/index'
+                },
                 success : deferred.resolve,
                 error : deferred.reject
             });
@@ -26,7 +31,15 @@
 
             var deferred = $.Deferred();
             IO.requestAsync({
-                url : Actions.actions.SEARCH + '?categories=' + cate + '&start=0&max=12&rank_type=' + type + '&opt_fields=id,title',
+                url : Actions.actions.SEARCH,
+                data : {
+                    categories : cate,
+                    start : 0,
+                    max : 12,
+                    rank_type : type,
+                    opt_fields : 'id,title',
+                    pos : 'w/index'
+                },
                 success : deferred.resolve,
                 error : deferred.reject
             });
@@ -38,6 +51,7 @@
         var ItemView = React.createClass({
             getInitialState : function () {
                 return {
+                    currentTab : 'week_hot',
                     rankType : 'week_hot',
                     rankData : []
                 };
@@ -71,26 +85,35 @@
                     );
                 }, this);
             },
+            renderRankAsync : function (cate, type, evt) {
+                getCategoryRankAsync(cate, type).done(function (resp) {
+                    this.setState({
+                        currentTab : type,
+                        rankData : resp.result
+                    });
+                }.bind(this));
+            },
             renderRanks : function (cate) {
                 var type = this.state.rankType || 'week_hot';
                 if (this.state.rankData.length === 0 && cate !== undefined) {
                     getCategoryRankAsync(cate, type).done(function (resp) {
                         this.setState({
+                            currentTab : type,
                             rankData : resp.result
                         });
                     }.bind(this));
                 }
 
-                if (cate !== undefined) {                   
+                if (cate !== undefined) {
                     return (
                         <div className="o-category-rank w-component-card">
                             <a href={'top.html?category=' + cate} className="cate-title w-text-secondary">{cate}排行</a>
                             <div className="rank-type">
-                                <a className="current" href={'top.html?category=' + cate + '#week_hot'}>周榜</a>
+                                <a className={this.state.currentTab === 'week_hot' ? 'current' : 'w-text-info'} href={'top.html?category=' + cate + '#week_hot'} onMouseEnter={this.renderRankAsync.bind(this, cate, 'week_hot')}>周榜</a>
                                 <span className="w-text-info">&middot;</span>
-                                <a className="w-text-info" href={'top.html?category=' + cate + '#month_hot'}>月榜</a>
+                                <a className={this.state.currentTab === 'month_hot' ? 'current' : 'w-text-info'} href={'top.html?category=' + cate + '#month_hot'} onMouseEnter={this.renderRankAsync.bind(this, cate, 'month_hot')}>月榜</a>
                                 <span className="w-text-info">&middot;</span>
-                                <a className="w-text-info" href={'top.html?category=' + cate + '#historyhot'}>总榜</a>
+                                <a className={this.state.currentTab === 'history_hot' ? 'current' : 'w-text-info'} href={'top.html?category=' + cate + '#history_hot'} onMouseEnter={this.renderRankAsync.bind(this, cate, 'history_hot')}>总榜</a>
                             </div>
 
                             <ol>
@@ -195,7 +218,7 @@
                         <ItemView category={this.state.categories[3]} onVideoSelect={this.onVideoSelect} />
 
                         <div>
-                            <a href="cate.html?categories=novel" className="cate-title w-text-secondary w-cf">更多小说分类</a>
+                            <a href="cate.html?category=novel" className="cate-title w-text-secondary w-cf">更多小说分类</a>
                             <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '历史')}><div className="banner1"></div></div>
                             <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '军事')}><div className="banner2"></div></div>
                             <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '灵异')}><div className="banner3"></div></div>
@@ -207,7 +230,7 @@
 
 
                         <div>
-                            <a href="cate.html?categories=girl" className="cate-title w-text-secondary w-cf">更多女生频道</a>
+                            <a href="cate.html?category=girl" className="cate-title w-text-secondary w-cf">更多女生频道</a>
                             <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '穿越重生')}><div className="banner4"></div></div>
                             <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '幻想言情')}><div className="banner5"></div></div>
                             <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '同人')}><div className="banner6"></div></div>

@@ -37,7 +37,7 @@
         GA.log = log;
         // function (category, action, label) {
         //     log({
-        //         event : 'debug_oscar_' + category,
+        //         event : 'debug_ebook_' + category,
         //         action : action,
         //         label : label
         //     });

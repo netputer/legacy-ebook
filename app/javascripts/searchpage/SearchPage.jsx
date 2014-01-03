@@ -47,7 +47,7 @@
                 data : {
                     start : page * PAGE_SIZE,
                     max : PAGE_SIZE,
-                    pos : 'w/category'
+                    pos : 'w/search'
                 },
                 success : function (resp) {
                     window.sessionId = resp.sessionId;
@@ -82,6 +82,7 @@
                     resp = this.filterNullValues(resp);
                     resp.total = resp.total > 200 ? 200 : resp.total;
                     resultListCollection.reset(resp.result);
+                    console.log(resp.sessionId)
                     this.setState({
                         keyword : searchPageRouter.getQuery(),
                         result : resp.result,

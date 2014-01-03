@@ -32,6 +32,10 @@
 
             IO.requestAsync({
                 url : Actions.actions.QUERY_SERIES + id,
+                data : {
+                    sessionId : window.sessionId || '',
+                    pos : 'w/search'
+                },
                 success : deferred.resolve,
                 error : deferred.reject,
                 cache : true,

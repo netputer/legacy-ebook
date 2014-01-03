@@ -22,18 +22,18 @@
     .nav-cate {
         float: left;
         height: 100%;
-        padding: 15px 20px;
+        padding: 15px 15px;
 
         &:first-child {
             border-right: 1px solid #f2f2f2;
-            width: 326px;
+            width: 312px;
         }
         &:nth-child(2) {
             border-right: 1px solid #f2f2f2;
-            width: 240px;
+            width: 224px;
         }
         &:last-child {
-            width: 194px;
+            width: 224px;
         }
 
         li {
