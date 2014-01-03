@@ -22,15 +22,17 @@
         var filterWordingArray = {
             words : ['不限', '10万字以下', '10-100万', '100万以上'],
             update : ['不限', '七日内', '半月内', '一月内', '已完结'],
-            rank : ['热门', '总下载', '更新时间', '字数'],
+            rank : ['热门', '总阅读', '更新时间', '字数'],
             top_rank : ['周榜', '月榜', '总榜']
         }
         var filterValueArray = {
             words : ['', '0-100', '100-1000', '1000'],
-            update : ['', '7', '15', '30', ''],
-            rank : ['hot', '', 'update', ''],
+            update : ['', '7', '15', '30', 'finished'],
+            rank : ['hot', 'history_hot', 'update', 'words'],
             top_rank : ['week_hot', 'month_hot', 'history_hot']
         }
+
+        var finishedStatus = 0;
 
         var FilterView = React.createClass({
             getDefaultProps : function () {
@@ -39,12 +41,15 @@
                 };
             },
             clickItem : function (prop, value) {
-                this.props.onFilterSelect(prop, value);
+                this.props.onFilterSelect(prop, value === Wording.CATEGORY ? '' : value);
             },
             generateCategories : function (title, prop) {
                 var selected = this.props.filterSelected[prop];
-
                 var categories = this.props.categories;
+                if ((this.props.source === 'finished' || this.props.source === 'top') && finishedStatus === 0) {
+                    categories.splice(0, 0, Wording.CATEGORY);
+                    finishedStatus = 1;
+                }
 
                 var eles =  _.map(categories, function (item, index) {
                     var className = 'item';
@@ -54,6 +59,9 @@
                     }
                     if (index === 0) {
                         showName = '全部' + item;
+                        if ((this.props.source === 'finished' && selected === 'finished') || (this.props.source === 'top' && !selected.length)) {
+                            className += ' selected';
+                        }
                     }
                     return <li onClick={this.clickItem.bind(this, prop, item)} className={className} key={index}>{showName}</li>
                 }, this);

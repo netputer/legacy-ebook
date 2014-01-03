@@ -9,7 +9,9 @@
                 INDEX_CATEGORY : 'http://ebooks.wandoujia.com/api/v1/category/search/',
 
                 SEARCH : 'http://ebooks.wandoujia.com/api/v1/search/',
-                QUERY_SERIES : 'http://ebooks.wandoujia.com/api/v1/ebooks/'
+                QUERY_SERIES : 'http://ebooks.wandoujia.com/api/v1/ebooks/',
+                SUGGESTION : 'http://ebooks.wandoujia.com/api/v1/search/suggest/',
+                HOT_QUERY : 'http://ebooks.wandoujia.com/api/v1/search/hotQueries'
             },
             events : {
             },

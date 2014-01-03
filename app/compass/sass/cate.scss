@@ -12,9 +12,10 @@
 
 
 .cate-title {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: normal;
     line-height: 30px;
+    margin: 0;
 }
 
 
@@ -34,13 +35,46 @@
         float: left;
         overflow: hidden;
         width: 50%;
+
+        &.full-column {
+            overflow: hidden;
+            width: 60%;
+        }
     }
+
+    .cate-novel {
+        .full-column {
+            height: 60px;
+        }
+    }
+
+    .multi-row {
+        padding-top: 8px;
+
+        th {
+            height: 60px;
+            margin-top: -8px;
+        }
+
+        td {
+            line-height: 20px;
+        }
+    }
+
+    .single-row {
+        th, td {
+            line-height: 36px;
+        }
+    }
+
     tr {
         border-bottom: 1px dotted #e7e7e7;
         display: block;
         float: left;
+        line-height: 36px;
         position: relative;
         width: 100%;
+
     }
     th {
         background: #f3f3f3;
@@ -53,6 +87,6 @@
     td {
         display: block;
         float: left;
-        margin: 0 12px;
+        margin: 0 6px;
     }
 }

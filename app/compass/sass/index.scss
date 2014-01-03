@@ -16,7 +16,7 @@
 
 .navigation {
     border: none;
-    margin-top: 20px;
+    margin: 20px 0 20px;
     overflow: hidden;
 
     .nav-cate {
@@ -52,34 +52,40 @@
     cursor: pointer;
     display: inline-block;
     height: 70px;
-    margin-right: 15px;
+    margin: 0 15px 30px 0;
+    padding: 2px;
     width: 243px;
+
+    div {
+        height: 100%;
+        width: 100%;
+    }
 
     &:last-child {
         margin-right: 0;
     }
 
-    &.banner1 {
+    .banner1{
         background-image: url(../images/banner/history.png);
     }
 
-    &.banner2 {
+    .banner2 {
         background-image: url(../images/banner/military.png);
     }
 
-    &.banner3 {
+    .banner3 {
         background-image: url(../images/banner/thriller.png);
     }
 
-    &.banner4 {
+    .banner4 {
         background-image: url(../images/banner/chuanyue.png);
     }
 
-    &.banner5 {
+    .banner5 {
         background-image: url(../images/banner/fantasy.png);
     }
 
-    &.banner6 {
+    .banner6 {
         background-image: url(../images/banner/tongren.png);
     }
 }

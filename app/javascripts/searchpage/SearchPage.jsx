@@ -134,7 +134,7 @@
                             onAction={this.onSearchAction}
                             source="search" />
                         <div>
-                            <h4>搜索结果</h4>
+                            <h4 className="cate-title w-text-secondary">搜索结果</h4>
                             <span>共 {this.state.total} 部小说</span> 
                         </div>
                         <ResultListView

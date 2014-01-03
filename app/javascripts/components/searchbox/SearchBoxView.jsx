@@ -5,6 +5,7 @@
         '_',
         'GA',
         'React',
+        'Actions',
         'utilities/KeyMapping',
         'components/searchbox/SuggestionItemModel'
     ], function (
@@ -12,15 +13,33 @@
         _,
         GA,
         React,
+        Actions,
         KeyMapping,
         SuggestionItemModel
     ) {
+
+        var HOTQUERY_SIZE = 6;
 
         var queryAsync = function (keyword) {
             var deferred = $.Deferred();
 
             $.ajax({
-                url : 'http://ebooks.wandoujia.com/api/v1/search/suggest/' + keyword,
+                url : Actions.actions.SUGGESTION + keyword,
+                success : deferred.resolve,
+                error : deferred.reject
+            });
+
+            return deferred.promise();
+        };
+
+        var queryHotQueryAsync = function () {
+            var deferred = $.Deferred();
+
+            $.ajax({
+                url : Actions.actions.HOT_QUERY,
+                data : {
+                    size : HOTQUERY_SIZE
+                },
                 success : deferred.resolve,
                 error : deferred.reject
             });
@@ -33,7 +52,7 @@
                 this.props.model.set('selected', true);
             },
             clickItem : function (evt) {
-                var keyword = this.props.model.get('body').replace('<em>', '').replace('</em>', '');
+                var keyword = this.props.model.get('body');
                 this.props.clickHandler.call(this, keyword);
 
             },
@@ -45,6 +64,42 @@
                         onMouseEnter={this.selectItem} />
                 );
             }
+        });
+
+        var HotQueryView = React.createClass({
+            getInitialState : function () {
+                return {
+                    queries : []
+                };
+            },
+            componentWillMount : function () {
+                queryHotQueryAsync().done(function (resp) {
+                    this.setState({
+                        queries : resp.hotQueries
+                    });
+                }.bind(this));
+            },
+            renderItem : function () {
+                return _.map(this.state.queries, function(query, index) {
+                    if (index < HOTQUERY_SIZE - 1) {
+                        return (
+                            <li><a className="w-text-info" href={'search.html#q/' + query}>{query}</a><span className="w-text-info">&middot;</span></li>
+                        );
+                    } else if (index === HOTQUERY_SIZE - 1) {
+                        return (
+                            <li><a className="w-text-info" href={'search.html#q/' + query}>{query}</a></li>
+                        );
+                    }
+                });
+            },
+            render : function () {
+                return (
+                    <ul className="hot-query">
+                        {this.renderItem()}
+                    </ul>
+                );
+            }
+
         });
 
         var SuggestionListView = React.createClass({
@@ -121,7 +176,7 @@
             },
             doSearch : function (key, event) {
                 if(typeof key === 'string' && this.props.onAction) {
-                    var keyword = key.replace('<em>', '').replace('</em>', '');
+                    var keyword = key;
                     this.setState({
                         resultModels : []
                     });
@@ -218,9 +273,7 @@
                             </div>
                             <button className="w-btn w-btn-large w-btn-primary">搜索</button>
                         </form>
-                        <div>
-                            HOT QUERY
-                        </div>
+                        <HotQueryView />
                     </div>
                 );
             }

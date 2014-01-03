@@ -25,7 +25,7 @@
                 if (data.finish) {
                     statusWording = Wording.FINISHED;
                     statusClassName = 'status-finished';
-                } else if (!!data.subscribeUrl) {
+                } else {
                     statusWording = Wording.SERIES;
                     statusClassName = 'status-series';
                 }
@@ -38,7 +38,7 @@
                             <span className="w-text-info">分类: {data.category.name}{data.subCategory ? ' / ' + data.subCategory.name : ''} · </span>
                             <span className="w-text-info">作者: {data.authors.join('、')}</span>
                         </div>
-                        <div className="w-text-info">
+                        <div className="w-text-info description">
                             {data.description !== undefined && data.description.length > descriptionLength ? data.description.substr(0, descriptionLength) + '...' : data.description}
                         </div>
                         <div className="download-ctn w-hbox">

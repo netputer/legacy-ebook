@@ -12,9 +12,11 @@
 
 
 .cate-title {
+	display: inline-block;
     font-size: 16px;
     font-weight: normal;
     line-height: 30px;
+    margin: 10px 6px 6px 0;
 }
 
 
@@ -23,5 +25,9 @@
 
     .summary {
         margin: 10px 0;
+    }
+
+    .description {
+    	min-height: 36px;
     }
 }
