@@ -35,6 +35,7 @@
         float: left;
         overflow: hidden;
         width: 50%;
+
         &.full-column {
             overflow: hidden;
             width: 60%;
@@ -54,6 +55,7 @@
             height: 60px;
             margin-top: -8px;
         }
+
         td {
             line-height: 20px;
         }

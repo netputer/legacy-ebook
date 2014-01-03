@@ -50,16 +50,16 @@
 
 }
 
-    .hot-query {
-        display: table;
-        margin: 0 auto;
-        overflow: hidden;
-        
-        li {
-            float: left;
+.hot-query {
+    display: table;
+    margin: 0 auto;
+    overflow: hidden;
+    
+    li {
+        float: left;
 
-            a {
-                margin: 0 6px;
-            }
+        a {
+            margin: 0 6px;
         }
     }
+}
