@@ -262,8 +262,12 @@
             },
             getMetaEle : function () {
                 var ebook = this.props.ebook;
+                var cate = '分类：' + ebook.get('category').name;
 
-                var cate = '分类：' + ebook.get('category').name + ' / ' + ebook.get('subCategory').name;
+                if (!!ebook.get('subCategory')) {
+                    var cate = cate + ' / ' + ebook.get('subCategory').name;
+                }
+
                 var author = '作者：' + ebook.get('authors');
                 var source = '来源：';
 
