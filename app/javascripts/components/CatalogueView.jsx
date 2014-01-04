@@ -28,9 +28,19 @@
             },
             componentWillMount : function () {
                 queryAsync(this.props.ebook.get('id')).done(function (catalogues) {
+                    var volumes = catalogues.volumes;
+
                     this.setState({
-                        catalogues : catalogues.volumes
+                        catalogues : volumes
                     });
+
+                    var firstId = catalogues.volumes[0].chapters[0].id;
+
+                    if (volumes.length > 1) {
+                        firstId = catalogues.volumes[1].chapters[0].id;
+                    }
+
+                    this.props.setFirstId(firstId);
                 }.bind(this));
             },
             renderCatalogue : function (volumes) {
