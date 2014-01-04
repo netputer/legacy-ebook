@@ -8,6 +8,7 @@
         'Wording',
         'components/SeriesHeaderView',
         'components/DescriptionView',
+        'components/CatalogueView',
         'components/LoadingView'
     ], function (
         React,
@@ -16,6 +17,7 @@
         Wording,
         SeriesHeaderView,
         DescriptionView,
+        CatalogueView,
         LoadingView
     ) {
         var SeriesDetailPanelView = React.createClass({
@@ -55,6 +57,7 @@
                                     <SeriesHeaderView ebook={ebook} />
                                     <div className="body-ctn">
                                         <DescriptionView ebook={ebook} />
+                                        <CatalogueView ebook={ebook} />
                                     </div>
                                     <div className="o-close" onClick={this.props.closeDetailPanel} />
                                 </div>
