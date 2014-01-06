@@ -24,7 +24,7 @@
             render : function () {
                 var data = this.props.ebook.toJSON();
                 var stillsBgStyle = {
-                    'background-image' : 'url(' + (data.cover.s || '') + ')'
+                    'background-image' : 'url(' + (data.cover.l || '') + ')'
                 };
 
                 return (

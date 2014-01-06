@@ -73,7 +73,7 @@
             },
             render : function () {
                 return (
-                    <div className="o-serires-catalogue">
+                    <div className="o-serires-section o-serires-catalogue">
                         <h5>{Wording.CATALOGUE}</h5>
                         <div className="catalogue">
                             <div className={this.state.more ? 'volumes more' : 'volumes'}>

@@ -43,7 +43,7 @@
             },
             render : function () {
                 return (
-                    <div className="o-serires-preview">
+                    <div className="o-serires-section o-serires-preview">
                         <h5>{Wording.PREVIEW}</h5>
                         <div class="preview">{this.state.content}</div>
                     </div>

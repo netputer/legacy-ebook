@@ -10,7 +10,7 @@
         var DescriptionView = React.createClass({
             render : function () {
                 return (
-                    <div className="o-serires-description">
+                    <div className="o-serires-section o-serires-description">
                         <h5>{Wording.DESCRIPTION}</h5>
                         <p className="description w-text-secondary">{this.props.ebook.get('description').trim()}</p>
                     </div>
