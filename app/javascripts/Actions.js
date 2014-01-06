@@ -11,7 +11,9 @@
                 SEARCH : 'http://ebooks.wandoujia.com/api/v1/search/',
                 QUERY_SERIES : 'http://ebooks.wandoujia.com/api/v1/ebooks/',
                 SUGGESTION : 'http://ebooks.wandoujia.com/api/v1/search/suggest/',
-                HOT_QUERY : 'http://ebooks.wandoujia.com/api/v1/search/hotQueries'
+                HOT_QUERY : 'http://ebooks.wandoujia.com/api/v1/search/hotQueries',
+                CATALOGUE : 'http://ebooks.wandoujia.com/api/v1/ebooks/{1}/catalogues',
+                TRANSCODING : 'http://ebooks.wandoujia.com/api/v1/transcoding?chapterIds={1}'
             },
             events : {
             },

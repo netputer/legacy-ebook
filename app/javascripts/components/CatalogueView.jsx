@@ -4,17 +4,21 @@
     define([
         'React',
         'IO',
-        'Wording'
+        'Wording',
+        'Actions',
+        'utilities/FormatString'
     ], function (
         React,
         IO,
-        Wording
+        Wording,
+        Actions,
+        FormatString
     ) {
         var queryAsync = function (id) {
             var deferred = $.Deferred();
 
             IO.requestAsync({
-                url : 'http://ebooks.wandoujia.com/api/v1/ebooks/' + id + '/catalogues',
+                url : FormatString(Actions.actions.CATALOGUE, id),
                 success : deferred.resolve,
                 error : deferred.reject
             });

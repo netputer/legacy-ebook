@@ -4,17 +4,21 @@
     define([
         'React',
         'IO',
-        'Wording'
+        'Wording',
+        'Actions',
+        'utilities/FormatString'
     ], function (
         React,
         IO,
-        Wording
+        Wording,
+        Actions,
+        FormatString
     ) {
         var queryAsync = function (id) {
             var deferred = $.Deferred();
 
             IO.requestAsync({
-                url : 'http://ebooks.wandoujia.com/api/v1/transcoding?chapterIds=' + id,
+                url : FormatString(Actions.actions.TRANSCODING, id),
                 success : deferred.resolve,
                 error : deferred.reject
             });
