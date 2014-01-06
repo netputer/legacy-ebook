@@ -22,5 +22,6 @@ define({
     REPORT : '版权举报',
     DESCRIPTION : '简介',
     CATALOGUE : '目录',
+    CATALOGUE_MORE : '显示更多章节 &raquo;',
     PREVIEW : '章节预览'
 });

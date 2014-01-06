@@ -29,7 +29,8 @@
         var CatalogueView = React.createClass({
             getInitialState : function () {
                 return {
-                    catalogues : []
+                    catalogues : [],
+                    more : false
                 };
             },
             componentWillMount : function () {
@@ -49,13 +50,18 @@
                     this.props.setFirstId(firstId);
                 }.bind(this));
             },
+            showMore : function () {
+                this.setState({
+                    more : true
+                });
+            },
             renderCatalogue : function (volumes) {
                 return _.map(volumes, function (volume) {
-                    var chapters = _.map(volume.chapters, function (chapter) {
+                    var chapters = _.map(volume.chapters, function (chapter, i) {
                         return (
-                            <li>{chapter.title}</li>
+                            <li key={i}>{chapter.title}</li>
                         );
-                    }.bind(this));
+                    }, this);
 
                     return (
                         <div className="volume">
@@ -63,14 +69,17 @@
                             <ul>{chapters}</ul>
                         </div>
                     );
-                }.bind(this));
+                }, this);
             },
             render : function () {
                 return (
                     <div className="o-serires-catalogue">
                         <h5>{Wording.CATALOGUE}</h5>
                         <div className="catalogue">
-                            {this.renderCatalogue(this.state.catalogues)}
+                            <div className={this.state.more ? 'volumes more' : 'volumes'}>
+                                {this.renderCatalogue(this.state.catalogues)}
+                            </div>
+                            <a className={!this.state.more ? 'show-more' : 'show-more hide'} onClick={this.showMore} dangerouslySetInnerHTML={{ __html : Wording.CATALOGUE_MORE}}></a>
                         </div>
                     </div>
                 );

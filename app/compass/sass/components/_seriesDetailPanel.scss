@@ -144,6 +144,35 @@
     }
 }
 
+.o-serires-catalogue {
+    .catalogue {
+        background-color: #f8f8f8;
+        overflow: auto;
+    }
+
+    .volumes {
+        height: 200px;
+        overflow: hidden;
+        padding: 10px 10px 0;
+
+        &.more {
+            height: auto;
+        }
+    }
+
+    .show-more {
+        display: block;
+        margin: 10px;
+
+        &.hide {
+            display: none;
+        }
+    }
+
+    ul {
+        padding: 10px;
+    }
+}
 
 .download-info {
     height: 40px;

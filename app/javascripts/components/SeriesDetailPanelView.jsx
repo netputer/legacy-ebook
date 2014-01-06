@@ -5,7 +5,6 @@
         'React',
         '$',
         '_',
-        'Wording',
         'components/SeriesHeaderView',
         'components/DescriptionView',
         'components/CatalogueView',
@@ -15,7 +14,6 @@
         React,
         $,
         _,
-        Wording,
         SeriesHeaderView,
         DescriptionView,
         CatalogueView,
@@ -64,9 +62,11 @@
                                 <div className="o-series-panel-content w-vbox">
                                     <SeriesHeaderView ebook={ebook} />
                                     <div className="body-ctn">
-                                        <DescriptionView ebook={ebook} />
-                                        <CatalogueView ebook={ebook} setFirstId={this.setFirstId} />
-                                        <PreviewView ebook={ebook} firstId={this.state.firstId} />
+                                        <div className="body">
+                                            <DescriptionView ebook={ebook} />
+                                            <CatalogueView ebook={ebook} setFirstId={this.setFirstId} />
+                                            <PreviewView ebook={ebook} firstId={this.state.firstId} />
+                                        </div>
                                     </div>
                                     <div className="o-close" onClick={this.props.closeDetailPanel} />
                                 </div>
