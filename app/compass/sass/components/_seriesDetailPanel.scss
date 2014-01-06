@@ -146,6 +146,10 @@
                     line-height: 30px;
                     text-align: right;
                     -webkit-box-flex: 1;
+
+                    a {
+                        color: $textSecondary;
+                    }
                 }
             }
         }
@@ -190,10 +194,6 @@
         &.hide {
             display: none;
         }
-    }
-
-    ul {
-        padding: 10px;
     }
 }
 

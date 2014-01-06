@@ -257,10 +257,8 @@
                 return <div className="publishing w-text-primary w-wc">{FormatString(text, ebook.get('totalChaptersNum'))}</div>;
             },
             getMetaEle : function () {
-                var ebook = this.props.ebook,
-                    cate,
-                    author,
-                    source;
+                var ebook = this.props.ebook;
+                var cate;
 
                 if (!!ebook.get('subCategory')) {
                     cate = FormatString(Wording.META_CATE, ebook.get('category').name, ebook.get('subCategory').name);
@@ -268,8 +266,9 @@
                     cate = FormatString(Wording.META_CATE_SINGLE, ebook.get('category').name);
                 }
 
-                author = FormatString(Wording.META_AUTHOR, ebook.get('authors'));
+                var author = FormatString(Wording.META_AUTHOR, ebook.get('authors'));
 
+                var source;
                 var providers = ebook.get('providerNames');
 
                 if (providers.length > 3) {
