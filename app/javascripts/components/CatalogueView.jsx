@@ -65,7 +65,6 @@
 
                     return (
                         <div className="volume">
-                            <strong>{volume.title}</strong>
                             <ul>{chapters}</ul>
                         </div>
                     );
