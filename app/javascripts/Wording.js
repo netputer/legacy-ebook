@@ -18,5 +18,9 @@ define({
     SERIES : '连载中',
     SUBCATEGORIES : '子类',
     UPDATE_TIME : '更新',
-    WORD_COUNT : '字数'
+    WORD_COUNT : '字数',
+    REPORT : '版权举报',
+    DESCRIPTION : '简介',
+    CATALOGUE : '目录',
+    PREVIEW : '章节预览'
 });

@@ -41,7 +41,7 @@
                                         {this.subscribeBubbleView}
                                         {this.providersBubbleView}
                                     </div>
-                                    <div className="report"><a href="#">版权举报</a></div>
+                                    <div className="report"><a href="#">{Wording.REPORT}</a></div>
                                 </div>
                             </div>
                         </div>

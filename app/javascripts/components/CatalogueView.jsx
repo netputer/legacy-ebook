@@ -3,10 +3,12 @@
 (function (window) {
     define([
         'React',
-        'IO'
+        'IO',
+        'Wording'
     ], function (
         React,
-        IO
+        IO,
+        Wording
     ) {
         var queryAsync = function (id) {
             var deferred = $.Deferred();
@@ -62,7 +64,7 @@
             render : function () {
                 return (
                     <div className="o-serires-catalogue">
-                        <h5>目录</h5>
+                        <h5>{Wording.CATALOGUE}</h5>
                         <div className="catalogue">
                             {this.renderCatalogue(this.state.catalogues)}
                         </div>

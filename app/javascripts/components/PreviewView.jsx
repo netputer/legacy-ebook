@@ -3,10 +3,12 @@
 (function (window) {
     define([
         'React',
-        'IO'
+        'IO',
+        'Wording'
     ], function (
         React,
-        IO
+        IO,
+        Wording
     ) {
         var queryAsync = function (id) {
             var deferred = $.Deferred();
@@ -38,7 +40,7 @@
             render : function () {
                 return (
                     <div className="o-serires-preview">
-                        <h5>章节预览</h5>
+                        <h5>{Wording.PREVIEW}</h5>
                         <div class="preview">{this.state.content}</div>
                     </div>
                 );
