@@ -78,7 +78,7 @@
                 }
             },
             render : function () {
-                var cate = this.props.source === 'novel' ? 'cate-novel' : 'cate-girl';
+                var cate = this.props.source !== undefined ? 'cate-' + this.props.source : '';
                 return (
                     <table className="w-component-card navigation">
                         <tbody>

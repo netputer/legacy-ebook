@@ -111,7 +111,7 @@
 
                 var cate = queryCategory;
 
-                if (queryCategory === 'novel' || queryCategory === 'girl') {
+                if (queryCategory === 'novel' || queryCategory === 'girl' || queryCategory === 'published') {
                     cate = Wording['DEFAULT_' + queryCategory.toUpperCase()];
                 }
 
@@ -140,6 +140,12 @@
 
                 if (queryCategory === 'finished') {
                     FormatCategories('categories', 'combined').done(function (resp) {
+                        this.setState({
+                            categories : resp
+                        });
+                    }.bind(this));
+                 } else if (queryCategory === 'published') {
+                    FormatCategories('categories', 'published').done(function (resp) {
                         this.setState({
                             categories : resp
                         });
@@ -227,7 +233,7 @@
                             <FooterView />
                         </div>
                     );
-                } else if (QueryString.get('category') === 'finished') {
+                } else if (QueryString.get('category') === 'finished' || QueryString.get('category') === 'published') {
 
                     return (
                         <div className="o-ctn">
@@ -236,14 +242,14 @@
                                 onAction={this.onSearchAction}
                                 source="search" />
                             <div>
-                                <h4 className="cate-title">{Wording.CATE_FINISHED}</h4>
+                                <h4 className="cate-title">{Wording['CATE_' + QueryString.get('category').toUpperCase()]}</h4>
                             </div>
                             <FilterView
                                 list={this.state.result}
                                 categories={this.state.categories}
                                 onFilterSelect={this.onFilterSelect}
                                 filterSelected={this.state.filterSelected}
-                                source="finished" />
+                                source={QueryString.get('category')} />
                             <ResultListView
                                 category={queryCategory}
                                 list={this.state.result}

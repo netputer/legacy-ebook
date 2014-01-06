@@ -47,7 +47,7 @@
                 data : {
                     start : page * PAGE_SIZE,
                     max : PAGE_SIZE,
-                    pos : 'w/category'
+                    pos : 'w/search'
                 },
                 success : function (resp) {
                     window.sessionId = resp.sessionId;

@@ -50,6 +50,10 @@
                     categories.splice(0, 0, Wording.CATEGORY);
                     finishedStatus = 1;
                 }
+                if (this.props.source === 'published' && finishedStatus === 0) {
+                    categories.splice(0, 0, Wording.CATE_PUBLISHED);
+                    finishedStatus = 1;
+                }
 
                 var eles =  _.map(categories, function (item, index) {
                     var className = 'item';
@@ -58,8 +62,8 @@
                         className += ' selected';
                     }
                     if (index === 0) {
-                        showName = '全部' + item;
-                        if ((this.props.source === 'finished' && selected === 'finished') || (this.props.source === 'top' && !selected.length)) {
+                        showName = Wording.ALL + item;
+                        if ((this.props.source === 'finished' && selected === 'finished') || (this.props.source === 'published' && selected === 'published') || (this.props.source === 'top' && !selected.length)) {
                             className += ' selected';
                         }
                     }

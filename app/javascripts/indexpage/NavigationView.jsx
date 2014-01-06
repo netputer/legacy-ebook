@@ -42,14 +42,7 @@
                     <div className="w-component-card navigation">
                          <ItemView category={this.props.categories[0]} alias="novel" />
                          <ItemView category={this.props.categories[1]} alias="girl" />
-                        <div className="nav-cate">
-                            <a href="top.html" className="cate-title w-text-primary">排行榜</a>
-                            <ul>
-                                <li><a href="top.html#weeek_hot">周榜</a></li>
-                                <li><a href="top.html#month_hot">月榜</a></li>
-                                <li><a href="top.html#history_hot">总榜</a></li>
-                            </ul>
-                        </div>
+                         <ItemView category={this.props.categories[2]} alias="published" />
                     </div>
                 );
             }

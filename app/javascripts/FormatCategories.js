@@ -32,16 +32,16 @@
                     if (cate === 'novel' || cate === 'girl') {
                         var num = cate === 'novel' ? 0 : 1;
                         _.each(resp[num].subCategories, function (categories, idx) {
-                                var tmpArr = [];
-                                if (categories.subCategories.length) {
-                                    tmpArr.push(categories.name);
-                                    _.each(categories.subCategories, function (category) {
-                                        tmpArr.push(category);
-                                    });
-                                    array.push(tmpArr);
-                                    result = array;
-                                    return;
-                                }
+                            var tmpArr = [];
+                            if (categories.subCategories.length) {
+                                tmpArr.push(categories.name);
+                                _.each(categories.subCategories, function (category) {
+                                    tmpArr.push(category);
+                                });
+                                array.push(tmpArr);
+                                result = array;
+                                return;
+                            }
                         });
                     }
 
@@ -70,7 +70,19 @@
                     break;
                 case 'categories' :
                     var array = [];
-                    var num = cate === 'girl' ? 1 : 0;
+                    var num = 0;
+
+                    switch (cate) {
+                    case 'girl' :
+                        num = 1;
+                        break;
+                    case 'published' :
+                        num = 2;
+                        break;
+                    default :
+                        break;
+                    }
+
 
                     _.each(resp[num].subCategories, function (categories, idx) {
                         array.push(categories.name);
