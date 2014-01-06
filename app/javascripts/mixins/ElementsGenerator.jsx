@@ -251,25 +251,32 @@
                 }
             },
             getPublishingEle : function () {
-                var text = '已完结';
                 var ebook = this.props.ebook;
+                var text = ebook.get('finish') ? Wording.META_FINISHED : Wording.META_SERIES;
 
-                if (!ebook.get('finish')) {
-                    text = '<strong>连载中 更新至 ' + ebook.get('latestEpisodeId') + ' 章</strong>';
-                }
-
-                return <div className="w-text-primary w-wc" dangerouslySetInnerHTML={{ __html : text }}></div>;
+                return <div className="publishing w-text-primary w-wc">{FormatString(text, ebook.get('totalChaptersNum'))}</div>;
             },
             getMetaEle : function () {
-                var ebook = this.props.ebook;
-                var cate = '分类：' + ebook.get('category').name;
+                var ebook = this.props.ebook,
+                    cate,
+                    author,
+                    source;
 
                 if (!!ebook.get('subCategory')) {
-                    var cate = cate + ' / ' + ebook.get('subCategory').name;
+                    cate = FormatString(Wording.META_CATE, ebook.get('category').name, ebook.get('subCategory').name);
+                } else {
+                    cate = FormatString(Wording.META_CATE_SINGLE, ebook.get('category').name);
                 }
 
-                var author = '作者：' + ebook.get('authors');
-                var source = '来源：';
+                author = FormatString(Wording.META_AUTHOR, ebook.get('authors'));
+
+                var providers = ebook.get('providerNames');
+
+                if (providers.length > 3) {
+                    source = FormatString(Wording.META_SOURCE_MORE, providers.slice(0, 2).join('、'), providers.length);
+                } else {
+                    source = FormatString(Wording.META_SOURCE, providers.join('、'));
+                }
 
                 return <div className="w-text-secondary w-wc">{cate} · {author} · {source}</div>;
             },
