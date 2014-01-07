@@ -30,55 +30,110 @@
             getInitialState : function () {
                 return {
                     catalogues : [],
-                    more : false
+                    totalCatalogues : [],
+                    asc : true,
+                    page : 1,
+                    showedMore : false,
+                    showedAll : false
                 };
             },
             componentWillMount : function () {
                 queryAsync(this.props.ebook.get('id')).done(function (catalogues) {
-                    var volumes = catalogues.volumes;
+                    var result = [];
 
-                    this.setState({
-                        catalogues : volumes
+                    _.map(catalogues.volumes, function (volume) {
+                        result = result.concat(volume.chapters);
                     });
 
-                    var firstId = catalogues.volumes[0].chapters[0].id;
+                    this.setState({
+                        totalCatalogues : result,
+                        catalogues : result.slice(0, this.state.page * 15)
+                    });
 
-                    if (volumes.length > 1) {
-                        firstId = catalogues.volumes[1].chapters[0].id;
-                    }
-
-                    this.props.setFirstId(firstId);
+                    this.props.setFirstId(result[0].id);
                 }.bind(this));
             },
-            showMore : function () {
+            sortReverse : function () {
+                var newTotalCatalogues = this.state.totalCatalogues.reverse();
+
                 this.setState({
-                    more : true
+                    totalCatalogues : newTotalCatalogues,
+                    catalogues : newTotalCatalogues.slice(0, this.state.page * 15),
+                    asc : !this.state.asc
                 });
             },
-            renderCatalogue : function (volumes) {
-                return _.map(volumes, function (volume) {
-                    var chapters = _.map(volume.chapters, function (chapter, i) {
-                        return (
-                            <li key={i}>{chapter.title}</li>
-                        );
-                    }, this);
+            sortAsc : function () {
+                if (this.state.asc) {
+                    return;
+                }
 
+                this.sortReverse();
+            },
+            sortDesc : function () {
+                if (!this.state.asc) {
+                    return;
+                }
+
+                this.sortReverse();
+            },
+            showMore : function () {
+                var newPage = this.state.page + 1;
+
+                this.setState({
+                    catalogues : this.state.totalCatalogues.slice(0, newPage * 15),
+                    page : newPage,
+                    showedMore : true
+                });
+            },
+            showAll : function () {
+                this.setState({
+                    catalogues : this.state.totalCatalogues,
+                    showedAll : true
+                });
+            },
+            renderSort : function () {
+                var sortClassName = React.addons.classSet({
+                    'sort' : true,
+                    'asc' : this.state.asc,
+                    'desc' : !this.state.asc,
+                });
+
+                return (
+                    <div className={sortClassName}>
+                        <a className="show-asc" onClick={this.sortAsc}>正序</a>
+                        <span> · </span>
+                        <a className="show-desc" onClick={this.sortDesc}>倒序</a>
+                    </div>
+                );
+            },
+            renderCatalogue : function (chapters) {
+                return _.map(chapters, function (chapter, i) {
                     return (
-                        <div className="volume">
-                            <ul>{chapters}</ul>
-                        </div>
+                        <li key={i}>{chapter.title}</li>
                     );
                 }, this);
             },
             render : function () {
+                var catalogueClassName = React.addons.classSet({
+                    'catalogue' : true,
+                    'showed-more' : this.state.showedMore,
+                    'showed-all' : this.state.showedAll,
+                });
+
                 return (
                     <div className="o-serires-section o-serires-catalogue">
-                        <h5>{Wording.CATALOGUE}</h5>
-                        <div className="catalogue">
-                            <div className={this.state.more ? 'volumes more' : 'volumes'}>
+                        <div className="w-hbox">
+                            <h5>{Wording.CATALOGUE}</h5>
+                            {this.renderSort()}
+                        </div>
+                        <div className={catalogueClassName}>
+                            <ul className="chapters">
                                 {this.renderCatalogue(this.state.catalogues)}
+                            </ul>
+                            <div className="control">
+                                <a className="show-more" onClick={this.showMore}>{Wording.CATALOGUE_SHOW_MORE}</a>
+                                <a className="show-all" onClick={this.showAll}>{Wording.CATALOGUE_SHOW_ALL}</a>
                             </div>
-                            <a className={!this.state.more ? 'show-more' : 'show-more hide'} onClick={this.showMore} dangerouslySetInnerHTML={{ __html : Wording.CATALOGUE_MORE}}></a>
                         </div>
                     </div>
                 );

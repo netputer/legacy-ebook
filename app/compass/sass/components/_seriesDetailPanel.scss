@@ -171,6 +171,25 @@
 }
 
 .o-serires-catalogue {
+    width: 300px;
+
+    h5 {
+        -webkit-box-flex: 1;
+    }
+
+    .sort {
+        line-height: 35px;
+
+        a {
+            color: $textHover;
+        }
+
+        &.desc .show-asc,
+        &.asc .show-desc {
+            color: $textInfo;
+        }
+    }
+
     .catalogue {
         background-color: #f8f8f8;
         overflow: auto;
