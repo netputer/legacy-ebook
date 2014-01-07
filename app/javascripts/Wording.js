@@ -18,5 +18,18 @@ define({
     SERIES : '连载中',
     SUBCATEGORIES : '子类',
     UPDATE_TIME : '更新',
-    WORD_COUNT : '字数'
+    WORD_COUNT : '字数',
+    REPORT : '版权举报',
+    DESCRIPTION : '简介',
+    CATALOGUE : '目录',
+    CATALOGUE_SHOW_MORE : '更多',
+    CATALOGUE_SHOW_ALL : '显示全部',
+    PREVIEW : '章节预览',
+    META_FINISHED : '已完结 共 {1} 章',
+    META_SERIES : '连载中 更新至第 {1} 章',
+    META_CATE : '分类：{1} / {2}',
+    META_CATE_SINGLE : '分类：{1}',
+    META_AUTHOR : '作者：{1}',
+    META_SOURCE : '来源：{1}',
+    META_SOURCE_MORE : '来源：{1}等 {2} 个'
 });

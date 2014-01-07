@@ -5,19 +5,26 @@
         'React',
         'Wording',
         'GA',
-        'utilities/FormatString'
+        'utilities/FormatString',
+        'mixins/ElementsGenerator',
+        'components/SubscribeBubbleView',
+        'components/ProvidersBubbleView'
     ], function (
         React,
         Wording,
         GA,
-        FormatString
+        FormatString,
+        ElementsGenerator,
+        SubscribeBubbleView,
+        ProvidersBubbleView
     ) {
 
         var SeriesHeaderView = React.createClass({
+            mixins : [ElementsGenerator],
             render : function () {
                 var data = this.props.ebook.toJSON();
                 var stillsBgStyle = {
-                    'background-image' : 'url(' + (data.cover.s || "") + ')'
+                    'background-image' : 'url(' + (data.cover.l || '') + ')'
                 };
 
                 return (
@@ -26,6 +33,16 @@
                         <div className="info-ctn w-vbox">
                             <h4>{data.title}</h4>
                             <div className="info w-vbox">
+                                {this.getPublishingEle()}
+                                {this.getMetaEle()}
+                                <div className="download-info w-hbox">
+                                    <div className="download-button">
+                                        {this.getDownloadBtn('download_all')}
+                                        {this.subscribeBubbleView}
+                                        {this.providersBubbleView}
+                                    </div>
+                                    <div className="report"><a href="#">{Wording.REPORT}</a></div>
+                                </div>
                             </div>
                         </div>
                     </div>

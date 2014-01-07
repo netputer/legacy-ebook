@@ -36,9 +36,7 @@
                     data.rating = Wording.NO_RATING;
                 }
 
-                if (data.category && data.category.length) {
-                    data.category = _.pluck(data.category, 'name').join(' / ');
-                } else {
+                if (!data.category) {
                     data.category = Wording.NO_DATA;
                 }
 

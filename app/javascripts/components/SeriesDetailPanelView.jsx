@@ -5,22 +5,26 @@
         'React',
         '$',
         '_',
-        'Wording',
         'components/SeriesHeaderView',
+        'components/DescriptionView',
+        'components/CatalogueView',
+        'components/PreviewView',
         'components/LoadingView'
     ], function (
         React,
         $,
         _,
-        Wording,
         SeriesHeaderView,
+        DescriptionView,
+        CatalogueView,
+        PreviewView,
         LoadingView
     ) {
-
         var SeriesDetailPanelView = React.createClass({
             getInitialState : function () {
                 return {
-                    show : false
+                    show : false,
+                    firstId : 0
                 };
             },
             componentDidMount : function () {
@@ -34,6 +38,11 @@
                 if (evt.nativeEvent.srcElement.contains(this.refs.ctn.getDOMNode())) {
                     this.props.closeDetailPanel();
                 }
+            },
+            setFirstId : function (id) {
+                this.setState({
+                    'firstId' : id
+                });
             },
             render : function () {
                 $('body').toggleClass('overflow', this.state.show);
@@ -53,6 +62,11 @@
                                 <div className="o-series-panel-content w-vbox">
                                     <SeriesHeaderView ebook={ebook} />
                                     <div className="body-ctn">
+                                        <div className="body">
+                                            <DescriptionView ebook={ebook} />
+                                            <CatalogueView ebook={ebook} setFirstId={this.setFirstId} />
+                                            <PreviewView ebook={ebook} firstId={this.state.firstId} />
+                                        </div>
                                     </div>
                                     <div className="o-close" onClick={this.props.closeDetailPanel} />
                                 </div>
