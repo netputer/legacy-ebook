@@ -3,12 +3,13 @@
     define([
         'React',
         'IO',
+        'GA',
         'Actions',
         'Wording',
         'mixins/FilterNullValues',
         'utilities/QueryString',
         'components/searchbox/SearchBoxView',
-        'FormatCategories',
+        'FormatCategoriesAsync',
         'components/ResultListView',
         'components/PaginationView',
         'components/FilterView',
@@ -19,12 +20,13 @@
     ], function (
         React,
         IO,
+        GA,
         Actions,
         Wording,
         FilterNullValues,
         QueryString,
         SearchBoxView,
-        FormatCategories,
+        FormatCategoriesAsync,
         ResultListView,
         PaginationView,
         FilterView,
@@ -139,19 +141,19 @@
                 });
 
                 if (queryCategory === 'finished') {
-                    FormatCategories('categories', 'combined').done(function (resp) {
+                    FormatCategoriesAsync('categories', 'combined').done(function (resp) {
                         this.setState({
                             categories : resp
                         });
                     }.bind(this));
                  } else if (queryCategory === 'published') {
-                    FormatCategories('categories', 'published').done(function (resp) {
+                    FormatCategoriesAsync('categories', 'published').done(function (resp) {
                         this.setState({
                             categories : resp
                         });
                     }.bind(this));
                  } else if (queryCategory !== 'novel' && queryCategory !== 'girl') {
-                    FormatCategories('subCategories', queryCategory).done(function (resp) {
+                    FormatCategoriesAsync('subCategories', queryCategory).done(function (resp) {
                         this.setState({
                             subCategories : resp
                         });
@@ -159,6 +161,13 @@
                 }
 
                 this.queryAsync(queryCategory, this.state.currentPage);
+
+                if (queryCategory === 'finished' || queryCategory === 'published' || queryCategory === 'novel' || queryCategory === 'girl') {
+                    GA.log({
+                        'event' : 'ebook.' + queryCategory + '.display'
+                    });
+                }
+
             },
             onSearchAction : function (query) {
                 if (query.trim().length) {
@@ -213,7 +222,7 @@
                                 className="o-search-box-ctn"
                                 onAction={this.onSearchAction}
                                 source="search" />
-                            <div>
+                            <div className="o-crumbs">
                                 <h4 className="cate-title">{Wording['CATE_' + queryCategory.toUpperCase()]}</h4>
                             </div>
                             <NavigationView source={QueryString.get('category')} />
@@ -225,6 +234,7 @@
                                 correctQuery={this.state.correctQuery}
                                 onEbookSelect={this.onEbookSelect}
                                 loaded={this.state.loaded}
+                                source="category"
                                 ref="ebook-ctn" />
                             <PaginationView
                                 total={this.state.pageTotal}
@@ -241,7 +251,7 @@
                                 className="o-search-box-ctn"
                                 onAction={this.onSearchAction}
                                 source="search" />
-                            <div>
+                            <div className="o-crumbs">
                                 <h4 className="cate-title">{Wording['CATE_' + QueryString.get('category').toUpperCase()]}</h4>
                             </div>
                             <FilterView
@@ -273,8 +283,11 @@
                                 className="o-search-box-ctn"
                                 onAction={this.onSearchAction}
                                 source="search" />
-                            <div>
-                                <a href={this.state.result.length && this.state.result[0].topCategory === Wording.CATE_GIRL ? 'cate.html?category=girl' : 'cate.html?category=novel'} className="w-text-secondary">全部{this.state.result.length ? this.state.result[0].topCategory : ''}分类 &gt;</a>
+                            <div className="o-crumbs">
+                                <a href={this.state.result.length && this.state.result[0].topCategory === Wording.CATE_GIRL ? 'cate.html?category=girl' : 'cate.html?category=novel'} className="w-text-secondary">{this.state.result.length ? this.state.result[0].topCategory : ''}分类</a>
+                                <span> &gt; </span>
+                                <a href={this.state.subCategories !== undefined ? 'cate.html?category=' + this.state.subCategories[0] : ''} className="w-text-secondary">{this.state.subCategories !== undefined ? this.state.subCategories[0] : ''}</a>
+
                                 <h4 className="cate-title">{queryCategory}</h4>
                             </div>
                             <FilterView
@@ -288,6 +301,7 @@
                                 list={this.state.result}
                                 loading={this.state.loading}
                                 total={this.state.total}
+                                filterSelected={this.state.filterSelected}
                                 correctQuery={this.state.correctQuery}
                                 onEbookSelect={this.onEbookSelect}
                                 loaded={this.state.loaded}

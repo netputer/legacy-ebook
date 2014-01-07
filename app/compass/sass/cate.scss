@@ -29,8 +29,11 @@
 
 
 .navigation {
+    border: none;
     border-collapse: initial;
+    margin: 10px 5px 20px;
     overflow: hidden;
+
     tbody {
         float: left;
         overflow: hidden;
@@ -39,6 +42,10 @@
         &.full-column {
             overflow: hidden;
             width: 60%;
+
+            tr {
+                border-bottom: none;
+            }
         }
     }
 
@@ -53,7 +60,7 @@
 
         th {
             height: 60px;
-            margin-top: -8px;
+            margin-top: -9px;
         }
 
         td {
@@ -78,9 +85,15 @@
     }
     th {
         background: #f3f3f3;
+        border-bottom: 1px solid #f3f3f3;
         display: block;
         float: left;
+        font-size: 13px;
         height: 100%;
+        letter-spacing: 2px;
+        margin-top: -1px;
+        position: relative;
+        top: 1px;
         width: 60px;
     }
 
@@ -88,5 +101,20 @@
         display: block;
         float: left;
         margin: 0 6px;
+    }
+}
+
+.cate-girl {
+    th {
+        letter-spacing: 0;
+        width: 80px;
+    }
+}
+
+.o-crumbs {
+    margin: 10px 5px;
+
+    .cate-title {
+        line-height: 36px;
     }
 }

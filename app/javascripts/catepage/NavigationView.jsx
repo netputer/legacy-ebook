@@ -5,13 +5,13 @@
         'IO',
         'Actions',
         'utilities/QueryString',
-        'FormatCategories'
+        'FormatCategoriesAsync'
     ], function (
         React,
         IO,
         Actions,
         QueryString,
-        FormatCategories
+        FormatCategoriesAsync
     ) {
 
 
@@ -23,7 +23,7 @@
                     if (index === 0) {
                         return <th key={index}><a className="w-text-secondary" href={'cate.html?category=' + category}>{category}</a></th>;
                     } else {
-                        return <td key={index}><a className="w-text-info" href={'cate.html?category=' + category}>{category}</a></td>;
+                        return <td key={index}><a className="w-text-thirdly" href={'cate.html?category=' + category}>{category}</a></td>;
                     }
                 });
             },
@@ -46,7 +46,7 @@
                 }
             },
             componentWillMount : function () {
-                FormatCategories('subCategories', queryCategory).done(function (resp) {
+                FormatCategoriesAsync('subCategories', queryCategory).done(function (resp) {
                     var source = this.props.source;
 
                     if (source === 'novel') {
@@ -58,6 +58,14 @@
 
                         resp.splice.apply(resp, [9, 3].concat(arr));
 
+                    }
+
+                    if (source === 'girl') {
+                        var tmp;
+                        tmp = resp[4];
+                        resp[4] = resp[1];
+                        resp[1] = resp[3];
+                        resp[3] = tmp;
                     }
 
                     this.setState({
@@ -78,9 +86,9 @@
                 }
             },
             render : function () {
-                var cate = this.props.source !== undefined ? 'cate-' + this.props.source : '';
+                var cate = this.props.source !== undefined ? 'w-component-card navigation cate-' + this.props.source : '';
                 return (
-                    <table className="w-component-card navigation">
+                    <table className={cate}>
                         <tbody>
                             {this.renderItem(0)}
                         </tbody>

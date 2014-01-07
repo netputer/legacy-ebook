@@ -1,13 +1,13 @@
 .o-filter-ctn {
     border: none;
     margin: 5px 5px 20px;
-    padding: 10px;
 
     .o-filter-cate-ctn {
         display: block;
 
         .title {
             display: inline-block;
+            font-size: 13px;
             line-height: 20px;
             margin-right: 6px;
             vertical-align: top;
@@ -21,14 +21,15 @@
 
             .item {
                 border: 1px transparent solid;
-                border-radius: 1px;
+                border-radius: 2px;
                 cursor: pointer;
                 display: inline-block;
+                font-size: 13px;
                 margin: 0 0 5px 2px;
                 padding: 0 5px;
 
                 &.selected {
-                    background: #00ad35;
+                    background-image: -webkit-linear-gradient(#898989, #a3a3a3);
                     color: #fff;
                 }
             }

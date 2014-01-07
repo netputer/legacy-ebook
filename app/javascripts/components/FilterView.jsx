@@ -42,6 +42,11 @@
             },
             clickItem : function (prop, value) {
                 this.props.onFilterSelect(prop, value === Wording.CATEGORY ? '' : value);
+                var key = 'filter_' + prop;
+                GA.log({
+                    'event' : 'ebook.' + this.props.source + '.click',
+                    key : value
+                });
             },
             generateCategories : function (title, prop) {
                 var selected = this.props.filterSelected[prop];
@@ -114,7 +119,7 @@
                 if (this.props.list !== undefined && this.props.list.length > 0) {
                     if (this.props.source === 'category') {
                         return (
-                            <ul className="o-filter-ctn w-component-card">
+                            <ul className="o-filter-ctn">
                                 {this.generateCategories(Wording.SUBCATEGORIES, 'category')}
                                 {this.generateEle(Wording.WORD_COUNT, 'words')}
                                 {this.generateEle(Wording.UPDATE_TIME, 'update')}
@@ -123,7 +128,7 @@
                         );
                     } else {
                         return (
-                            <ul className="o-filter-ctn w-component-card">
+                            <ul className="o-filter-ctn">
                                 {this.generateCategories(Wording.CATEGORY, 'category')}
                                 {this.generateEle(Wording.RANK, 'top_rank')}
                             </ul>

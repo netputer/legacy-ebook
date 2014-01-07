@@ -3,10 +3,14 @@
     define([
         'React',
         'IO',
+        'GA',
+        'Wording',
         'Actions'
     ], function (
         React,
         IO,
+        GA,
+        Wording,
         Actions
     ) {
 
@@ -58,16 +62,32 @@
             },
             onClick : function (id) {
                 this.props.onVideoSelect.call(this, id);
+                GA.log({
+                    'event' : 'ebook.homepage.click',
+                    'ebook_item' : id
+                });
+            },
+            clickCate : function (name) {
+                GA.log({
+                    'event' : 'ebook.homepage.click',
+                    'ebook_category' : name
+                });
+            },
+            clickMore : function () {
+                GA.log({
+                    'event' : 'ebook.homepage.click',
+                    'ebook_more' : 1
+                });
             },
             renderSubcategories : function () {
                 var subCategories = this.props.category !== undefined ? this.props.category.subCategories : [];
                 return _.map(subCategories, function (subCategory, index) {
                     if (index < 6) {
                         return (
-                            <a href={'cate.html?category=' + subCategory} className="o-category-subcate w-text-secondary">{subCategory}</a>
+                            <a href={'cate.html?category=' + subCategory} onClick={this.clickCate.bind(this, subCategory)} className="o-category-subcate w-text-secondary">{subCategory}</a>
                         );   
                     }
-                });
+                }, this);
             },
             renderBooks : function () {
                 var books = this.props.category !== undefined ? this.props.category.data : [];
@@ -79,7 +99,8 @@
                             </div>
                             <div className="info">
                                 <span className="title w-wc w-text-secondary">{book.title}</span>
-                                <span className="author w-wc w-text-info">作者：{book.authors}</span>
+                                <span className="author w-wc w-text-info">作者: {book.authors}</span>
+                                <button className="button-download w-btn w-btn-primary" onClick={this.props.onSelect}>{Wording.READ}</button>
                             </div>
                         </li>
                     );
@@ -109,11 +130,11 @@
                         <div className="o-category-rank w-component-card">
                             <a href={'top.html?category=' + cate} className="cate-title w-text-secondary">{cate}排行</a>
                             <div className="rank-type">
-                                <a className={this.state.currentTab === 'week_hot' ? 'current' : 'w-text-info'} href={'top.html?category=' + cate + '#week_hot'} onMouseEnter={this.renderRankAsync.bind(this, cate, 'week_hot')}>周榜</a>
+                                <a className={this.state.currentTab === 'week_hot' ? 'w-text-primary' : 'w-text-info'} href={'top.html?category=' + cate + '#week_hot'} onMouseEnter={this.renderRankAsync.bind(this, cate, 'week_hot')}>周榜</a>
                                 <span className="w-text-info">&middot;</span>
-                                <a className={this.state.currentTab === 'month_hot' ? 'current' : 'w-text-info'} href={'top.html?category=' + cate + '#month_hot'} onMouseEnter={this.renderRankAsync.bind(this, cate, 'month_hot')}>月榜</a>
+                                <a className={this.state.currentTab === 'month_hot' ? 'w-text-primary' : 'w-text-info'} href={'top.html?category=' + cate + '#month_hot'} onMouseEnter={this.renderRankAsync.bind(this, cate, 'month_hot')}>月榜</a>
                                 <span className="w-text-info">&middot;</span>
-                                <a className={this.state.currentTab === 'history_hot' ? 'current' : 'w-text-info'} href={'top.html?category=' + cate + '#history_hot'} onMouseEnter={this.renderRankAsync.bind(this, cate, 'history_hot')}>总榜</a>
+                                <a className={this.state.currentTab === 'history_hot' ? 'w-text-primary' : 'w-text-info'} href={'top.html?category=' + cate + '#history_hot'} onMouseEnter={this.renderRankAsync.bind(this, cate, 'history_hot')}>总榜</a>
                             </div>
 
                             <ol>
@@ -128,7 +149,7 @@
                 if (this.state.rankData !== undefined) {
                     return _.map(this.state.rankData, function (book, index) {
                         if (index < 10) {
-                            return <li><a className="w-text-secondary" href="javascript:void(0)" onClick={this.onClick.bind(this, book.id)} title={book.title}><span className="order-num w-text-primary">{index+1}</span> {book.title}</a></li>;
+                            return <li><a className="w-text-secondary" href="javascript:void(0)" onClick={this.onClick.bind(this, book.id, this.state.currentTab)} title={book.title}><span className="order-num w-text-primary">{index+1}</span> {book.title}</a></li>;
                         }
                     }, this);
                 }
@@ -141,9 +162,9 @@
                 return (
                     <section className="w-wc">
                         <div className="o-category-books">
-                            <a href="" className="cate-title w-text-secondary">{name}</a>
+                            <a href={'cate.html?category=' + name} onClick={this.clickCate.bind(this, name)} className="cate-title w-text-secondary">{name}</a>
                             {this.renderSubcategories()}
-                            <a href={'cate.html?category=' + name} className="category-more w-text-info">更多 &raquo;</a>
+                            <a href={'cate.html?category=' + name} onClick={this.clickMore} className="category-more w-text-info">更多 &raquo;</a>
                             <ul className="w-wc">
                                 {this.renderBooks()}
                             </ul>
@@ -209,7 +230,6 @@
                 }.bind(this));
             },
             render : function () {
-
                 return (
                     <div className="category-books">
                         <ItemView category={this.state.categories[0]} onVideoSelect={this.onVideoSelect} />
@@ -218,10 +238,10 @@
                         <ItemView category={this.state.categories[3]} onVideoSelect={this.onVideoSelect} />
 
                         <div>
-                            <a href="cate.html?category=novel" className="cate-title w-text-secondary w-cf">更多小说分类</a>
-                            <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '历史')}><div className="banner1"></div></div>
-                            <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '军事')}><div className="banner2"></div></div>
-                            <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '灵异')}><div className="banner3"></div></div>
+                            <a href="cate.html?category=novel" className="banner-title w-text-secondary w-cf">更多小说分类</a>
+                            <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '历史')}><div className="banner1"><span>{this.props.count['历史']} 部</span></div></div>
+                            <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '军事')}><div className="banner2"><span>{this.props.count['军事']} 部</span></div></div>
+                            <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '灵异')}><div className="banner3"><span>{this.props.count['灵异']} 部</span></div></div>
                         </div>
 
 
@@ -230,10 +250,10 @@
 
 
                         <div>
-                            <a href="cate.html?category=girl" className="cate-title w-text-secondary w-cf">更多女生频道</a>
-                            <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '穿越重生')}><div className="banner4"></div></div>
-                            <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '幻想言情')}><div className="banner5"></div></div>
-                            <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '同人')}><div className="banner6"></div></div>
+                            <a href="cate.html?category=girl" className="banner-title w-text-secondary w-cf">更多女生频道</a>
+                            <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '穿越重生')}><div className="banner4"><span>{this.props.count['穿越重生']} 部</span></div></div>
+                            <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '幻想言情')}><div className="banner5"><span>{this.props.count['幻想言情']} 部</span></div></div>
+                            <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '同人')}><div className="banner6"><span>{this.props.count['同人']} 部</span></div></div>
                         </div>
 
                     </div>

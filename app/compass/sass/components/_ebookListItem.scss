@@ -1,9 +1,17 @@
+.o-search-result-ctn {
+    li:last-child {
+        .order-num {
+            letter-spacing: -2px;
+        }
+    }
+}
+
 .o-list-item {
     background: #fff;
     border: none;
-    height: 157px;
+    height: 140px;
     margin: 5px;
-    padding: 5px;
+    padding: 5px 15px 5px 5px;
     -webkit-box-align: center;
 
     + .o-list-item {
@@ -12,17 +20,49 @@
 
     .item-cover {
         background-position: center center;
+        background-size: cover;
         cursor: pointer;
-        height: 145px;
-        width: 103px;
+        height: 120px;
+        width: 96px;
+    
+        .order-num {
+            bottom: 0;
+            height: 24px;
+            left: 0;
+            text-align: center;
+            width: 24px;
+            position: absolute;
+        }
+
+        .order-bg {
+            bottom: 0;
+            border-bottom: 10px solid #fff;
+            border-left: 10px solid #fff;
+            border-right: 10px dashed transparent;
+            border-top: 10px dashed transparent;
+            display: block;
+            height: 0;
+            left: 0;
+            line-height: 14px;
+            position: absolute;
+            text-indent: -10px;
+            width: 0;
+        }
+
+        .order-text {
+            z-index: 9;
+        }
+
     }
 
     .info-container {
-        margin-left: 15px;
+        margin-left: 10px;
+        overflow: hidden;
         -webkit-box-flex: 1;
 
         .title {
             cursor: pointer;
+            margin-top: 5px;
 
             &:hover {
                 color: $textPrimary;
@@ -39,9 +79,12 @@
             vertical-align: bottom;
         }
 
+        .description {
+            min-height: 36px;
+        }
+
         .download-ctn {
-            margin-top : 10px;
-            -webkit-box-align: center;
+            margin-top : 7px;
         }
 
         .provider {

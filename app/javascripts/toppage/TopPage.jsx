@@ -3,12 +3,13 @@
     define([
         'React',
         'IO',
+        'GA',
         'Actions',
         'Wording',
         'mixins/FilterNullValues',
         'utilities/QueryString',
         'components/searchbox/SearchBoxView',
-        'FormatCategories',
+        'FormatCategoriesAsync',
         'components/ResultListView',
         'components/PaginationView',
         'components/FilterView',
@@ -18,12 +19,13 @@
     ], function (
         React,
         IO,
+        GA,
         Actions,
         Wording,
         FilterNullValues,
         QueryString,
         SearchBoxView,
-        FormatCategories,
+        FormatCategoriesAsync,
         ResultListView,
         PaginationView,
         FilterView,
@@ -123,13 +125,17 @@
                     loading : true
                 });
 
-                FormatCategories('categories', 'combined').done(function (resp) {
+                FormatCategoriesAsync('categories', 'combined').done(function (resp) {
                     this.setState({
                         subCategories : resp
                     });
                 }.bind(this));
 
                 this.queryAsync(queryCategory, this.state.currentPage);
+
+                GA.log({
+                    'event' : 'ebook.top.display'
+                });
             },
             onSearchAction : function (query) {
                 if (query.trim().length) {
@@ -188,11 +194,13 @@
                         <ResultListView
                             category={queryCategory}
                             list={this.state.result}
+                            current={this.state.currentPage}
                             loading={this.state.loading}
                             total={this.state.total}
                             correctQuery={this.state.correctQuery}
                             onEbookSelect={this.onEbookSelect}
                             loaded={this.state.loaded}
+                            source="top"
                             ref="ebook-ctn" />
                         <PaginationView
                             total={this.state.pageTotal}

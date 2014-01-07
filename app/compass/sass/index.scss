@@ -38,7 +38,10 @@
 
         li {
             display: inline-block;
-            margin-right: 15px;
+            font-size: 13px;
+            line-height: 22px;
+            margin-right: 12px;
+
             a {
                 color: $textSecondary;
             }
@@ -47,18 +50,30 @@
 }
 
 
+.banner-title {
+    font-size: 14px;
+    line-height: 30px;
+}
+
 .o-category-banner {
     border: none;
+    color: #fff;
     cursor: pointer;
     display: inline-block;
     height: 70px;
+    line-height: 66px;
     margin: 0 15px 30px 0;
     padding: 2px;
     width: 243px;
 
     div {
         height: 100%;
+        text-align: right;
         width: 100%;
+
+        > span {
+            margin-right: 8px;
+        }
     }
 
     &:last-child {

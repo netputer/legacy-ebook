@@ -83,11 +83,11 @@
                 return _.map(this.state.queries, function(query, index) {
                     if (index < HOTQUERY_SIZE - 1) {
                         return (
-                            <li><a className="w-text-info" href={'search.html#q/' + query}>{query}</a><span className="w-text-info">&middot;</span></li>
+                            <li><a className="w-text-thirdly" href={'search.html#q/' + query}>{query}</a><span className="w-text-info">&middot;</span></li>
                         );
                     } else if (index === HOTQUERY_SIZE - 1) {
                         return (
-                            <li><a className="w-text-info" href={'search.html#q/' + query}>{query}</a></li>
+                            <li><a className="w-text-thirdly" href={'search.html#q/' + query}>{query}</a></li>
                         );
                     }
                 });
@@ -142,6 +142,12 @@
                         })
                     });
                 }.bind(this));
+
+                GA.log({
+                    'event' : 'ebook.search.click',
+                    'focus' : 1,
+                    'page' : this.props.source
+                });
             },
             hideSuggestion : function () {
                 setTimeout(function() {
@@ -251,6 +257,11 @@
             submitForm : function (evt) {
                 evt.preventDefault();
                 this.doSearch(evt.target.keyword.value, 'submit');
+
+                GA.log({
+                    'event' : 'ebook.search.click',
+                    'query' : evt.target.keyword.value
+                });                
             },
             render : function () {
                 return (
