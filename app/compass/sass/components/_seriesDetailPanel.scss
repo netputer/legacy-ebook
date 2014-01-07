@@ -64,7 +64,7 @@
 
         .body {
             display: inline-block;
-            padding: 10px 100px 0 15px;
+            padding: 10px 100px 0 20px;
             vertical-align: top;
         }
 
@@ -80,7 +80,7 @@
 .o-series-panel-header {
     background-color: #f2f2f2;
     border-bottom: 1px $borderColor solid;
-    padding: 5px 5px 15px;
+    padding: 5px;
 
     .download-app {
         display: inline-block;
@@ -97,7 +97,7 @@
     .stills {
         background-position: center center;
         background-size: cover;
-        height: 120px;
+        height: 130px;
         width: 96px;
     }
 
@@ -157,9 +157,10 @@
 }
 
 .o-serires-section {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 
     h5 {
+        font-size: 16px;
         font-weight: normal;
     }
 }
@@ -192,27 +193,50 @@
 
     .catalogue {
         background-color: #f8f8f8;
+        margin-left: -10px;
         overflow: auto;
-        width: 300px;
-    }
+        padding: 10px;
 
-    .volumes {
-        height: 200px;
-        overflow: hidden;
-        padding: 10px 10px 0;
-
-        &.more {
-            height: auto;
+        li {
+            line-height: 22px;
         }
     }
 
-    .show-more {
-        display: block;
-        margin: 10px;
+    .control {
+        margin-top: 5px;
 
-        &.hide {
+        a {
+            margin-right: 10px;
+        }
+
+        .show-all {
             display: none;
         }
+    }
+
+    .showed-more {
+        .control {
+            .show-all {
+                display: inline;
+            }
+        }
+    }
+
+    .showed-all {
+        .control {
+            display: none;
+        }
+    }
+}
+
+.o-serires-preview {
+    h5 {
+        margin-bottom: 15px;
+    }
+
+    .preview {
+        font-size: 13px;
+        line-height: 22px;
     }
 }
 
