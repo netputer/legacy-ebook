@@ -12,6 +12,8 @@
 .category-books {
     section {
         margin-bottom: 20px;
+        min-height: 220px;
+        overflow: initial;
     }
 }
 
@@ -27,6 +29,10 @@
     .category-more {
         float: right;
         margin: 8px 14px 0 0;
+    }
+
+    ul {
+        margin-top: 5px;
     }
 }
 
@@ -60,40 +66,55 @@
     .info {
         background: #fff;
         left: 0;
-        padding: 0 3px 3px;
+        padding: 0 3px 3px 6px;
         position: absolute;
         width: 100%;
         -webkit-transition: -webkit-transform .1s linear;
 
         .title {
-            padding: 6px 0;
+            padding: 6px 0 0;
         }
 
         .author{
             line-height: 14px;
         }
+    }
 
+    .button-download {
+        display: none;
+        margin-top: 10px;
     }
 
     &:hover {
         .info {
             -webkit-transform: translate3d(0, -20px, 0);
         }
+        .button-download {
+            display: block;
+        }
+        .cover {
+            height: 125px;
+        }
     }
 }
 
 
 .o-category-rank {
+    border: none;
     display: block;
     float: right;
     height: 185px;
-    margin-top: 31px;
-    padding: 10px 15px;
+    margin-top: 36px;
+    padding: 10px 8px;
+    position: relative;
     width: 244px;
 
     .rank-type {
         float: right;
+        left: 128px;
         margin-top: 6px;
+        position: absolute;
+        top: 10px;
 
         span {
             margin: 0 3px;
@@ -111,7 +132,7 @@
         li {
             list-style: none;
             margin: 6px 0;
-            max-width: 100px;
+            max-width: 112px;
             overflow: hidden;
             position: relative;
             text-overflow: ellipsis;
@@ -119,13 +140,20 @@
 
             .order-num {
                 display: inline-block;
+                margin-left: -2px;
                 text-align: center;
-                width: 20px;
+                width: 16px;
             }
 
             &:nth-child(n+6) {
-                left: 108px;
+                left: 120px;
                 top: -120px;
+            }
+
+            &:last-child {
+                .order-num {
+                    letter-spacing: -1px;
+                }
             }
         }
     }

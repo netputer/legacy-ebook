@@ -12,7 +12,7 @@
                 return (
                     <footer className="o-footer w-text-info">
                         <p>
-                            &copy; 2010 - 2013 豌豆实验室
+                            &copy; 2010 - 2014 豌豆实验室
                         </p>
                     </footer>
                 );

@@ -3,11 +3,13 @@
     define([
         'React',
         'IO',
+        'GA',
         'Actions',
         'Wording'
     ], function (
         React,
         IO,
+        GA,
         Actions,
         Wording
     ) {
@@ -17,8 +19,22 @@
             renderSubCategories : function () {
                 var categories = this.props.category.subCategories;
                 return _.map(categories, function (category, index) {
-                    return <li key={index}><a href={'cate.html?category=' + category.name}>{category.name}</a></li>;
+                    return <li key={index}><a href={'cate.html?category=' + category.name} onClick={this.clickItem.bind(this, category.name)}>{category.name}</a></li>;
                 }, this);
+            },
+            clickTitle : function (name) {
+                if (!!name) {
+                    GA.log({
+                        'event' : 'ebook.homepage.click',
+                        'category_all' : name
+                    });
+                }
+            },
+            clickItem : function (name) {
+                GA.log({
+                    'event' : 'ebook.homepage.click',
+                    'category_entrance' : name
+                });
             },
             render : function () {
                 var category = this.props.category;
@@ -26,7 +42,7 @@
 
                 return (
                     <nav className="nav-cate">
-                        <a href={cateUrl} className="cate-title w-text-primary">{category !== undefined ? category.name : ''}</a>
+                        <a href={cateUrl} onClick={this.clickTitle.bind(this, category !== undefined ? category.name : '')} className="cate-title w-text-primary">{category !== undefined ? category.name : ''}</a>
                         <ul>
                             {category !== undefined ? this.renderSubCategories() : ''}
                         </ul>

@@ -4,6 +4,7 @@
         'React',
         '_',
         '$',
+        'GA',
         'Backbone',
         'components/WanxiaodouView',
         'components/EbookListItemView',
@@ -12,6 +13,7 @@
         React,
         _,
         $,
+        GA,
         Backbone,
         WanxiaodouView,
         EbookListItemView,
@@ -24,11 +26,19 @@
         });
 
         var ResultListView = React.createClass({
+            componentDidMount : function () {
+                if (!!this.props.keyword) {
+                    GA.log({
+                        'event' : 'ebook.search.click',
+                        'result' : this.props.list.length > 0 ? 1 : 0
+                    });
+                }
+            },
             render : function () {
                 var loadingView = this.props.loading ? <LoadingView fixed={true} /> : '';
                 if (this.props.list.length > 0) {
-                    var listItemViews = _.map(this.props.list, function (ebook) {
-                        return <EbookListItemView source="category" ebook={ebook} key={ebook.id} onEbookSelect={this.props.onEbookSelect} />
+                    var listItemViews = _.map(this.props.list, function (ebook, index) {
+                        return <EbookListItemView source={this.props.source} index={index} current={this.props.current} ebook={ebook} key={ebook.id} filterSelected={this.props.filterSelected} onEbookSelect={this.props.onEbookSelect} />
                     }, this);
 
                     return (
@@ -39,7 +49,7 @@
                     );
                 } else {
                     if (this.props.loaded) {
-                        return <WanxiaodouView data-tip={this.props.keyword || this.props.category } data-type="NO_SEARCH_RESULT" />;
+                        return <WanxiaodouView data-tip={this.props.keyword || this.props.category } data-type="NO_RESULT" />;
                     } else {
                         return <div className="o-search-result-ctn" />;
                     }

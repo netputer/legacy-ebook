@@ -26,6 +26,7 @@
     ) {
 
         var subCategories = {};
+        var categoriesCount = {};
 
         var getCategoryListAsync = function () {
             var deferred = $.Deferred();
@@ -44,7 +45,8 @@
             getInitialState : function () {
                 return {
                     categories : [],
-                    subCategories : {}
+                    subCategories : {},
+                    categoriesCount : {}
                 };
             },
             getCategoryList : function () {
@@ -54,22 +56,28 @@
                     });
                     _.each(resp[0].subCategories, function (category, index) {
                         subCategories[category.name] = category.subCategories;
+                        categoriesCount[category.name] = category.books;
                         if (index === resp[0].subCategories.length - 1) {
                             _.each(resp[1].subCategories, function (category) {
+                                categoriesCount[category.name] = category.books;
                                 subCategories[category.name] = category.subCategories;
                             });
                         }
                     });
-
                 }.bind(this));
-
                 this.setState({
-                    subCategories : subCategories
+                    subCategories : subCategories,
+                    categoriesCount : categoriesCount
                 });
 
             },
             componentWillMount : function () {
                 this.getCategoryList();
+            },
+            componentDidMount : function () {
+                GA.log({
+                    'event' : 'ebook.homepage.display'
+                });
             },
             onSearchAction : function (query) {
                 if (query.length) {
@@ -94,7 +102,7 @@
                             onAction={this.onSearchAction}
                             source="homepage" />
                         <NavigationView categories={this.state.categories} />
-                        <CategoryListView subCategories={this.state.subCategories} onVideoSelect={this.onVideoSelect} />
+                        <CategoryListView subCategories={this.state.subCategories} count={this.state.categoriesCount} onVideoSelect={this.onVideoSelect} />
                         <FooterView />
                     </div>
                 );

@@ -1,0 +1,54 @@
+{
+    "name": "电子书",
+    "version": "1.0.0",
+    "description": "豌豆荚电子书搜索",
+    "icons": {
+        "16": "icon30.png",
+        "72": "icon72.png"
+    },
+    "privacy_permissions": [
+        "device",
+        "window",
+        "apps",
+        "book",
+        "account"
+    ],
+    "permissions": [
+        "file:///*/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                ""
+            ]
+        }
+    ],
+    "minimum_client_version": "1.0.0",
+    "app": {
+        "launch": {
+            "web_url": "wdj-extension://__MSG_@@extension_id__/index.html"
+        },
+        "navigation": [
+            {
+                "label": "网络小说分类",
+                "web_url": "wdj-extension://__MSG_@@extension_id__/cate.html?category=novel"
+            },
+            {
+                "label": "女生频道",
+                "web_url": "wdj-extension://__MSG_@@extension_id__/cate.html?category=girl"
+            },
+            {
+                "label": "出版图书",
+                "web_url": "wdj-extension://__MSG_@@extension_id__/cate.html?category=published"
+            },
+            {
+                "label": "排行",
+                "web_url": "wdj-extension://__MSG_@@extension_id__/top.html"
+            },
+            {
+                "label": "已完结",
+                "web_url": "wdj-extension://__MSG_@@extension_id__/cate.html?category=finished"
+            }
+        ]
+    }
+}

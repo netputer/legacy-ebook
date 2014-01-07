@@ -8,7 +8,7 @@
         'mixins/FilterNullValues',
         'utilities/QueryString',
         'components/searchbox/SearchBoxView',
-        'FormatCategories',
+        'FormatCategoriesAsync',
         'components/ResultListView',
         'components/PaginationView',
         'components/FilterView',
@@ -23,7 +23,7 @@
         FilterNullValues,
         QueryString,
         SearchBoxView,
-        FormatCategories,
+        FormatCategoriesAsync,
         ResultListView,
         PaginationView,
         FilterView,
@@ -142,9 +142,11 @@
                             list={this.state.result}
                             loading={this.state.loading}
                             total={this.state.total}
+                            current={this.state.currentPage}
                             correctQuery={this.state.correctQuery}
                             onEbookSelect={this.onEbookSelect}
                             loaded={this.state.loaded}
+                            source="search"
                             ref="ebook-ctn" />
                         <PaginationView
                             total={this.state.pageTotal}
