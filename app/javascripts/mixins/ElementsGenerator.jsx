@@ -56,10 +56,15 @@
             },
             getPublishingEle : function () {
                 var ebook = this.props.ebook;
-                var text = ebook.get('finish') ? Wording.META_FINISHED : Wording.META_SERIES;
+
+                if (ebook.get('finish')) {
+                    return (
+                        <span className="w-text-secondary">{Wording.FINISHED}</span>
+                    );
+                }
 
                 return (
-                    <span className="publishing w-text-primary"><strong>{FormatString(text, ebook.get('totalChaptersNum'))}</strong></span>
+                    <span className="publishing w-text-primary"><strong>{Wording.SERIES}</strong></span>
                 );
             },
             getWordsEle : function () {
@@ -76,25 +81,30 @@
                     <span className="w-text-secondary">{FormatString(Wording.META_UPDATE, FormatDate('kindly', ebook.get('updatedDate')))}</span>
                 );
             },
+            getCountEle : function () {
+                var ebook = this.props.ebook;
+
+                return (
+                    <span className="w-text-secondary">{FormatString(Wording.META_COUNT, ebook.get('totalChaptersNum'))}</span>
+                );
+            },
             getCateEle : function () {
                 var ebook = this.props.ebook;
-                var cate;
+                var cate = ebook.get('category').name;
 
                 if (!!ebook.get('subCategory')) {
-                    cate = FormatString(Wording.META_CATE, ebook.get('category').name, ebook.get('subCategory').name);
-                } else {
-                    cate = FormatString(Wording.META_CATE_SINGLE, ebook.get('category').name);
+                    cate = cate + ' / ' + ebook.get('subCategory').name;
                 }
 
                 return (
-                    <span className="w-text-secondary">{cate}</span>
+                    <span className="w-text-secondary"><strong>{Wording.CATEGORY}：</strong>{cate}</span>
                 );
             },
             getAuthorEle : function () {
                 var ebook = this.props.ebook;
 
                 return (
-                    <span className="w-text-secondary">{FormatString(Wording.META_AUTHOR, ebook.get('authors'))}</span>
+                    <span className="w-text-secondary"><strong>{Wording.AUTHOR}：</strong>{ebook.get('authors')}</span>
                 );
             },
             getSourceEle : function () {
@@ -103,13 +113,13 @@
                 var providers = ebook.get('providerNames');
 
                 if (providers.length > 3) {
-                    source = FormatString(Wording.META_SOURCE_MORE, providers.slice(0, 2).join('、'), providers.length);
+                    source = providers.slice(0, 2).join('、') + FormatString(Wording.META_SOURCE_MORE, providers.length);
                 } else {
-                    source = FormatString(Wording.META_SOURCE, providers.join('、'));
+                    source = providers.join('、');
                 }
 
                 return (
-                    <span className="w-text-secondary">{source}</span>
+                    <span className="w-text-secondary"><strong>{Wording.SOURCE}：</strong>{source}</span>
                 );
             }
         };
