@@ -35,7 +35,7 @@
                                     <div className="download-button">
                                         {this.getDownloadBtn('download_all')}
                                     </div>
-                                    <div className="report"><a href="#">{Wording.REPORT}</a></div>
+                                    <div className="report"><a href="http://m.wandoujia.com/book_legal.html" target="_default">{Wording.REPORT}</a></div>
                                 </div>
                             </div>
                         </div>
