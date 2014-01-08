@@ -33,6 +33,8 @@
                                     {this.getWordsEle()}
                                     <span> &middot; </span>
                                     {this.getUpdateEle()}
+                                    <span> &middot; </span>
+                                    {this.getCountEle()}
                                 </div>
                                 <div className="w-wc">
                                     {this.getCateEle()}
