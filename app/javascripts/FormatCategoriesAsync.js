@@ -91,6 +91,7 @@
 
                     if (cate === 'combined') {
                         array[array.length - 1] = resp[1].name;
+                        array[array.length] = resp[2].name;
                     }
 
                     result = array;

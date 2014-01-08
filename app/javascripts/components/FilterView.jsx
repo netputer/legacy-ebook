@@ -26,7 +26,7 @@
             top_rank : ['周榜', '月榜', '总榜']
         }
         var filterValueArray = {
-            words : ['', '0-100', '100-1000', '1000'],
+            words : ['', '0-100', '100-1000', '1000-'],
             update : ['', '7', '15', '30', 'finished'],
             rank : ['hot', 'history_hot', 'update', 'words'],
             top_rank : ['week_hot', 'month_hot', 'history_hot']
