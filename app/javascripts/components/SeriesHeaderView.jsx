@@ -5,18 +5,12 @@
         'React',
         'Wording',
         'GA',
-        'utilities/FormatString',
-        'mixins/ElementsGenerator',
-        'components/SubscribeBubbleView',
-        'components/ProvidersBubbleView'
+        'mixins/ElementsGenerator'
     ], function (
         React,
         Wording,
         GA,
-        FormatString,
-        ElementsGenerator,
-        SubscribeBubbleView,
-        ProvidersBubbleView
+        ElementsGenerator
     ) {
 
         var SeriesHeaderView = React.createClass({
@@ -33,15 +27,25 @@
                         <div className="info-ctn w-vbox">
                             <h4>{data.title}</h4>
                             <div className="info w-vbox">
-                                {this.getPublishingEle()}
-                                {this.getMetaEle()}
+                                <div className="w-wc">
+                                    {this.getPublishingEle()}
+                                    <span> &middot; </span>
+                                    {this.getWordsEle()}
+                                    <span> &middot; </span>
+                                    {this.getUpdateEle()}
+                                </div>
+                                <div className="w-wc">
+                                    {this.getCateEle()}
+                                    <span> &middot; </span>
+                                    {this.getAuthorEle()}
+                                    <span> &middot; </span>
+                                    {this.getSourceEle()}
+                                </div>
                                 <div className="download-info w-hbox">
                                     <div className="download-button">
                                         {this.getDownloadBtn('download_all')}
-                                        {this.subscribeBubbleView}
-                                        {this.providersBubbleView}
                                     </div>
-                                    <div className="report"><a href="#">{Wording.REPORT}</a></div>
+                                    <div className="report"><a href="http://m.wandoujia.com/book_legal.html" target="_default">{Wording.REPORT}</a></div>
                                 </div>
                             </div>
                         </div>

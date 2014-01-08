@@ -27,9 +27,12 @@ define({
     PREVIEW : '章节预览',
     META_FINISHED : '已完结 共 {1} 章',
     META_SERIES : '连载中 更新至第 {1} 章',
+    META_WORDS : '{1}字',
+    META_UPDATE : '{1}更新',
     META_CATE : '分类：{1} / {2}',
     META_CATE_SINGLE : '分类：{1}',
     META_AUTHOR : '作者：{1}',
     META_SOURCE : '来源：{1}',
-    META_SOURCE_MORE : '来源：{1}等 {2} 个'
+    META_SOURCE_MORE : '来源：{1}等 {2} 个',
+    DOWNLOAD_TIPS : '免费保存全部章节到手机'
 });
