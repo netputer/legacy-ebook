@@ -27,6 +27,8 @@ define({
     PREVIEW : '章节预览',
     META_FINISHED : '已完结 共 {1} 章',
     META_SERIES : '连载中 更新至第 {1} 章',
+    META_WORDS : '{1}字',
+    META_UPDATE : '{1}更新',
     META_CATE : '分类：{1} / {2}',
     META_CATE_SINGLE : '分类：{1}',
     META_AUTHOR : '作者：{1}',

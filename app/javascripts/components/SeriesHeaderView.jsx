@@ -5,13 +5,11 @@
         'React',
         'Wording',
         'GA',
-        'utilities/FormatString',
         'mixins/ElementsGenerator'
     ], function (
         React,
         Wording,
         GA,
-        FormatString,
         ElementsGenerator
     ) {
 
@@ -29,8 +27,20 @@
                         <div className="info-ctn w-vbox">
                             <h4>{data.title}</h4>
                             <div className="info w-vbox">
-                                {this.getPublishingEle()}
-                                {this.getMetaEle()}
+                                <div className="w-wc">
+                                    {this.getPublishingEle()}
+                                    <span> · </span>
+                                    {this.getWordsEle()}
+                                    <span> · </span>
+                                    {this.getUpdateEle()}
+                                </div>
+                                <div className="w-wc">
+                                    {this.getCateEle()}
+                                    <span> · </span>
+                                    {this.getAuthorEle()}
+                                    <span> · </span>
+                                    {this.getSourceEle()}
+                                </div>
                                 <div className="download-info w-hbox">
                                     <div className="download-button">
                                         {this.getDownloadBtn('download_all')}

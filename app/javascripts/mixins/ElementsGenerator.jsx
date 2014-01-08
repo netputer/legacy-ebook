@@ -8,7 +8,9 @@
         'GA',
         'main/DownloadHelper',
         'utilities/ReadableSize',
-        'utilities/FormatString'
+        'utilities/FormatString',
+        'utilities/FormatWords',
+        'utilities/FormatDate'
     ], function (
         React,
         _,
@@ -16,7 +18,9 @@
         GA,
         DownloadHelper,
         ReadableSize,
-        FormatString
+        FormatString,
+        FormatWords,
+        FormatDate
     ) {
 
         var ElementsGenerator = {
@@ -54,9 +58,25 @@
                 var ebook = this.props.ebook;
                 var text = ebook.get('finish') ? Wording.META_FINISHED : Wording.META_SERIES;
 
-                return <div className="publishing w-text-primary w-wc">{FormatString(text, ebook.get('totalChaptersNum'))}</div>;
+                return (
+                    <span className="publishing w-text-primary">{FormatString(text, ebook.get('totalChaptersNum'))}</span>
+                );
             },
-            getMetaEle : function () {
+            getWordsEle : function () {
+                var ebook = this.props.ebook;
+
+                return (
+                    <span className="w-text-secondary">{FormatString(Wording.META_WORDS, FormatWords(ebook.get('words')))}</span>
+                );
+            },
+            getUpdateEle : function () {
+                var ebook = this.props.ebook;
+
+                return (
+                    <span className="w-text-secondary">{FormatString(Wording.META_UPDATE, FormatDate('kindly', ebook.get('updatedDate')))}</span>
+                );
+            },
+            getCateEle : function () {
                 var ebook = this.props.ebook;
                 var cate;
 
@@ -66,8 +86,19 @@
                     cate = FormatString(Wording.META_CATE_SINGLE, ebook.get('category').name);
                 }
 
-                var author = FormatString(Wording.META_AUTHOR, ebook.get('authors'));
+                return (
+                    <span className="w-text-secondary">{cate}</span>
+                );
+            },
+            getAuthorEle : function () {
+                var ebook = this.props.ebook;
 
+                return (
+                    <span className="w-text-secondary">{FormatString(Wording.META_AUTHOR, ebook.get('authors'))}</span>
+                );
+            },
+            getSourceEle : function () {
+                var ebook = this.props.ebook;
                 var source;
                 var providers = ebook.get('providerNames');
 
@@ -77,7 +108,9 @@
                     source = FormatString(Wording.META_SOURCE, providers.join('、'));
                 }
 
-                return <div className="w-text-secondary w-wc">{cate} · {author} · {source}</div>;
+                return (
+                    <span className="w-text-secondary">{source}</span>
+                );
             }
         };
 
