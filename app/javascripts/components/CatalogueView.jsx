@@ -26,6 +26,8 @@
             return deferred.promise();
         };
 
+        var PAGE_SIZE = 15;
+
         var CatalogueView = React.createClass({
             getInitialState : function () {
                 return {
@@ -47,7 +49,7 @@
 
                     this.setState({
                         totalCatalogues : result,
-                        catalogues : result.slice(0, this.state.page * 15)
+                        catalogues : result.slice(0, this.state.page * PAGE_SIZE)
                     });
 
                     this.props.setFirstId(result[0].id);
@@ -58,7 +60,7 @@
 
                 this.setState({
                     totalCatalogues : newTotalCatalogues,
-                    catalogues : newTotalCatalogues.slice(0, this.state.page * 15),
+                    catalogues : newTotalCatalogues.slice(0, this.state.page * PAGE_SIZE),
                     asc : !this.state.asc
                 });
             },
@@ -80,7 +82,7 @@
                 var newPage = this.state.page + 1;
 
                 this.setState({
-                    catalogues : this.state.totalCatalogues.slice(0, newPage * 15),
+                    catalogues : this.state.totalCatalogues.slice(0, newPage * PAGE_SIZE),
                     page : newPage,
                     showedMore : true
                 });
@@ -88,7 +90,7 @@
             showAll : function () {
                 this.setState({
                     catalogues : this.state.totalCatalogues,
-                    showedAll : true
+                    page : Math.ceil(this.state.totalCatalogues.length / PAGE_SIZE)
                 });
             },
             renderSort : function () {
@@ -101,7 +103,7 @@
                 return (
                     <div className={sortClassName}>
                         <a className="show-asc" onClick={this.sortAsc}>正序</a>
-                        <span> · </span>
+                        <span> &middot; </span>
                         <a className="show-desc" onClick={this.sortDesc}>倒序</a>
                     </div>
                 );
@@ -117,7 +119,7 @@
                 var catalogueClassName = React.addons.classSet({
                     'catalogue' : true,
                     'showed-more' : this.state.showedMore,
-                    'showed-all' : this.state.showedAll,
+                    'showed-all' : this.state.page >= Math.ceil(this.state.totalCatalogues.length / PAGE_SIZE),
                 });
 
                 return (

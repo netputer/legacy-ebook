@@ -6,16 +6,17 @@
             words = words / 1000;
 
             if (words < 1) {
-                output = '小于 1000';
-            } else if (words >= 1 && words < 10) {
-                output = Math.round(words * 10) / 10 + '千';
-            } else {
-                words = words / 10;
-                output = Math.round(words * 10) / 10 + '万';
-            } 
-            return output;
-        };
-        return FormatWords;
+                return '少于一千';
+            }
 
+            if (words >= 1 && words < 10) {
+                return Math.round(words * 10) / 10 + ' 千';
+            }
+
+            words = words / 10;
+            return Math.round(words * 10) / 10 + ' 万';
+        };
+
+        return FormatWords;
     });
 }(this));

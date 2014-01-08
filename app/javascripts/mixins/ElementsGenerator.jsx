@@ -8,7 +8,9 @@
         'GA',
         'main/DownloadHelper',
         'utilities/ReadableSize',
-        'utilities/FormatString'
+        'utilities/FormatString',
+        'utilities/FormatWords',
+        'utilities/FormatDate'
     ], function (
         React,
         _,
@@ -16,7 +18,9 @@
         GA,
         DownloadHelper,
         ReadableSize,
-        FormatString
+        FormatString,
+        FormatWords,
+        FormatDate
     ) {
 
         var ElementsGenerator = {
@@ -42,280 +46,81 @@
                 //     'video_area' : this.props.ebook.get('region')
                 // });
             },
-            showSubscribeBubble : function (source, video) {
-                if (this.props.subscribed === 0) {
-                    if (source === 'subscribe') {
-                        this.subscribeCallback.call(this, 2);
-                        this.subscribeBubbleView.doSubscribe(video, source);
-                    }
-
-                    if (source !== 'subscribe' || sessionStorage.getItem('subscribe') === null) {
-                        this.subscribeBubbleView.setState({
-                            subscribeBubbleShow : true,
-                            source : source
-                        });
-                    }
-
-                    // GA.log({
-                    //     'event' : 'video.misc.action',
-                    //     'action' : 'subscribe_popup',
-                    //     'type' : 'display',
-                    //     'pos' : source,
-                    //     'video_id' : this.props.ebook.id,
-                    //     'video_source' : this.props.ebook.get('videoEpisodes')[0].downloadUrls !== undefined ? this.props.ebook.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
-                    //     'video_title' : this.props.ebook.get('title'),
-                    //     'video_type' : this.props.ebook.get('type'),
-                    //     'video_category' : this.props.ebook.get('categories'),
-                    //     'video_year' : this.props.ebook.get('year'),
-                    //     'video_area' : this.props.ebook.get('region')
-                    // });
-                } else {
-                    if (source === 'subscribe') {
-                        this.subscribeCallback.call(this, 2);
-                        this.subscribeBubbleView.doUnsubscribe(video);
-                    }
-                }
-            },
-            mouseEvent : function (evt) {
-                if (evt === 'onMouseEnter' && this.props.subscribed === 1) {
-                    this.subscribeCallback.call(this, -1);
-                } else if (evt === 'onMouseLeave' && this.props.subscribed === -1) {
-                    this.subscribeCallback.call(this, 1);
-                }
-            },
-            moreProvider : function () {
-
-                var EventListener = function (event) {
-                    if (event.target.className !== 'arrow' && event.target.name !== 'more-provider') {
-                        toggleBubbleState(false);
-                    }
-                    document.body.removeEventListener('click', EventListener, false);
-                };
-
-                var toggleBubbleState = function (boolean) {
-                    this.providersBubbleView.setState({
-                        providersBubbleShow : boolean
-                    });
-                    if (boolean) {
-                        document.getElementById('more-provider').className = 'w-btn w-btn-primary more-provider active';
-                    } else {
-                        document.getElementById('more-provider').className = 'w-btn w-btn-primary more-provider';
-                    }
-                }.bind(this);
-
-                document.body.addEventListener('click', EventListener, false);
-                toggleBubbleState(!this.providersBubbleView.state.providersBubbleShow);
-            },
-            getProviderEle : function () {
-                var text = this.props.ebook.get('providerNames').join(' / ');
-                return <span className="provider w-wc w-text-info">{Wording.PROVIDERNAMES_LABEL + (text || Wording.INTERNET)}</span>
-            },
             getDownloadBtn : function (source) {
-                var text = '阅读';
-                // switch (this.props.ebook.get('type')) {
-                // case 'MOVIE':
-                //     text = Wording.DOWNLOAD;
-
-                //     if (this.props.ebook.get('videoEpisodes')[0].downloadUrls.length > 1) {
-                //         return (
-                //             <div className="o-btn-group">
-                //                 <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source)}>
-                //                     {text}
-                //                     <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {this.props.ebook.get('videoEpisodes')[0].downloadUrls[0].providerName}</em> {ReadableSize(this.props.ebook.get('videoEpisodes')[0].downloadUrls[0].size)}</span>
-                //                 </button>
-                //                 <button id="more-provider" name="more-provider" className="w-btn w-btn-primary more-provider" onClick={this.moreProvider}>
-                //                     <span className="arrow"></span>
-                //                 </button>
-                //             </div>
-
-                //         );
-                //     } else {
-                //         return (
-                //             <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source)}>
-                //                 {text}
-                //                 <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {this.props.ebook.get('videoEpisodes')[0].downloadUrls[0].providerName}</em> {ReadableSize(this.props.ebook.get('videoEpisodes')[0].downloadUrls[0].size)}</span>
-                //             </button>
-                //         );
-                //     }
-                //     break;
-                // case 'TV':
-                // case 'VARIETY':
-                // case 'COMIC':
-                //     text = Wording.DOWNLOAD_ALL;
-                //     break;
-                // }
-
                 return (
                     <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source, this.props.ebook.get('subscribeUrl'))}>
-                        {text}
+                        {Wording.READ}
+                        <span className="size w-text-info bubble-download-tips w-wc">{Wording.DOWNLOAD_TIPS}</span>
                     </button>
                 );
             },
-            clickButtonPlay : function (url) {
-                var episode = this.props.ebook.get('videoEpisodes')[0];
-                var video = this.props.ebook.toJSON();
-
-                var $a = $('<a>').attr({
-                    href : url,
-                    target : '_default'
-                })[0].click();
-
-                // GA.log({
-                //     'event' : 'video.play.action',
-                //     'action' : 'btn_click',
-                //     'video_source' : episode.playInfo[0].title,
-                //     'video_id' : episode.video_id,
-                //     'episode_id' : episode.id,
-                //     'video_title' : video.title,
-                //     'video_type' : video.type,
-                //     'video_category' : video.categories,
-                //     'video_year' : video.year,
-                //     'video_area' : video.region,
-                //     'video_num' : video.totalEpisodesNum
-                // });
-
-                $.ajax({
-                    url : 'http://oscar.wandoujia.com/api/v1/monitor',
-                    data : {
-                        event : 'video_play_start',
-                        client : JSON.stringify({
-                            type : 'windows'
-                        }),
-                        resource : JSON.stringify({
-                            videoId : episode.video_id,
-                            videoEpisodeId : episode.id,
-                            provider : episode.playInfo[0].title,
-                            url : episode.playInfo[0].url
-                        })
-                    }
-                });
-            },
-            getPlayBtn : function (source) {
-                var episodes  = this.props.ebook.get('videoEpisodes');
-                if (this.props.ebook.get('type') === 'MOVIE' && episodes[0].playInfo !== undefined && episodes[0].playInfo.length > 0 && episodes[0].playInfo[0].url !== undefined) {
-                    return (
-                        <button className="button-play w-btn" onClick={this.clickButtonPlay.bind(this, episodes[0].playInfo[0].url)}>
-                            {Wording.PLAY}
-                        </button>
-                    );
-
-                } else {
-                    return ' ';
-                }
-            },
-            getSubscribeBtn : function (source) {
-                var text;
-                var baseClassName = 'button-subscribe w-btn';
-                var className;
-
-                if (this.props.ebook.get('subscribeUrl') === undefined || this.props.subscribed === -2) {
-                    return false;
-                }
-                if (this.props.subscribed === 1) {
-                    className = baseClassName + ' subscribing';
-                    text = Wording.SUBSCRIBING;
-                } else if (this.props.subscribed === -1) {
-                    className = baseClassName + ' w-btn-danger';
-                    text = Wording.UNSUBSCRIBE;
-                } else if (this.props.subscribed === 2) {
-                    className = baseClassName + ' loading';
-                    text = Wording.LOADING;
-                } else {
-                        className = baseClassName;
-                    text = Wording.SUBSCRIBE;
-                }
-
-                return <button id="button-subscribe" class={className} onClick={this.showSubscribeBubble.bind(this, 'subscribe', this.props.ebook)} onMouseEnter={this.mouseEvent.bind(this, 'onMouseEnter')} onMouseLeave={this.mouseEvent.bind(this, 'onMouseLeave')}>{text}</button>
-            },
-            handleChange : function (evt) {
-                if (event.target.checked === false) {
-                    sessionStorage.setItem('unchecked', 'unchecked');
-                } else {
-                    sessionStorage.removeItem('unchecked');
-                }
-
-                // GA.log({
-                //     'event' : 'video.misc.action',
-                //     'action' : 'app_promotion_checkbox_clicked',
-                //     'type' : evt.target.checked
-                // });
-            },
-            getCheckbox : function (name) {
-                if (this.props.ebook.get('type') === 'MOVIE') {
-                    return (
-                        <label class="download-app">
-                            <input class="w-checkbox" ref="player-app" onChange={this.handleChange} type="checkbox" />
-                            同时下载视频应用
-                        </label>
-                    );
-                }
-            },
             getPublishingEle : function () {
                 var ebook = this.props.ebook;
-                var text = ebook.get('finish') ? Wording.META_FINISHED : Wording.META_SERIES;
 
-                return <div className="publishing w-text-primary w-wc">{FormatString(text, ebook.get('totalChaptersNum'))}</div>;
-            },
-            getMetaEle : function () {
-                var ebook = this.props.ebook;
-                var cate;
-
-                if (!!ebook.get('subCategory')) {
-                    cate = FormatString(Wording.META_CATE, ebook.get('category').name, ebook.get('subCategory').name);
-                } else {
-                    cate = FormatString(Wording.META_CATE_SINGLE, ebook.get('category').name);
+                if (ebook.get('finish')) {
+                    return (
+                        <span className="w-text-secondary">{Wording.FINISHED}</span>
+                    );
                 }
 
-                var author = FormatString(Wording.META_AUTHOR, ebook.get('authors'));
+                return (
+                    <span className="publishing w-text-primary"><strong>{Wording.SERIES}</strong></span>
+                );
+            },
+            getWordsEle : function () {
+                var ebook = this.props.ebook;
 
+                return (
+                    <span className="w-text-secondary">{FormatString(Wording.META_WORDS, FormatWords(ebook.get('words')))}</span>
+                );
+            },
+            getUpdateEle : function () {
+                var ebook = this.props.ebook;
+
+                return (
+                    <span className="w-text-secondary">{FormatString(Wording.META_UPDATE, FormatDate('kindly', ebook.get('updatedDate')))}</span>
+                );
+            },
+            getCountEle : function () {
+                var ebook = this.props.ebook;
+
+                return (
+                    <span className="w-text-secondary">{FormatString(Wording.META_COUNT, ebook.get('totalChaptersNum'))}</span>
+                );
+            },
+            getCateEle : function () {
+                var ebook = this.props.ebook;
+                var cate = ebook.get('category').name;
+
+                if (!!ebook.get('subCategory')) {
+                    cate = cate + ' / ' + ebook.get('subCategory').name;
+                }
+
+                return (
+                    <span className="w-text-secondary"><strong>{Wording.CATEGORY}：</strong>{cate}</span>
+                );
+            },
+            getAuthorEle : function () {
+                var ebook = this.props.ebook;
+
+                return (
+                    <span className="w-text-secondary"><strong>{Wording.AUTHOR}：</strong>{ebook.get('authors')}</span>
+                );
+            },
+            getSourceEle : function () {
+                var ebook = this.props.ebook;
                 var source;
                 var providers = ebook.get('providerNames');
 
                 if (providers.length > 3) {
-                    source = FormatString(Wording.META_SOURCE_MORE, providers.slice(0, 2).join('、'), providers.length);
+                    source = providers.slice(0, 2).join('、') + FormatString(Wording.META_SOURCE_MORE, providers.length);
                 } else {
-                    source = FormatString(Wording.META_SOURCE, providers.join('、'));
+                    source = providers.join('、');
                 }
 
-                return <div className="w-text-secondary w-wc">{cate} · {author} · {source}</div>;
-            },
-            getActorsEle : function () {
-                var text = '';
-                var video = this.props.ebook;
-                if (video.get('type') === 'VARIETY') {
-                    text = Wording.PRESENTER_LABEL + video.get('presenters');
-                } else {
-                    text = Wording.ACTORS_LABEL + video.get('actors');
-                }
-
-                return <div className="actors w-text-secondary w-wc">{text}</div>;
-            },
-            getCateEle : function () {
-                var text = '';
-                var data = this.props.ebook.toJSON();
-                switch (this.props.ebook.get('type')) {
-                case 'VARIETY':
-                    text = data.categories;
-                    break;
-                case 'TV':
-                case 'MOVIE':
-                case 'COMIC':
-                    text = data.categories + ' / ' + FormatString(Wording.YEAR, data.year);
-                    break;
-                }
-
-                return <div className="w-text-secondary w-wc">{text}</div>;
-            },
-            getRatingEle : function () {
-                var ele;
-                var data = this.props.ebook.toJSON();
-                if (data.rating !== Wording.NO_RATING) {
-                    ele = <span className="h4">{data.rating}</span>;
-                } else {
-                    ele = data.rating;
-                }
-
-                return <div className="w-text-secondary w-wc">{Wording.RATING_LABEL}{ele}</div>;
+                return (
+                    <span className="w-text-secondary"><strong>{Wording.SOURCE}：</strong>{source}</span>
+                );
             }
         };
 
