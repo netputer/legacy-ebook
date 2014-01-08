@@ -31,5 +31,6 @@ define({
     META_CATE_SINGLE : '分类：{1}',
     META_AUTHOR : '作者：{1}',
     META_SOURCE : '来源：{1}',
-    META_SOURCE_MORE : '来源：{1}等 {2} 个'
+    META_SOURCE_MORE : '来源：{1}等 {2} 个',
+    DOWNLOAD_TIPS : '免费保存全部章节到手机'
 });

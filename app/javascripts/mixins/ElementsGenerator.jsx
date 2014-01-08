@@ -111,43 +111,10 @@
                 return <span className="provider w-wc w-text-info">{Wording.PROVIDERNAMES_LABEL + (text || Wording.INTERNET)}</span>
             },
             getDownloadBtn : function (source) {
-                var text = '阅读';
-                // switch (this.props.ebook.get('type')) {
-                // case 'MOVIE':
-                //     text = Wording.DOWNLOAD;
-
-                //     if (this.props.ebook.get('videoEpisodes')[0].downloadUrls.length > 1) {
-                //         return (
-                //             <div className="o-btn-group">
-                //                 <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source)}>
-                //                     {text}
-                //                     <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {this.props.ebook.get('videoEpisodes')[0].downloadUrls[0].providerName}</em> {ReadableSize(this.props.ebook.get('videoEpisodes')[0].downloadUrls[0].size)}</span>
-                //                 </button>
-                //                 <button id="more-provider" name="more-provider" className="w-btn w-btn-primary more-provider" onClick={this.moreProvider}>
-                //                     <span className="arrow"></span>
-                //                 </button>
-                //             </div>
-
-                //         );
-                //     } else {
-                //         return (
-                //             <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source)}>
-                //                 {text}
-                //                 <span className="size w-text-info bubble-download-tips w-wc"><em>来源: {this.props.ebook.get('videoEpisodes')[0].downloadUrls[0].providerName}</em> {ReadableSize(this.props.ebook.get('videoEpisodes')[0].downloadUrls[0].size)}</span>
-                //             </button>
-                //         );
-                //     }
-                //     break;
-                // case 'TV':
-                // case 'VARIETY':
-                // case 'COMIC':
-                //     text = Wording.DOWNLOAD_ALL;
-                //     break;
-                // }
-
                 return (
                     <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source, this.props.ebook.get('subscribeUrl'))}>
-                        {text}
+                        {Wording.READ}
+                        <span className="size w-text-info bubble-download-tips w-wc">{Wording.DOWNLOAD_TIPS}</span>
                     </button>
                 );
             },

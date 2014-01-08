@@ -1,0 +1,117 @@
+@import "compass/css3";
+
+.bubble {
+    padding: 15px;
+    display: none;
+    &.show {
+        display: block;
+        -webkit-transition: all .2s linear;
+    }
+}
+
+.bubble-inner {
+    position: relative;
+
+    &.arrow-subscribe:before {
+        border-bottom: 9px solid #eee;
+        border-left: 9px dashed transparent;
+        border-right: 9px dashed transparent;
+        border-top: none;
+        content: '';
+        display: block;
+        height: 0;
+        left: 85px;
+        position: absolute;
+        top: -24px;
+        width: 0;
+    }
+    &.arrow-subscribe:after {
+        border-bottom: 8px solid #fff;
+        border-left: 8px dashed transparent;
+        border-right: 8px dashed transparent;
+        border-top: none;
+        content: '';
+        display: block;
+        height: 0;
+        left: 86px;
+        position: absolute;
+        top: -23px;
+        width: 0;
+    }
+}
+
+.bubble-subscribe {
+    @include box-shadow(0 2px 4px rgba(0, 0, 0, .2));
+
+    background: #fff;
+    position: relative;
+    top: 10px;
+    width: 320px;
+    z-index: 2;
+
+    h6 {
+        font-size: 14px;
+        line-height: 20px;
+        margin: 0 0 6px;
+    }
+    p {
+        color: #666;
+        margin: 0 0 4px;
+    }
+}
+
+.bubble-providers, .bubble-provideritems {
+    @include box-shadow(0 2px 4px rgba(0, 0, 0, .2));
+    background: #fff;
+    padding: 8px 0;
+    position: relative;
+    width: 175px;
+
+    li {
+        line-height: 24px;
+        padding: 0 10px;
+
+        &:hover {
+            background: #eee;
+            cursor: pointer;
+        }
+    }
+
+    .provider-size {
+        color: #999;
+        margin-left: 8px;
+    }
+}
+
+.bubble-provideritems {
+    position: absolute;
+    z-index: 2;
+}
+
+.bubble-download-tips {
+    background: #222;
+    border-radius: 2px;
+    color: #ddd;
+    display: block;
+    font-size: 12px;
+    left: 0;
+    line-height: 26px;
+    margin-top: 6px;
+    padding: 0 5px;
+    position: absolute;
+
+    &:before {
+        border-bottom: 5px solid #222;
+        border-left: 5px dashed transparent;
+        border-right: 5px dashed transparent;
+        border-top: none;
+        content: '';
+        display: block;
+        height: 0;
+        left: 28px;
+        position: absolute;
+        top: -5px;
+        width: 0;
+    }
+}
+
