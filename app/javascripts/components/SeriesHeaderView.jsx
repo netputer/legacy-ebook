@@ -6,17 +6,13 @@
         'Wording',
         'GA',
         'utilities/FormatString',
-        'mixins/ElementsGenerator',
-        'components/SubscribeBubbleView',
-        'components/ProvidersBubbleView'
+        'mixins/ElementsGenerator'
     ], function (
         React,
         Wording,
         GA,
         FormatString,
-        ElementsGenerator,
-        SubscribeBubbleView,
-        ProvidersBubbleView
+        ElementsGenerator
     ) {
 
         var SeriesHeaderView = React.createClass({
@@ -38,8 +34,6 @@
                                 <div className="download-info w-hbox">
                                     <div className="download-button">
                                         {this.getDownloadBtn('download_all')}
-                                        {this.subscribeBubbleView}
-                                        {this.providersBubbleView}
                                     </div>
                                     <div className="report"><a href="#">{Wording.REPORT}</a></div>
                                 </div>
