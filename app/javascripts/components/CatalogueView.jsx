@@ -103,7 +103,7 @@
                 return (
                     <div className={sortClassName}>
                         <a className="show-asc" onClick={this.sortAsc}>正序</a>
-                        <span> · </span>
+                        <span> &middot; </span>
                         <a className="show-desc" onClick={this.sortDesc}>倒序</a>
                     </div>
                 );
