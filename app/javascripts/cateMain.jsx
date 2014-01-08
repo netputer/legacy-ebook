@@ -49,7 +49,7 @@
                 show : false
             });
         
-            catePageRouter.navigate(window.location.hash.split('#')[0], {
+            catePageRouter.navigate('keep', {
                 trigger : false
             });
         };

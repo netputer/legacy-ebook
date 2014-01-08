@@ -49,7 +49,7 @@
                 show : false
             });
         
-            topPageRouter.navigate(window.location.hash.split('#')[0], {
+            topPageRouter.navigate('keep', {
                 trigger : false
             });
         };
