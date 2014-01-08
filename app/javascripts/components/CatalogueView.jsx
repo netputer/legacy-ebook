@@ -4,12 +4,14 @@
     define([
         'React',
         'IO',
+        'GA',
         'Wording',
         'Actions',
         'utilities/FormatString'
     ], function (
         React,
         IO,
+        GA,
         Wording,
         Actions,
         FormatString
@@ -19,6 +21,9 @@
 
             IO.requestAsync({
                 url : FormatString(Actions.actions.CATALOGUE, id),
+                data : {
+                    pos : 'w/detail'
+                },
                 success : deferred.resolve,
                 error : deferred.reject
             });
@@ -62,6 +67,13 @@
                     totalCatalogues : newTotalCatalogues,
                     catalogues : newTotalCatalogues.slice(0, this.state.page * PAGE_SIZE),
                     asc : !this.state.asc
+                });
+
+                var logKey = this.state.asc ? 'a' : 'z';
+
+                GA.log({
+                    'event' : 'ebook.detail.click',
+                    logKey : 1
                 });
             },
             sortAsc : function () {

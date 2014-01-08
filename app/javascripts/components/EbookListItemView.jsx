@@ -6,60 +6,79 @@
         'Backbone',
         'Wording',
         'GA',
+        'mixins/ElementsGenerator',
         'utilities/FormatString',
         'utilities/FormatWords',
-        'utilities/FormatDate'
+        'utilities/FormatDate',
+        'components/DownloadBubbleView'
     ], function (
         React,
         _,
         Backbone,
         Wording,
         GA,
+        ElementsGenerator,
         FormatString,
         FormatWords,
-        FormatDate
+        FormatDate,
+        DownloadBubbleView
     ) {
         var InfoView = React.createClass({
+            mixins : [ElementsGenerator],
+            getInitialState : function () {
+                return {
+                    downloadTip : false
+                };
+            },
+            onClick : function () {
+                this.props.onSelect();
+            },
             render : function () {
-                var data = this.props.data;
+                var data = this.props.ebook;
                 var descriptionLength = 100;
-                var statusWording;
-                var statusClassName;
 
-                if (data.finish) {
-                    statusWording = Wording.FINISHED;
-                    statusClassName = 'status-finished w-text-secondary';
-                } else {
-                    statusWording = Wording.SERIES;
-                    statusClassName = 'status-series w-text-primary';
-                }
+                var showWords = function () {
+                    if (this.props.filterSelected !== undefined && (this.props.filterSelected['words'] || this.props.filterSelected['rank'] === 'words')) {
+                         return (
+                            <span>
+                                <span> &middot; </span>
+                                {this.getWordsEle()}
+                            </span>
+                        );
+                    }
+                }.bind(this);
 
-                var showDate = '';
-                if (this.props.filterSelected !== undefined && (this.props.filterSelected['update'] || this.props.filterSelected['rank'] === 'update')) {
-                     showDate = ' · 更新时间: '  + FormatDate('kindly', data.updatedDate);
-                }
-
-                var showWords = '';
-                if (this.props.filterSelected !== undefined && (this.props.filterSelected['words'] || this.props.filterSelected['rank'] === 'words')) {
-                    showWords = ' · 字数: ' + FormatWords(data.words);
-                }
+                var showDate = function () {
+                    if (this.props.filterSelected !== undefined && (this.props.filterSelected['update'] || this.props.filterSelected['rank'] === 'update')) {
+                         return (
+                            <span>
+                                <span> &middot; </span>
+                                {this.getUpdateEle()}
+                            </span>
+                        );
+                    }
+                };
 
                 return (
                     <div className="info-container">
-                        <h4 className="title w-wc" dangerouslySetInnerHTML={{ __html : data.title }} onClick={this.props.onSelect}></h4>
+                        <h4 className="title w-wc" dangerouslySetInnerHTML={{ __html : data.get('title') }} onClick={this.onClick}></h4>
                         <div>
-                            <span className={statusClassName}>{!!statusWording ? statusWording + ' · ' : ''}</span>
-                            <span className="w-text-info">分类: {data.category.name}{data.subCategory ? ' / ' + data.subCategory.name : ''} · </span>
-                            <span className="w-text-info">作者: {data.authors.join('、')} · </span>
-                            <span className="w-text-info">{data.totalChaptersNum} 章</span>
-                            <span className="w-text-info">{showWords}</span>
-                            <span className="w-text-info">{showDate}</span>
+                            {this.getPublishingEle()}
+                            <span> &middot; </span>
+                            {this.getCateEle()}
+                            <span> &middot; </span>
+                            {this.getAuthorEle()}
+                            <span> &middot; </span>
+                            {this.getCountEle()}
+                            {showWords}
+                            {showDate}
                         </div>
                         <div className="w-text-info description">
-                            {data.description !== undefined && data.description.length > descriptionLength ? data.description.substr(0, descriptionLength) + '...' : data.description}
+                            {data.get('description') !== undefined && data.get('description').length > descriptionLength ? data.get('description').substr(0, descriptionLength) + '...' : data.get('description')}
                         </div>
                         <div className="download-ctn w-hbox">
-                            <button className="button-download w-btn w-btn-primary" onClick={this.props.onSelect}>{Wording.READ}</button>
+                            {this.getDownloadBtn(this.props.source)}
+                            <DownloadBubbleView show={this.state.downloadTip} />
                         </div>
                     </div>
                 );
@@ -95,14 +114,15 @@
             },
             render : function () {
                 var data = this.props.ebook;
+
                 return (
                     <li className="o-list-item w-hbox w-component-card">
                         <div className="o-mask item-cover"
-                            style={{ 'background-image' : 'url(' + (data.cover.l || "") + ')' }}
+                            style={{ 'background-image' : 'url(' + (data.get('cover').l || "") + ')' }}
                             onClick={this.clickItem}>
                             {this.renderOrder()}
                         </div>
-                        <InfoView data={data} filterSelected={this.props.filterSelected} onSelect={this.clickItem} />
+                        <InfoView ebook={data} source={this.props.source} filterSelected={this.props.filterSelected} onSelect={this.clickItem} />
 
                     </li>
                 );

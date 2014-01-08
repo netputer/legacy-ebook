@@ -19,6 +19,9 @@
 
             IO.requestAsync({
                 url : FormatString(Actions.actions.TRANSCODING, id),
+                data : {
+                    pos : 'w/preview'
+                },
                 success : deferred.resolve,
                 error : deferred.reject
             });

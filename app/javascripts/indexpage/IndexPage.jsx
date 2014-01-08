@@ -100,7 +100,7 @@
                         <SearchBoxView
                             className="o-search-box-ctn"
                             onAction={this.onSearchAction}
-                            source="homepage" />
+                            source="index" />
                         <NavigationView categories={this.state.categories} />
                         <CategoryListView subCategories={this.state.subCategories} count={this.state.categoriesCount} onVideoSelect={this.onVideoSelect} />
                         <FooterView />
