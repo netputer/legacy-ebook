@@ -1,5 +1,5 @@
- @import "../../thirdparty/Adonis/sass/standardColors";
- @import "bubble";
+@import "../../thirdparty/Adonis/sass/standardColors";
+@import "bubble";
 
 .o-series-panel {
     background-color: rgba(0, 0, 0, .4);
@@ -100,10 +100,6 @@
         background-size: cover;
         height: 130px;
         width: 96px;
-    }
-
-    .publishing {
-        font-weight: bold;
     }
 
     .info-ctn {

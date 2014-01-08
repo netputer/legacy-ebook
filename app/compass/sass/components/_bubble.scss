@@ -1,8 +1,9 @@
 @import "compass/css3";
 
 .bubble {
-    padding: 15px;
     display: none;
+    padding: 15px;
+
     &.show {
         display: block;
         -webkit-transition: all .2s linear;
@@ -25,6 +26,7 @@
         top: -24px;
         width: 0;
     }
+
     &.arrow-subscribe:after {
         border-bottom: 8px solid #fff;
         border-left: 8px dashed transparent;
@@ -54,13 +56,15 @@
         line-height: 20px;
         margin: 0 0 6px;
     }
+
     p {
         color: #666;
         margin: 0 0 4px;
     }
 }
 
-.bubble-providers, .bubble-provideritems {
+.bubble-providers,
+.bubble-provideritems {
     @include box-shadow(0 2px 4px rgba(0, 0, 0, .2));
     background: #fff;
     padding: 8px 0;

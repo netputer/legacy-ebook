@@ -59,7 +59,7 @@
                 var text = ebook.get('finish') ? Wording.META_FINISHED : Wording.META_SERIES;
 
                 return (
-                    <span className="publishing w-text-primary">{FormatString(text, ebook.get('totalChaptersNum'))}</span>
+                    <span className="publishing w-text-primary"><strong>{FormatString(text, ebook.get('totalChaptersNum'))}</strong></span>
                 );
             },
             getWordsEle : function () {
