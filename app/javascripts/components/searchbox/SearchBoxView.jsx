@@ -3,6 +3,7 @@
     define([
         '$',
         '_',
+        'IO',
         'GA',
         'React',
         'Actions',
@@ -11,6 +12,7 @@
     ], function (
         $,
         _,
+        IO,
         GA,
         React,
         Actions,
@@ -20,11 +22,18 @@
 
         var HOTQUERY_SIZE = 6;
 
-        var queryAsync = function (keyword) {
+        var trimEm = function (str) {
+            return str.replace(/<\/?em>/g, '');
+        };
+
+        var queryAsync = function (keyword, source) {
             var deferred = $.Deferred();
 
-            $.ajax({
+            IO.requestAsync({
                 url : Actions.actions.SUGGESTION + keyword,
+                data : {
+                    pos : 'w/' + source
+                },
                 success : deferred.resolve,
                 error : deferred.reject
             });
@@ -32,13 +41,14 @@
             return deferred.promise();
         };
 
-        var queryHotQueryAsync = function () {
+        var queryHotQueryAsync = function (source) {
             var deferred = $.Deferred();
 
-            $.ajax({
+            IO.requestAsync({
                 url : Actions.actions.HOT_QUERY,
                 data : {
-                    size : HOTQUERY_SIZE
+                    size : HOTQUERY_SIZE,
+                    pos : 'w/' + source
                 },
                 success : deferred.resolve,
                 error : deferred.reject
@@ -52,7 +62,7 @@
                 this.props.model.set('selected', true);
             },
             clickItem : function (evt) {
-                var keyword = this.props.model.get('body');
+                var keyword = trimEm(this.props.model.get('body'));
                 this.props.clickHandler.call(this, keyword);
 
             },
@@ -73,7 +83,7 @@
                 };
             },
             componentWillMount : function () {
-                queryHotQueryAsync().done(function (resp) {
+                queryHotQueryAsync(this.props.source).done(function (resp) {
                     this.setState({
                         queries : resp.hotQueries
                     });
@@ -133,7 +143,7 @@
             },
             showSuggestion : function (evt) {
                 var value = evt.target.value;
-                queryAsync(value).done(function (resp) {
+                queryAsync(value, this.props.source).done(function (resp) {
                     this.setState({
                         resultModels : _.map(resp, function (item) {
                             return new SuggestionItemModel({
@@ -210,7 +220,7 @@
                         });
                         if (selectedItem !== undefined) {
                             evt.preventDefault();
-                            this.doSearch(selectedItem.get('body'), 'keyboard');
+                            this.doSearch(trimEm(selectedItem.get('body')), 'keyboard');
                         }
                     }
                     break;
@@ -284,7 +294,7 @@
                             </div>
                             <button className="w-btn w-btn-large w-btn-primary">搜索</button>
                         </form>
-                        <HotQueryView />
+                        <HotQueryView source={this.props.source} />
                     </div>
                 );
             }

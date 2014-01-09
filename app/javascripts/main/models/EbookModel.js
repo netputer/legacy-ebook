@@ -15,25 +15,17 @@
 
         var EbookModel = Backbone.Model.extend({
             defaults : {
-                cover : {
-                    l : [],
-                    s : []
-                },
                 providerNames : []
             },
             pretreatData : function () {
                 var data = this.toJSON();
 
-                if (data.authors.length) {
+                data.showTitle = data.title.replace(/<\/?em>/g, '');
+
+                if (data.authors) {
                     data.authors = data.authors.join(' / ');
                 } else {
                     data.authors = Wording.NO_DATA;
-                }
-
-                if (data.rating !== 0) {
-                    data.rating = data.marketRatings[0].rating;
-                } else {
-                    data.rating = Wording.NO_RATING;
                 }
 
                 if (!data.category) {

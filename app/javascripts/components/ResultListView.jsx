@@ -6,6 +6,8 @@
         '$',
         'GA',
         'Backbone',
+        'mixins/FilterNullValues',
+        'main/models/EbookModel',
         'components/WanxiaodouView',
         'components/EbookListItemView',
         'components/LoadingView'
@@ -15,15 +17,12 @@
         $,
         GA,
         Backbone,
+        FilterNullValues,
+        EbookModel,
         WanxiaodouView,
         EbookListItemView,
         LoadingView
     ) {
-
-        var FilterView = React.createClass({
-            render : function () {
-            }
-        });
 
         var ResultListView = React.createClass({
             componentDidMount : function () {
@@ -38,7 +37,8 @@
                 var loadingView = this.props.loading ? <LoadingView fixed={true} /> : '';
                 if (this.props.list.length > 0) {
                     var listItemViews = _.map(this.props.list, function (ebook, index) {
-                        return <EbookListItemView source={this.props.source} index={index} current={this.props.current} ebook={ebook} key={ebook.id} filterSelected={this.props.filterSelected} onEbookSelect={this.props.onEbookSelect} />
+                        var ebookModel = new EbookModel(FilterNullValues.filterNullValues.call(FilterNullValues, ebook));
+                        return <EbookListItemView source={this.props.source} index={index} current={this.props.current} ebook={ebookModel} key={ebook.id} filterSelected={this.props.filterSelected} onEbookSelect={this.props.onEbookSelect} />
                     }, this);
 
                     return (

@@ -56,13 +56,15 @@
     }
 
     .info-container {
+        height: 130px;
         margin-left: 10px;
-        overflow: hidden;
+        position: relative;
         -webkit-box-flex: 1;
 
         .title {
             cursor: pointer;
-            margin-top: 3px;
+            position: relative;
+            top: 3px;
 
             &:hover {
                 color: $textPrimary;
@@ -84,7 +86,9 @@
         }
 
         .download-ctn {
-            margin-top : 7px;
+            bottom: 0;
+            position: absolute;
+            width: 100%;
         }
 
         .provider {

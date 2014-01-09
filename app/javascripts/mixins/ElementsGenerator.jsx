@@ -24,40 +24,38 @@
     ) {
 
         var ElementsGenerator = {
-            clickButtonDownload : function (source, video) {
-                var installPlayerApp = this.refs !== undefined && this.refs['player-app'].state.checked;
+            clickButtonDownload : function (source, ebook, evt) {
+                var ele = evt.target;
+                ele.innerHTML = Wording.DOWNLOADING;
 
-                DownloadHelper.download(this.props.ebook.get('videoEpisodes'), installPlayerApp);
+                DownloadHelper.download(ebook, source);
 
-                if (this.props.subscribed !== -2) {
-                    this.showSubscribeBubble('download_all', video);
-                }
+                window.setTimeout(function () {
+                    ele.innerHTML = Wording.READ;
+                }, 5000);
 
-                // GA.log({
-                //     'event' : 'video.download.action',
-                //     'action' : 'btn_click',
-                //     'pos' : source,
-                //     'video_id' : this.props.ebook.id,
-                //     'video_source' : this.props.ebook.get('videoEpisodes')[0].downloadUrls !== undefined ? this.props.ebook.get('videoEpisodes')[0].downloadUrls[0].providerName : '',
-                //     'video_title' : this.props.ebook.get('title'),
-                //     'video_type' : this.props.ebook.get('type'),
-                //     'video_category' : this.props.ebook.get('categories'),
-                //     'video_year' : this.props.ebook.get('year'),
-                //     'video_area' : this.props.ebook.get('region')
-                // });
+                GA.log({
+                    'event' : 'ebook.' + source + '.click',
+                    'read' : 1
+                });
+
+            },
+            toggleDownloadTip : function (flag) {
+                this.setState({
+                    downloadTip : !!flag
+                });
             },
             getDownloadBtn : function (source) {
                 return (
-                    <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source, this.props.ebook.get('subscribeUrl'))}>
+                    <button className="button-download w-btn w-btn-primary" onClick={this.clickButtonDownload.bind(this, source, this.props.ebook)} onMouseEnter={this.toggleDownloadTip.bind(this, 1)} onMouseLeave={this.toggleDownloadTip.bind(this, 0)}>
                         {Wording.READ}
-                        <span className="size w-text-info bubble-download-tips w-wc">{Wording.DOWNLOAD_TIPS}</span>
                     </button>
                 );
             },
             getPublishingEle : function () {
                 var ebook = this.props.ebook;
 
-                if (ebook.get('finish')) {
+                if (ebook !== undefined && ebook.get('finish')) {
                     return (
                         <span className="w-text-secondary">{Wording.FINISHED}</span>
                     );
@@ -85,14 +83,14 @@
                 var ebook = this.props.ebook;
 
                 return (
-                    <span className="w-text-secondary">{FormatString(Wording.META_COUNT, ebook.get('totalChaptersNum'))}</span>
+                    <span className="w-text-secondary">{FormatString(Wording.META_COUNT, ebook !== undefined ? ebook.get('totalChaptersNum') : 0)}</span>
                 );
             },
             getCateEle : function () {
                 var ebook = this.props.ebook;
-                var cate = ebook.get('category').name;
+                var cate = ebook !== undefined ? ebook.get('category').name : '';
 
-                if (!!ebook.get('subCategory')) {
+                if (ebook !== undefined && !!ebook.get('subCategory')) {
                     cate = cate + ' / ' + ebook.get('subCategory').name;
                 }
 
@@ -104,7 +102,7 @@
                 var ebook = this.props.ebook;
 
                 return (
-                    <span className="w-text-secondary"><strong>{Wording.AUTHOR}：</strong>{ebook.get('authors')}</span>
+                    <span className="w-text-secondary"><strong>{Wording.AUTHOR}：</strong>{ebook !== undefined ? ebook.get('authors') : ''}</span>
                 );
             },
             getSourceEle : function () {

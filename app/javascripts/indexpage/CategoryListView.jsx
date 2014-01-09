@@ -5,13 +5,19 @@
         'IO',
         'GA',
         'Wording',
-        'Actions'
+        'Actions',
+        'mixins/ElementsGenerator',
+        'main/models/EbookModel',
+        'mixins/FilterNullValues'
     ], function (
         React,
         IO,
         GA,
         Wording,
-        Actions
+        Actions,
+        ElementsGenerator,
+        EbookModel,
+        FilterNullValues
     ) {
 
         var indexCategory = [];
@@ -32,7 +38,6 @@
         };
 
         var getCategoryRankAsync = function (cate, type) {
-
             var deferred = $.Deferred();
             IO.requestAsync({
                 url : Actions.actions.SEARCH,
@@ -50,6 +55,34 @@
             return deferred.promise();
 
         };
+
+        var BookListView = React.createClass({
+            mixins : [ElementsGenerator],
+            getInitialState : function () {
+                return {
+                    downloadTip : false
+                };
+            },
+            onClick : function (id) {
+                this.props.clickItem.call(this, id);
+            },
+            render : function () {
+                var book = this.props.ebook;
+                return (
+                    <li className="o-categories-item w-component-card" title={book.get('title')}>
+                        <div className="cover o-mask" onClick={this.onClick.bind(this, book.id)}>
+                            <img src={book.get('cover').l} alt={book.get('title')} />
+                        </div>
+                        <div className="info">
+                            <span className="title w-wc w-text-secondary" onClick={this.onClick.bind(this, book.id)}>{book.get('title')}</span>
+                            <span className="author w-wc w-text-info" onClick={this.onClick.bind(this, book.id)}>作者: {book.get('authors')}</span>
+                            {this.getDownloadBtn('index')}
+                        </div>
+                    </li>
+                );
+            }
+
+        });
 
 
         var ItemView = React.createClass({
@@ -92,17 +125,9 @@
             renderBooks : function () {
                 var books = this.props.category !== undefined ? this.props.category.data : [];
                 return _.map(books, function (book, index) {
+                    var ebook = new EbookModel(FilterNullValues.filterNullValues.call(FilterNullValues, book));
                     return (
-                        <li className="o-categories-item w-component-card" title={book.title} onClick={this.onClick.bind(this, book.id)}>
-                            <div className="cover o-mask">
-                                <img src={book.cover.l} alt={book.title} />
-                            </div>
-                            <div className="info">
-                                <span className="title w-wc w-text-secondary">{book.title}</span>
-                                <span className="author w-wc w-text-info">作者: {book.authors}</span>
-                                <button className="button-download w-btn w-btn-primary" onClick={this.props.onSelect}>{Wording.READ}</button>
-                            </div>
-                        </li>
+                        <BookListView ebook={ebook} clickItem={this.onClick} />
                     );
                 }, this);
             },
@@ -113,6 +138,12 @@
                         rankData : resp.result
                     });
                 }.bind(this));
+            },
+            clickRank : function (cate, type, evt) {
+                GA.log({
+                    'event' : 'ebook.homepage.click',
+                    'top_category' : cate
+                });
             },
             renderRanks : function (cate) {
                 var type = this.state.rankType || 'week_hot';
@@ -130,11 +161,11 @@
                         <div className="o-category-rank w-component-card">
                             <a href={'top.html?category=' + cate} className="cate-title w-text-secondary">{cate}排行</a>
                             <div className="rank-type">
-                                <a className={this.state.currentTab === 'week_hot' ? 'w-text-primary' : 'w-text-info'} href={'top.html?category=' + cate + '#week_hot'} onMouseEnter={this.renderRankAsync.bind(this, cate, 'week_hot')}>周榜</a>
+                                <a className={this.state.currentTab === 'week_hot' ? 'w-text-primary' : 'w-text-info'} href={'top.html?category=' + cate + '#week_hot'} onMouseEnter={this.renderRankAsync.bind(this, cate, 'week_hot')} onClick={this.clickRank.bind(this, cate, 'week_hot')}>周榜</a>
                                 <span className="w-text-info">&middot;</span>
-                                <a className={this.state.currentTab === 'month_hot' ? 'w-text-primary' : 'w-text-info'} href={'top.html?category=' + cate + '#month_hot'} onMouseEnter={this.renderRankAsync.bind(this, cate, 'month_hot')}>月榜</a>
+                                <a className={this.state.currentTab === 'month_hot' ? 'w-text-primary' : 'w-text-info'} href={'top.html?category=' + cate + '#month_hot'} onMouseEnter={this.renderRankAsync.bind(this, cate, 'month_hot')} onClick={this.clickRank.bind(this, cate, 'month_hot')}>月榜</a>
                                 <span className="w-text-info">&middot;</span>
-                                <a className={this.state.currentTab === 'history_hot' ? 'w-text-primary' : 'w-text-info'} href={'top.html?category=' + cate + '#history_hot'} onMouseEnter={this.renderRankAsync.bind(this, cate, 'history_hot')}>总榜</a>
+                                <a className={this.state.currentTab === 'history_hot' ? 'w-text-primary' : 'w-text-info'} href={'top.html?category=' + cate + '#history_hot'} onMouseEnter={this.renderRankAsync.bind(this, cate, 'history_hot')} onClick={this.clickRank.bind(this, cate, 'history_hot')}>总榜</a>
                             </div>
 
                             <ol>
