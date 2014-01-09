@@ -116,7 +116,7 @@
             },
 
             render : function () {
-                if (this.props.list !== undefined && this.props.list.length > 0) {
+                if (this.props.list !== undefined && (this.props.list.length > 0 || this.props.source === 'category')) {
                     if (this.props.source === 'category') {
                         return (
                             <ul className="o-filter-ctn">

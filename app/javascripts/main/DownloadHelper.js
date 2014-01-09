@@ -19,15 +19,18 @@
 
         var providers;
 
-        var downloadAsync = function (title, id, source) {
+        var downloadAsync = function (ebook, source) {
             var deferred = $.Deferred();
+            var title = ebook.get('title');
+            var id = ebook.id;
+            var icon = ebook.get('cover').s;
 
             IO.requestAsync({
                 url : Actions.actions.EBOOK_DOWNLOAD,
                 data : {
                     url : Actions.actions.OFFLINE_READ + '?ebookId=' + id + '&source=windows2x',
                     name : title,
-                    icon : '',
+                    icon : icon,
                     pos : 'w/' + source
                 }
             });
@@ -37,11 +40,7 @@
 
 
         DownloadHelper.download = function (source, ebook) {
-            downloadAsync(ebook.get('title'), ebook.id, source);
-
-            GA.log({
-
-            });
+            downloadAsync(ebook, source);
         };
 
         return DownloadHelper;

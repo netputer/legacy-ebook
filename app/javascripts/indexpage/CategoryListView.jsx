@@ -63,19 +63,19 @@
                     downloadTip : false
                 };
             },
-            onClick : function () {
-                this.props.clickItem.bind(this, book.id);
+            onClick : function (id) {
+                this.props.clickItem.call(this, id);
             },
             render : function () {
                 var book = this.props.ebook;
                 return (
                     <li className="o-categories-item w-component-card" title={book.get('title')}>
-                        <div className="cover o-mask" onClick={this.onClick}>
+                        <div className="cover o-mask" onClick={this.onClick.bind(this, book.id)}>
                             <img src={book.get('cover').l} alt={book.get('title')} />
                         </div>
                         <div className="info">
-                            <span className="title w-wc w-text-secondary" onClick={this.onClick}>{book.get('title')}</span>
-                            <span className="author w-wc w-text-info" onClick={this.onClick}>作者: {book.get('authors')}</span>
+                            <span className="title w-wc w-text-secondary" onClick={this.onClick.bind(this, book.id)}>{book.get('title')}</span>
+                            <span className="author w-wc w-text-info" onClick={this.onClick.bind(this, book.id)}>作者: {book.get('authors')}</span>
                             {this.getDownloadBtn('index')}
                         </div>
                     </li>

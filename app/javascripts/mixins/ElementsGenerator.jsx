@@ -28,7 +28,7 @@
                 var ele = evt.target;
                 ele.innerHTML = Wording.DOWNLOADING;
 
-                DownloadHelper.download(source, ebook);
+                DownloadHelper.download(ebook, source);
 
                 window.setTimeout(function () {
                     ele.innerHTML = Wording.READ;

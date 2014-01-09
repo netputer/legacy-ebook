@@ -10,7 +10,6 @@ body {
     background-image: url(../images/bg_100X100.png);
 
     &.overflow {
-        left: -5px;
         overflow: hidden;
         position: relative;
     }
