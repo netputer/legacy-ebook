@@ -23,14 +23,15 @@ define({
     META_UPDATE : '{1}更新',
     NO_DATA : '暂无数据',
     NO_RATING : '暂无评分',
+    NO_PREVIEW_CONTENT : '暂无内容。',
+    PREVIEW : '章节预览',
     RANK : '排序',
     RATING : '评分',
     READ : '阅读',
+    REPORT : '版权举报',
     SERIES : '连载中',
+    SOURCE : '来源',
     SUBCATEGORIES : '子类',
     UPDATE_TIME : '更新',
-    WORD_COUNT : '字数',
-    REPORT : '版权举报',
-    SOURCE : '来源',
-    PREVIEW : '章节预览'
+    WORD_COUNT : '字数'
 });
