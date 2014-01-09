@@ -39,7 +39,7 @@
         };
 
 
-        DownloadHelper.download = function (source, ebook) {
+        DownloadHelper.download = function (ebook, source) {
             downloadAsync(ebook, source);
         };
 
