@@ -39,7 +39,7 @@
                 if (!!nextProps.firstId) {
                     queryAsync(nextProps.firstId).done(function (contents) {
                         this.setState({
-                            content : contents[0].content
+                            content : contents[0].content || Wording.NO_PREVIEW_CONTENT
                         });
                     }.bind(this));
                 }
