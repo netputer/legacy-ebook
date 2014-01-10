@@ -4,7 +4,6 @@
     float: left;
     height: 185px;
     margin: 0 14px 10px 0;
-    overflow: hidden;
     padding: 2px;
     position: relative;
 }
@@ -33,6 +32,7 @@
 
     ul {
         margin-top: 5px;
+        overflow: initial;
     }
 }
 
