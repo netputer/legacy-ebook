@@ -34,7 +34,10 @@
                 url : Actions.actions.QUERY_SERIES + id,
                 data : {
                     sessionId : window.sessionId || '',
-                    pos : 'w/search'
+                    pos : 'search'
+                },
+                xhrFields: {
+                   withCredentials: true
                 },
                 success : deferred.resolve,
                 error : deferred.reject,

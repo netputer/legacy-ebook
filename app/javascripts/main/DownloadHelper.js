@@ -31,7 +31,17 @@
                     url : Actions.actions.OFFLINE_READ + '?ebookId=' + id + '&source=windows2x',
                     name : title,
                     icon : icon,
-                    pos : 'w/' + source
+                    pos : source
+                }
+            });
+
+            IO.requestAsync({
+                url : Actions.actions.DOWNLOAD_LOG,
+                data : {
+                    ebookId : ebook.id
+                },
+                xhrFields: {
+                   withCredentials: true
                 }
             });
 
@@ -39,7 +49,7 @@
         };
 
 
-        DownloadHelper.download = function (source, ebook) {
+        DownloadHelper.download = function (ebook, source) {
             downloadAsync(ebook, source);
         };
 

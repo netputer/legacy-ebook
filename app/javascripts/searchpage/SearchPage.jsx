@@ -47,7 +47,10 @@
                 data : {
                     start : page * PAGE_SIZE,
                     max : PAGE_SIZE,
-                    pos : 'w/search'
+                    pos : 'search'
+                },
+                xhrFields: {
+                   withCredentials: true
                 },
                 success : function (resp) {
                     window.sessionId = resp.sessionId;

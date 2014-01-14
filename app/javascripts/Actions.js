@@ -7,6 +7,7 @@
             actions : {
                 EBOOK_DOWNLOAD : 'wdj://book/download.json',
                 OFFLINE_READ : 'http://ebooks.wandoujia.com/api/v1/offlineRead',
+                DOWNLOAD_LOG : 'http://ebooks.wandoujia.com/api/v1/offlineReadLog',
 
                 CATEGORIES : 'http://ebooks.wandoujia.com/api/v1/categories',
                 INDEX_CATEGORY : 'http://ebooks.wandoujia.com/api/v1/category/search/',

@@ -36,18 +36,18 @@
                             <div className="info w-vbox">
                                 <div className="w-wc">
                                     {this.getPublishingEle()}
-                                    <span> &middot; </span>
+                                    <span> / </span>
                                     {this.getWordsEle()}
-                                    <span> &middot; </span>
+                                    <span> / </span>
                                     {this.getUpdateEle()}
-                                    <span> &middot; </span>
+                                    <span> / </span>
                                     {this.getCountEle()}
                                 </div>
                                 <div className="w-wc">
                                     {this.getCateEle()}
-                                    <span> &middot; </span>
+                                    <span> / </span>
                                     {this.getAuthorEle()}
-                                    <span> &middot; </span>
+                                    <span> / </span>
                                     {this.getSourceEle()}
                                 </div>
                                 <div className="download-info w-hbox">

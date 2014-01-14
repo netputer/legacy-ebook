@@ -8,7 +8,8 @@
         'Actions',
         'mixins/ElementsGenerator',
         'main/models/EbookModel',
-        'mixins/FilterNullValues'
+        'mixins/FilterNullValues',
+        'components/DownloadBubbleView'
     ], function (
         React,
         IO,
@@ -17,7 +18,8 @@
         Actions,
         ElementsGenerator,
         EbookModel,
-        FilterNullValues
+        FilterNullValues,
+        DownloadBubbleView
     ) {
 
         var indexCategory = [];
@@ -29,7 +31,10 @@
                 data : {
                     start : start,
                     max : max,
-                    pos : 'w/index'
+                    pos : 'index'
+                },
+                xhrFields: {
+                   withCredentials: true
                 },
                 success : deferred.resolve,
                 error : deferred.reject
@@ -47,7 +52,10 @@
                     max : 12,
                     rank_type : type,
                     opt_fields : 'id,title',
-                    pos : 'w/index'
+                    pos : 'index'
+                },
+                xhrFields: {
+                   withCredentials: true
                 },
                 success : deferred.resolve,
                 error : deferred.reject
@@ -69,7 +77,7 @@
             render : function () {
                 var book = this.props.ebook;
                 return (
-                    <li className="o-categories-item w-component-card" title={book.get('title')}>
+                    <li className="o-categories-item w-component-card">
                         <div className="cover o-mask" onClick={this.onClick.bind(this, book.id)}>
                             <img src={book.get('cover').l} alt={book.get('title')} />
                         </div>
@@ -77,6 +85,7 @@
                             <span className="title w-wc w-text-secondary" onClick={this.onClick.bind(this, book.id)}>{book.get('title')}</span>
                             <span className="author w-wc w-text-info" onClick={this.onClick.bind(this, book.id)}>作者: {book.get('authors')}</span>
                             {this.getDownloadBtn('index')}
+                            <DownloadBubbleView show={this.state.downloadTip} />
                         </div>
                     </li>
                 );

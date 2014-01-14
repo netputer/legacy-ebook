@@ -32,7 +32,10 @@
             IO.requestAsync({
                 url : Actions.actions.SUGGESTION + keyword,
                 data : {
-                    pos : 'w/' + source
+                    pos : source
+                },
+                xhrFields: {
+                   withCredentials: true
                 },
                 success : deferred.resolve,
                 error : deferred.reject
@@ -48,7 +51,10 @@
                 url : Actions.actions.HOT_QUERY,
                 data : {
                     size : HOTQUERY_SIZE,
-                    pos : 'w/' + source
+                    pos : source
+                },
+                xhrFields: {
+                   withCredentials: true
                 },
                 success : deferred.resolve,
                 error : deferred.reject

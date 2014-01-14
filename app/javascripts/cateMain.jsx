@@ -33,7 +33,7 @@
             IO.requestAsync({
                 url : Actions.actions.QUERY_SERIES + id,
                 data : {
-                    pos : 'w/category'
+                    pos : 'category'
                 },
                 success : deferred.resolve,
                 error : deferred.reject,

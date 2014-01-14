@@ -68,7 +68,10 @@
                     rank_type : queryRankType,
                     start : page * PAGE_SIZE,
                     max : PAGE_SIZE,
-                    pos : 'w/top'
+                    pos : 'top'
+                },
+                xhrFields: {
+                   withCredentials: true
                 },
                 success : function (resp) {
                     window.sessionId = resp.sessionId;
