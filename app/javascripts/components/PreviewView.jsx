@@ -20,7 +20,10 @@
             IO.requestAsync({
                 url : FormatString(Actions.actions.TRANSCODING, id),
                 data : {
-                    pos : 'w/preview'
+                    pos : 'preview'
+                },
+                xhrFields: {
+                   withCredentials: true
                 },
                 success : deferred.resolve,
                 error : deferred.reject

@@ -38,10 +38,10 @@
                 var descriptionLength = 100;
 
                 var showWords = function () {
-                    if (this.props.filterSelected !== undefined && (this.props.filterSelected['words'] || this.props.filterSelected['rank'] === 'words')) {
+                    if (this.props !== undefined && this.props.filterSelected !== undefined && (this.props.filterSelected['words'] || this.props.filterSelected['rank'] === 'words')) {
                          return (
                             <span>
-                                <span> &middot; </span>
+                                <span> / </span>
                                 {this.getWordsEle()}
                             </span>
                         );
@@ -49,29 +49,29 @@
                 }.bind(this);
 
                 var showDate = function () {
-                    if (this.props.filterSelected !== undefined && (this.props.filterSelected['update'] || this.props.filterSelected['rank'] === 'update')) {
+                    if (this.props !== undefined && this.props.filterSelected !== undefined && (this.props.filterSelected['update'] || this.props.filterSelected['rank'] === 'update')) {
                          return (
                             <span>
-                                <span> &middot; </span>
+                                <span> / </span>
                                 {this.getUpdateEle()}
                             </span>
                         );
                     }
-                };
+                }.bind(this);
 
                 return (
                     <div className="info-container">
                         <h4 className="title w-wc" dangerouslySetInnerHTML={{ __html : data.get('title') }} onClick={this.onClick}></h4>
                         <div>
                             {this.getPublishingEle()}
-                            <span> &middot; </span>
+                            <span> / </span>
                             {this.getCateEle()}
-                            <span> &middot; </span>
+                            <span> / </span>
                             {this.getAuthorEle()}
-                            <span> &middot; </span>
+                            <span> / </span>
                             {this.getCountEle()}
-                            {showWords}
-                            {showDate}
+                            {showWords()}
+                            {showDate()}
                         </div>
                         <div className="w-text-info description">
                             {data.get('description') !== undefined && data.get('description').length > descriptionLength ? data.get('description').substr(0, descriptionLength) + '...' : data.get('description')}

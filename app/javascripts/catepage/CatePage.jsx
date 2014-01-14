@@ -73,7 +73,10 @@
                     update : queryUpdate,
                     start : page * PAGE_SIZE,
                     max : PAGE_SIZE,
-                    pos : 'w/category'
+                    pos : 'category'
+                },
+                xhrFields: {
+                   withCredentials: true
                 },
                 success : function (resp) {
                     window.sessionId = resp.sessionId;

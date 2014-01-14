@@ -90,7 +90,7 @@
                 url.data = url.data || {};
 
                 _.extend(url.data, {
-                    from : 'windows',
+                    f : 'windows',
                     pcid : '',
                     udid : window.udid || ''
                 });

@@ -22,7 +22,10 @@
             IO.requestAsync({
                 url : FormatString(Actions.actions.CATALOGUE, id),
                 data : {
-                    pos : 'w/detail'
+                    pos : 'detail'
+                },
+                xhrFields: {
+                   withCredentials: true
                 },
                 success : deferred.resolve,
                 error : deferred.reject

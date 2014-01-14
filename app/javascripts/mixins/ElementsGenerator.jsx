@@ -91,7 +91,7 @@
                 var cate = ebook !== undefined ? ebook.get('category').name : '';
 
                 if (ebook !== undefined && !!ebook.get('subCategory')) {
-                    cate = cate + ' / ' + ebook.get('subCategory').name;
+                    cate = cate + ' ' + ebook.get('subCategory').name;
                 }
 
                 return (

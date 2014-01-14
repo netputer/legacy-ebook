@@ -33,7 +33,10 @@
             IO.requestAsync({
                 url : Actions.actions.QUERY_SERIES + id,
                 data : {
-                    pos : 'w/top'
+                    pos : 'top'
+                },
+                xhrFields: {
+                   withCredentials: true
                 },
                 success : deferred.resolve,
                 error : deferred.reject,

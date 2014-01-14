@@ -31,7 +31,10 @@
                 data : {
                     start : start,
                     max : max,
-                    pos : 'w/index'
+                    pos : 'index'
+                },
+                xhrFields: {
+                   withCredentials: true
                 },
                 success : deferred.resolve,
                 error : deferred.reject
@@ -49,7 +52,10 @@
                     max : 12,
                     rank_type : type,
                     opt_fields : 'id,title',
-                    pos : 'w/index'
+                    pos : 'index'
+                },
+                xhrFields: {
+                   withCredentials: true
                 },
                 success : deferred.resolve,
                 error : deferred.reject
