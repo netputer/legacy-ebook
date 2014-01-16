@@ -76,9 +76,20 @@ module.exports = function (grunt) {
             }
         },
         usemin: {
-            html : ['<%= paths.tmp %>/*.html'],
+            html : ['<%= paths.dist %>/*.html'],
             options : {
+                assetsDirs : ['<%= paths.dist %>'],
+                root : '<%= paths.tmp %>',
                 dirs : ['<%= paths.dist %>']
+            }
+        },
+        uglify: {
+            requirejs: {
+                files: {
+                    '<%= paths.dist %>/components/requirejs/require.js': [
+                        '<%= paths.dist %>/components/requirejs/require.js'
+                    ]
+                }
             }
         },
         react : {
@@ -143,6 +154,7 @@ module.exports = function (grunt) {
                         'thirdparty/Adonis/images/*.*',
                         'images/{,*/}*.{webp,gif,png,jpg,jpeg}',
                         'manifest.json',
+                        'components/**/*.*',
                         'icon*.png'
                     ]
                 }]
@@ -175,8 +187,14 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     src: [
-                        '<%= paths.dist %>/javascripts/{,*/}*.js',
-                        '<%= paths.dist %>/stylesheets/{,*/}*.css'
+                        '<%= paths.dist %>/javascripts/index.js',
+                        '<%= paths.dist %>/javascripts/top.js',
+                        '<%= paths.dist %>/javascripts/search.js',
+                        '<%= paths.dist %>/javascripts/cate.js',
+                        '<%= paths.dist %>/stylesheets/index.css',
+                        '<%= paths.dist %>/stylesheets/top.css',
+                        '<%= paths.dist %>/stylesheets/search.css',
+                        '<%= paths.dist %>/stylesheets/cate.css'
                     ]
                 }
             }
@@ -288,6 +306,7 @@ module.exports = function (grunt) {
         'htmlmin',
         'concat',
         'uglify',
+        'rev',
         'usemin'
     ]);
 
