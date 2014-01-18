@@ -231,7 +231,7 @@
                 };
             },
             componentWillMount : function () {
-                this.getCategories(0, 6);
+                this.getCategories(0, 12);
             },
             getCategories : function (start, max) {
                 getCategoriesAsync(start, max).done(function(resp) {
@@ -260,6 +260,10 @@
                             i++;
                         }
                     }, this);
+
+                    indexCategory = _.filter(indexCategory, function (cate, index) {
+                        return cate.data && cate.data.length >= 4;
+                    });
 
                     this.setState({
                         categories : indexCategory
