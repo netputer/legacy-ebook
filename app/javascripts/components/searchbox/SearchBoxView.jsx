@@ -99,11 +99,11 @@
                 return _.map(this.state.queries, function(query, index) {
                     if (index < HOTQUERY_SIZE - 1) {
                         return (
-                            <li><a className="w-text-thirdly" href={'search.html#q/' + query}>{query}</a><span className="w-text-info">&middot;</span></li>
+                            <li key={index}><a className="w-text-thirdly" href={'search.html#q/' + query}>{query}</a><span className="w-text-info">&middot;</span></li>
                         );
                     } else if (index === HOTQUERY_SIZE - 1) {
                         return (
-                            <li><a className="w-text-thirdly" href={'search.html#q/' + query}>{query}</a></li>
+                            <li key={index}><a className="w-text-thirdly" href={'search.html#q/' + query}>{query}</a></li>
                         );
                     }
                 });
@@ -115,7 +115,6 @@
                     </ul>
                 );
             }
-
         });
 
         var SuggestionListView = React.createClass({
@@ -277,7 +276,7 @@
                 GA.log({
                     'event' : 'ebook.search.click',
                     'query' : evt.target.keyword.value
-                });                
+                });
             },
             render : function () {
                 return (
