@@ -127,12 +127,12 @@
                     if (index < 6) {
                         return (
                             <a href={'cate.html?category=' + subCategory} onClick={this.clickCate.bind(this, subCategory)} className="o-category-subcate w-text-secondary">{subCategory}</a>
-                        );   
+                        );
                     }
                 }, this);
             },
             renderBooks : function () {
-                var books = this.props.category !== undefined ? this.props.category.data : [];
+                var books = this.props.category !== undefined ? this.props.category.data.slice(0, 4) : [];
                 return _.map(books, function (book, index) {
                     var ebook = new EbookModel(FilterNullValues.filterNullValues.call(FilterNullValues, book));
                     return (
@@ -243,7 +243,6 @@
                     cachedCate.data = [];
 
                     _.each(result, function(cate, index) {
-
                         if (cachedCate.name === cate.category.name) {
                             cachedCate.data.push(cate);
                             cachedCate.subCategories = this.props.subCategories[cate.category.name];
@@ -284,10 +283,8 @@
                             <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '灵异')}><div className="banner3"><span>{this.props.count['灵异']} 部</span></div></div>
                         </div>
 
-
                         <ItemView category={this.state.categories[4]} onVideoSelect={this.onVideoSelect} />
                         <ItemView category={this.state.categories[5]} onVideoSelect={this.onVideoSelect} />
-
 
                         <div>
                             <a href="cate.html?category=girl" className="banner-title w-text-secondary w-cf">更多女生频道</a>
