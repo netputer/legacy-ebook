@@ -55,7 +55,7 @@
                     pos : 'index'
                 },
                 xhrFields: {
-                   withCredentials: true
+                   withCredentials : true
                 },
                 success : deferred.resolve,
                 error : deferred.reject
@@ -90,9 +90,7 @@
                     </li>
                 );
             }
-
         });
-
 
         var ItemView = React.createClass({
             getInitialState : function () {
@@ -195,9 +193,11 @@
                 }
             },
             render : function () {
-                if (this.props.category !== undefined) {
-                    var name = this.props.category.name;
+                if (!this.props.category || this.props.category.data.length < 4) {
+                    return <div></div>;
                 }
+
+                var name = this.props.category.name;
 
                 return (
                     <section className="w-wc">
@@ -264,8 +264,6 @@
                     this.setState({
                         categories : indexCategory
                     });
-
-
                 }.bind(this));
             },
             render : function () {
@@ -292,7 +290,6 @@
                             <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '幻想言情')}><div className="banner5"><span>{this.props.count['幻想言情']} 部</span></div></div>
                             <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '同人')}><div className="banner6"><span>{this.props.count['同人']} 部</span></div></div>
                         </div>
-
                     </div>
                 );
             }
