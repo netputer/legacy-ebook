@@ -154,7 +154,7 @@ module.exports = function (grunt) {
                         'thirdparty/Adonis/images/*.*',
                         'images/{,*/}*.{webp,gif,png,jpg,jpeg}',
                         'manifest.json',
-                        'components/**/*.*',
+                        'components/requirejs/require.js',
                         'icon*.png'
                     ]
                 }]
