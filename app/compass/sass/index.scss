@@ -13,7 +13,6 @@
     line-height: 30px;
 }
 
-
 .navigation {
     border: none;
     margin: 20px 0 20px;
@@ -34,6 +33,11 @@
         }
         &:last-child {
             width: 224px;
+        }
+
+        ul {
+            max-height: 44px;
+            overflow: hidden;
         }
 
         li {

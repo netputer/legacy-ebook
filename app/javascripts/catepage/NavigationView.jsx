@@ -52,7 +52,7 @@
                     if (source === 'novel') {
                         resp[resp.length] = resp[4];
                         resp.splice(4, 1);
-                        
+
                         var arr = resp.slice(9, 12);
                         arr.sort(function (a, b) { return a.length - b.length; })[0];
 
@@ -79,7 +79,7 @@
                     return _.map (categories, function (subCategories, index) {
                         if (index >= from  &&  index < from + Math.floor(categories.length / 2)) {
                             return (
-                                <ItemView categories={subCategories} />
+                                <ItemView key={index} categories={subCategories} />
                             );
                         }
                     }, this);
