@@ -53,19 +53,11 @@
                 };
             },
             getCategoryList : function () {
-                var start = performance.timing.navigationStart;
-
                 getCategoryListAsync().done(function (resp) {
                     this.setState({
                         categories : resp
                     });
 
-                    GA.log({
-                        'event' : 'ebook.performance',
-                        'page' : 'index',
-                        'metric' : 'tti',
-                        'time' : new Date().getTime() - start
-                    });
                     _.each(resp[0].subCategories, function (category, index) {
                         subCategories[category.name] = category.subCategories;
                         categoriesCount[category.name] = category.books;
@@ -77,11 +69,11 @@
                         }
                     });
                 }.bind(this));
+
                 this.setState({
                     subCategories : subCategories,
                     categoriesCount : categoriesCount
                 });
-
             },
             componentWillMount : function () {
                 this.getCategoryList();

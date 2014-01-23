@@ -24,6 +24,10 @@
 
         var indexCategory = [];
 
+        var ttiStart;
+
+        var loopIndex = 0;
+
         var getCategoriesAsync = function (start, max) {
             var deferred = $.Deferred();
             IO.requestAsync({
@@ -140,6 +144,7 @@
             },
             renderRankAsync : function (cate, type, evt) {
                 getCategoryRankAsync(cate, type).done(function (resp) {
+
                     this.setState({
                         currentTab : type,
                         rankData : resp.result
@@ -156,6 +161,17 @@
                 var type = this.state.rankType || 'week_hot';
                 if (this.state.rankData.length === 0 && cate !== undefined) {
                     getCategoryRankAsync(cate, type).done(function (resp) {
+                        loopIndex++;
+
+                        if (loopIndex === 6) {
+                            GA.log({
+                                'event' : 'ebook.performance',
+                                'page' : 'index',
+                                'metric' : 'tti',
+                                'time' : new Date().getTime() - ttiStart
+                            });
+                        }
+
                         this.setState({
                             currentTab : type,
                             rankData : resp.result
@@ -234,6 +250,8 @@
                 this.getCategories(0, 12);
             },
             getCategories : function (start, max) {
+                ttiStart = performance.timing.navigationStart;
+
                 getCategoriesAsync(start, max).done(function(resp) {
                     var result = resp.result;
                     var i = start;
