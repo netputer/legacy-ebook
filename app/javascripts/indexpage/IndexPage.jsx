@@ -25,6 +25,8 @@
         FooterView
     ) {
 
+        var loadStart = performance.timing.navigationStart;
+        var loadTimes = 0;
         var subCategories = {};
         var categoriesCount = {};
 
@@ -54,6 +56,7 @@
             },
             getCategoryList : function () {
                 getCategoryListAsync().done(function (resp) {
+                    this.loaded();
                     this.setState({
                         categories : resp
                     });
@@ -98,15 +101,33 @@
                     href : 'cate.html?' + query + '#' + cate
                 })[0].click();
             },
+            loaded : function () {
+                loadTimes++;
+                if (loadTimes === 9) {
+                    GA.log({
+                        'event' : 'ebook.performance',
+                        'page' : 'index',
+                        'metric' : 'loaded',
+                        'time' : new Date().getTime() - loadStart
+                    });
+                }
+            },
             render : function () {
                 return (
                     <div className="o-ctn">
                         <SearchBoxView
                             className="o-search-box-ctn"
                             onAction={this.onSearchAction}
+                            loaded={this.loaded}
                             source="index" />
-                        <NavigationView categories={this.state.categories} />
-                        <CategoryListView subCategories={this.state.subCategories} count={this.state.categoriesCount} onVideoSelect={this.onVideoSelect} />
+                        <NavigationView
+                        categories={this.state.categories}
+                        loaded={this.loaded} />
+                        <CategoryListView
+                            subCategories={this.state.subCategories}
+                            count={this.state.categoriesCount}
+                            onVideoSelect={this.onVideoSelect}
+                            loaded={this.loaded} />
                         <FooterView />
                     </div>
                 );
