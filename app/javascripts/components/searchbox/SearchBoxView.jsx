@@ -90,6 +90,7 @@
             },
             componentWillMount : function () {
                 queryHotQueryAsync(this.props.source).done(function (resp) {
+                    this.props.loaded();
                     this.setState({
                         queries : resp.hotQueries
                     });
@@ -106,7 +107,7 @@
                             <li key={index}><a className="w-text-thirdly" href={'search.html#q/' + query}>{query}</a></li>
                         );
                     }
-                });
+                }, this);
             },
             render : function () {
                 return (
@@ -299,7 +300,7 @@
                             </div>
                             <button className="w-btn w-btn-large w-btn-primary">搜索</button>
                         </form>
-                        <HotQueryView source={this.props.source} />
+                        <HotQueryView source={this.props.source} loaded={this.props.loaded} />
                     </div>
                 );
             }
