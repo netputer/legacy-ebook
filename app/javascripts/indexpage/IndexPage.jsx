@@ -6,6 +6,7 @@
         'Actions',
         'Wording',
         'GA',
+        'mixins/Performance',
         'mixins/FilterNullValues',
         'components/searchbox/SearchBoxView',
         'indexpage/NavigationView',
@@ -18,6 +19,7 @@
         Actions,
         Wording,
         GA,
+        Performance,
         FilterNullValues,
         SearchBoxView,
         NavigationView,
@@ -25,8 +27,6 @@
         FooterView
     ) {
 
-        var loadStart = performance.timing.navigationStart;
-        var loadTimes = 0;
         var subCategories = {};
         var categoriesCount = {};
 
@@ -47,6 +47,7 @@
         };
 
         var IndexPage = React.createClass({
+            mixins : [Performance],
             getInitialState : function () {
                 return {
                     categories : [],
@@ -79,6 +80,7 @@
                 });
             },
             componentWillMount : function () {
+                this.initPerformance('index', 9);
                 this.getCategoryList();
             },
             componentDidMount : function () {
@@ -93,24 +95,14 @@
                     })[0].click();
                 }
             },
-            onVideoSelect : function (id) {
+            onEbookSelect : function (id) {
+                this.setTimeStamp(new Date().getTime(), id);
                 window.location.hash = '#detail/' + id;
             },
             clickBanner : function (cate, query) {
                 $('<a>').attr({
                     href : 'cate.html?' + query + '#' + cate
                 })[0].click();
-            },
-            loaded : function () {
-                loadTimes++;
-                if (loadTimes === 9) {
-                    GA.log({
-                        'event' : 'ebook.performance',
-                        'page' : 'index',
-                        'metric' : 'loaded',
-                        'time' : new Date().getTime() - loadStart
-                    });
-                }
             },
             render : function () {
                 return (
@@ -121,12 +113,12 @@
                             loaded={this.loaded}
                             source="index" />
                         <NavigationView
-                        categories={this.state.categories}
-                        loaded={this.loaded} />
+                            categories={this.state.categories}
+                            loaded={this.loaded} />
                         <CategoryListView
                             subCategories={this.state.subCategories}
                             count={this.state.categoriesCount}
-                            onVideoSelect={this.onVideoSelect}
+                            onEbookSelect={this.onEbookSelect}
                             loaded={this.loaded} />
                         <FooterView />
                     </div>

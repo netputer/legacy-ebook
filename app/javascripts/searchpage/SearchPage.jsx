@@ -5,6 +5,7 @@
         'IO',
         'Actions',
         'Wording',
+        'mixins/Performance',
         'mixins/FilterNullValues',
         'utilities/QueryString',
         'components/searchbox/SearchBoxView',
@@ -20,6 +21,7 @@
         IO,
         Actions,
         Wording,
+        Performance,
         FilterNullValues,
         QueryString,
         SearchBoxView,
@@ -64,8 +66,8 @@
 
         var resultListCollection = new ResultListCollection();
 
-        var CategoryPage = React.createClass({
-            mixins : [FilterNullValues],
+        var SearchPage = React.createClass({
+            mixins : [FilterNullValues, Performance],
             getInitialState : function () {
                 return {
                     result : [],
@@ -96,9 +98,14 @@
                     }, function () {
                         deferred.resolve();
                     });
+
+                    this.loaded();
                 }.bind(this));
 
                 return deferred.promise();
+            },
+            componentWillMount : function () {
+                this.initPerformance('search', 2, this.state.keyword);
             },
             componentDidMount : function () {
                 searchPageRouter.on('route:search', function (query) {
@@ -124,6 +131,7 @@
                 }.bind(this));
             },
             onEbookSelect : function (ebook) {
+                this.setTimeStamp(new Date().getTime(), ebook.id);
                 searchPageRouter.navigate('q/' + this.state.keyword + '/detail/' + ebook.id, {
                     trigger : true
                 });
@@ -135,6 +143,7 @@
                             keyword={this.state.keyword} 
                             className="o-search-box-ctn"
                             onAction={this.onSearchAction}
+                            loaded={this.loaded}
                             source="search" />
                         <div>
                             <h4 className="cate-title w-text-secondary">搜索结果</h4>
@@ -161,6 +170,6 @@
             }
         });
 
-        return CategoryPage;
+        return SearchPage;
     });
 }(this));

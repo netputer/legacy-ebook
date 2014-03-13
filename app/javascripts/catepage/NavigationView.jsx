@@ -71,6 +71,8 @@
                     this.setState({
                         categories : resp
                     });
+
+                    this.props.loaded();
                 }.bind(this));
             },
             renderItem : function (from) {

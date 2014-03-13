@@ -12,7 +12,6 @@
         'components/SeriesDetailPanelView',
         'mixins/FilterNullValues',
         'main/models/EbookModel'
-
     ], function (
         React,
         Backbone,

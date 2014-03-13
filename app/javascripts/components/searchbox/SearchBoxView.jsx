@@ -90,10 +90,10 @@
             },
             componentWillMount : function () {
                 queryHotQueryAsync(this.props.source).done(function (resp) {
-                    this.props.loaded();
                     this.setState({
                         queries : resp.hotQueries
                     });
+                    this.props.loaded();
                 }.bind(this));
             },
             renderItem : function () {

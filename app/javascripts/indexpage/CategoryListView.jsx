@@ -24,8 +24,6 @@
 
         var indexCategory = [];
 
-        var ttiStart = performance.timing.navigationStart;
-
         var getCategoriesAsync = function (start, max) {
             var deferred = $.Deferred();
             IO.requestAsync({
@@ -103,7 +101,7 @@
                 };
             },
             onClick : function (id) {
-                this.props.onVideoSelect.call(this, id);
+                this.props.onEbookSelect.call(this, id);
                 GA.log({
                     'event' : 'ebook.homepage.click',
                     'ebook_item' : id
@@ -159,12 +157,12 @@
                 var type = this.state.rankType || 'week_hot';
                 if (this.state.rankData.length === 0 && cate !== undefined) {
                     getCategoryRankAsync(cate, type).done(function (resp) {
-                        this.props.loaded();
-
                         this.setState({
                             currentTab : type,
                             rankData : resp.result
                         });
+
+                        this.props.loaded();
                     }.bind(this));
                 }
 
@@ -222,8 +220,8 @@
 
 
         var CategoryListView = React.createClass({
-            onVideoSelect : function (id) {
-                this.props.onVideoSelect(id);
+            onEbookSelect : function (id) {
+                this.props.onEbookSelect(id);
             },
             clickBanner : function (cate) {
                 $('<a>').attr({
@@ -241,12 +239,6 @@
             getCategories : function (start, max) {
                 getCategoriesAsync(start, max).done(function(resp) {
                     this.props.loaded();
-                    GA.log({
-                        'event' : 'ebook.performance',
-                        'page' : 'index',
-                        'metric' : 'tti',
-                        'time' : new Date().getTime() - ttiStart
-                    });
 
                     var result = resp.result;
                     var i = start;
@@ -286,10 +278,10 @@
             render : function () {
                 return (
                     <div className="category-books">
-                        <ItemView category={this.state.categories[0]} onVideoSelect={this.onVideoSelect} loaded={this.props.loaded} />
-                        <ItemView category={this.state.categories[1]} onVideoSelect={this.onVideoSelect} loaded={this.props.loaded} />
-                        <ItemView category={this.state.categories[2]} onVideoSelect={this.onVideoSelect} loaded={this.props.loaded} />
-                        <ItemView category={this.state.categories[3]} onVideoSelect={this.onVideoSelect} loaded={this.props.loaded} />
+                        <ItemView category={this.state.categories[0]} onEbookSelect={this.onEbookSelect} loaded={this.props.loaded} />
+                        <ItemView category={this.state.categories[1]} onEbookSelect={this.onEbookSelect} loaded={this.props.loaded} />
+                        <ItemView category={this.state.categories[2]} onEbookSelect={this.onEbookSelect} loaded={this.props.loaded} />
+                        <ItemView category={this.state.categories[3]} onEbookSelect={this.onEbookSelect} loaded={this.props.loaded} />
 
                         <div>
                             <a href="cate.html?category=novel" className="banner-title w-text-secondary w-cf">更多小说分类</a>
@@ -298,8 +290,8 @@
                             <div className="o-category-banner w-component-card" onClick={this.clickBanner.bind(this, '灵异')}><div className="banner3"><span>{this.props.count['灵异']} 部</span></div></div>
                         </div>
 
-                        <ItemView category={this.state.categories[4]} onVideoSelect={this.onVideoSelect} loaded={this.props.loaded} />
-                        <ItemView category={this.state.categories[5]} onVideoSelect={this.onVideoSelect} loaded={this.props.loaded} />
+                        <ItemView category={this.state.categories[4]} onEbookSelect={this.onEbookSelect} loaded={this.props.loaded} />
+                        <ItemView category={this.state.categories[5]} onEbookSelect={this.onEbookSelect} loaded={this.props.loaded} />
 
                         <div>
                             <a href="cate.html?category=girl" className="banner-title w-text-secondary w-cf">更多女生频道</a>

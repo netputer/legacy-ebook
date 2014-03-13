@@ -5,6 +5,7 @@
         'React',
         '$',
         '_',
+        'mixins/Performance',
         'components/SeriesHeaderView',
         'components/DescriptionView',
         'components/CatalogueView',
@@ -14,6 +15,7 @@
         React,
         $,
         _,
+        Performance,
         SeriesHeaderView,
         DescriptionView,
         CatalogueView,
@@ -21,6 +23,7 @@
         LoadingView
     ) {
         var SeriesDetailPanelView = React.createClass({
+            mixins : [Performance],
             getInitialState : function () {
                 return {
                     show : false,
