@@ -46,7 +46,6 @@
             },
             loaded : function () {
                 loadTimes--;
-                console.log(new Date().getTime() - performance.timing.navigationStart)
                 if (loadTimes === 0) {
                     var obj = {
                         'metric' : 'loadComplete',
@@ -73,7 +72,6 @@
                 }
 
                 setTimeout( function () {
-                    console.log(o);
                     GA.log(o);
                 }, time);
             }
