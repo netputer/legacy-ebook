@@ -6,6 +6,7 @@
         'GA',
         'Actions',
         'Wording',
+        'mixins/Performance',
         'mixins/FilterNullValues',
         'utilities/QueryString',
         'components/searchbox/SearchBoxView',
@@ -22,6 +23,7 @@
         GA,
         Actions,
         Wording,
+        Performance,
         FilterNullValues,
         QueryString,
         SearchBoxView,
@@ -86,7 +88,7 @@
         var resultListCollection = new ResultListCollection();
 
         var TopPage = React.createClass({
-            mixins : [FilterNullValues],
+            mixins : [FilterNullValues, Performance],
             getInitialState : function () {
                 return {
                     subCategories : [],
@@ -119,9 +121,14 @@
                     }, function () {
                         deferred.resolve();
                     });
+
+                    this.loaded();
                 }.bind(this));
 
                 return deferred.promise();
+            },
+            componentWillMount : function () {
+                this.initPerformance('top', 3, queryCategory);
             },
             componentDidMount : function () {
                 this.setState({
@@ -132,6 +139,8 @@
                     this.setState({
                         subCategories : resp
                     });
+
+                    this.loaded();
                 }.bind(this));
 
                 this.queryAsync(queryCategory, this.state.currentPage);
@@ -153,6 +162,7 @@
                 }.bind(this));
             },
             onEbookSelect : function (ebook) {
+                this.setTimeStamp(new Date().getTime(), ebook.id);
                 topPageRouter.navigate('/detail/' + ebook.id, {
                     trigger : true
                 });
@@ -184,6 +194,7 @@
                         <SearchBoxView
                             className="o-search-box-ctn"
                             onAction={this.onSearchAction}
+                            loaded={this.loaded}
                             source="search" />
                         <div>
                             <h4 className="cate-title">{queryCategory !== undefined ? queryCategory : ''}排行榜</h4>

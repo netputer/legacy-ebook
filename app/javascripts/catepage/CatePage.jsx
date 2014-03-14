@@ -6,6 +6,7 @@
         'GA',
         'Actions',
         'Wording',
+        'mixins/Performance',
         'mixins/FilterNullValues',
         'utilities/QueryString',
         'components/searchbox/SearchBoxView',
@@ -23,6 +24,7 @@
         GA,
         Actions,
         Wording,
+        Performance,
         FilterNullValues,
         QueryString,
         SearchBoxView,
@@ -91,7 +93,7 @@
         var resultListCollection = new ResultListCollection();
 
         var CategoryPage = React.createClass({
-            mixins : [FilterNullValues],
+            mixins : [FilterNullValues, Performance],
             getInitialState : function () {
                 return {
                     categories : [],
@@ -134,9 +136,14 @@
                     }, function () {
                         deferred.resolve();
                     });
+
+                    this.loaded();
                 }.bind(this));
 
                 return deferred.promise();
+            },
+            componentWillMount : function () {
+                this.initPerformance('category', 3, queryCategory);
             },
             componentDidMount : function () {
                 this.setState({
@@ -148,18 +155,24 @@
                         this.setState({
                             categories : resp
                         });
+
+                        this.loaded();
                     }.bind(this));
                  } else if (queryCategory === 'published') {
                     FormatCategoriesAsync('categories', 'published').done(function (resp) {
                         this.setState({
                             categories : resp
                         });
+
+                        this.loaded();
                     }.bind(this));
                  } else if (queryCategory !== 'novel' && queryCategory !== 'girl') {
                     FormatCategoriesAsync('subCategories', queryCategory).done(function (resp) {
                         this.setState({
                             subCategories : resp
                         });
+
+                        this.loaded();
                     }.bind(this));
                 }
 
@@ -185,6 +198,7 @@
                 }.bind(this));
             },
             onEbookSelect : function (ebook) {
+                this.setTimeStamp(new Date().getTime(), ebook.id);
                 categoryPageRouter.navigate('/detail/' + ebook.id, {
                     trigger : true
                 });
@@ -224,11 +238,14 @@
                             <SearchBoxView
                                 className="o-search-box-ctn"
                                 onAction={this.onSearchAction}
+                                loaded={this.loaded}
                                 source="search" />
                             <div className="o-crumbs">
                                 <h4 className="cate-title">{Wording['CATE_' + queryCategory.toUpperCase()]}</h4>
                             </div>
-                            <NavigationView source={QueryString.get('category')} />
+                            <NavigationView
+                                loaded={this.loaded}
+                                source={QueryString.get('category')} />
                             <ResultListView
                                 category={queryCategory}
                                 list={this.state.result}
@@ -253,6 +270,7 @@
                             <SearchBoxView
                                 className="o-search-box-ctn"
                                 onAction={this.onSearchAction}
+                                loaded={this.loaded}
                                 source="search" />
                             <div className="o-crumbs">
                                 <h4 className="cate-title">{Wording['CATE_' + QueryString.get('category').toUpperCase()]}</h4>
@@ -285,6 +303,7 @@
                             <SearchBoxView
                                 className="o-search-box-ctn"
                                 onAction={this.onSearchAction}
+                                loaded={this.loaded}
                                 source="search" />
                             <div className="o-crumbs">
                                 <a href={this.state.result.length && this.state.result[0].topCategory === Wording.CATE_GIRL ? 'cate.html?category=girl' : 'cate.html?category=novel'} className="w-text-secondary">{this.state.result.length ? this.state.result[0].topCategory : ''}分类</a>
