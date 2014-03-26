@@ -3,10 +3,12 @@
 (function (window) {
     define([
         '_',
-        'GA'
+        'GA',
+        'utilities/DoraemonInfo'
     ], function (
         _,
-        GA
+        GA,
+        DoraemonInfo
     ) {
         var doramon = 'ebook';
         var page;
@@ -60,7 +62,8 @@
                     'event' : doramon + '.performance',
                     'page' : page,
                     'metric' : obj.metric,
-                    'time' : obj.timeSpent
+                    'time' : obj.timeSpent,
+                    'version' : DoraemonInfo.version
                 };
 
                 if (detailId) {
